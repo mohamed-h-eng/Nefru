@@ -1,10 +1,11 @@
-﻿import { Router } from 'express';
-import { createUser, getUserById, getUsers } from '../controllers/user.controller.js';
+import { Router } from 'express';
+import { asyncHandler } from '../utils/asyncHandler.js';
 
 const userRouter = Router();
 
-userRouter.get('/', getUsers);
-userRouter.get('/:id', getUserById);
-userRouter.post('/', createUser);
+// Skeleton endpoints for Users
+userRouter.get('/profile', asyncHandler(async (req, res) => {
+  res.json({ success: true, message: 'User profile fetched (skeleton)' });
+}));
 
 export default userRouter;
