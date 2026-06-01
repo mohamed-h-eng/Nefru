@@ -1,0 +1,27 @@
+ main {
+     background-color: bisque;
+ }
+
+ .sortBy select {
+     color: #2d2acb;
+     padding-right: 30px;
+     border: none;
+     background: transparent;
+ }
+
+ .sortBy select:focus {
+     outline: none;
+ }
+.loadMoreBtn{
+    width: 15rem !important;
+    height: 50px !important;
+    background-color: transparent !important;
+    color: #3525CD !important;
+    border: 2px solid #3525CD !important;  
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
+}
+
+.loadMoreBtn:hover{
+    background-color: #3525CD !important;
+    color: white !important;
+}

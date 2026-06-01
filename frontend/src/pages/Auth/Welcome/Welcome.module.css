@@ -1,0 +1,243 @@
+:root {
+  --primary: #001a33;
+  --secondary: #0f172a;
+  --card: #1e293b;
+  --gold: #c5a059;
+  --text: #ffffff;
+  --muted: #94a3b8;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Container */
+.container {
+  min-height: 100vh;
+  background: 
+    linear-gradient(to bottom, var(--primary) 10%, transparent 15%),
+    linear-gradient(to top, var(--primary) 30%, transparent 30%),
+    linear-gradient(to right, var(--primary) 0%, transparent 10%),
+    linear-gradient(to left, var(--primary) 0%, transparent 10%),
+    url('../../assets/images/egypt.png') center 60px / 120% auto no-repeat,
+    var(--primary);
+  background-attachment: scroll;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Logo */
+.logo {
+  width: 30%;
+}
+
+/* Title */
+.title {
+  font-size: 22px;
+  text-align: center;
+  max-width: 400px;
+  line-height: 1.4;
+}
+
+.title span {
+  color: var(--gold);
+}
+
+/* Cards Container */
+.cards {
+  display: flex;
+  flex-direction: column; 
+  gap: 15px;
+  width: 100%;
+  align-items: center;
+}
+
+/* Card (Horizontal) */
+.card {
+  display: flex;
+  align-items: center;
+
+  background: var(--card);
+  border-radius: 16px;
+  overflow: hidden;
+
+  width: 100%;
+  max-width: 420px;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Hover */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Image (left side) */
+.cardImg {
+  width: 120px;
+  height: 100%;
+  min-height: 120px;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
+  mask-image: linear-gradient(to right, black 20%, transparent 100%);
+
+}
+
+/* Content (right side) */
+.cardContent {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Text */
+.cardContent h3 {
+  font-size: 18px;
+  color: var(--gold);
+}
+
+.cardContent p {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Login */
+.login {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Register */
+.register {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 10px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register:hover {
+  background: var(--gold);
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+
+  .buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .login,
+  .register {
+    width: 100%;
+  }
+}
+
+
+
+
+
+/* Gmail Login Button Styles */
+.gmailLogin {
+  background: #ffffff;
+  color: #000;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.gmailLogin:hover {
+  transform: scale(1.05);
+  background: #f1f1f1;
+}
+
+/* Footer & Socials */
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+}
+
+.socialIcon {
+  color: var(--muted);
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.socialIcon:hover {
+  color: var(--gold);
+}
+
+.slogan {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+/* Update Media Query for the new Gmail button */
+@media (max-width: 500px) {
+  .gmailLogin {
+    width: 100%;
+  }
+}

@@ -1,0 +1,34 @@
+:root{
+    --color-primary:#4F46E5;
+    --color-primary-mute:#EFF4FF;
+    --color-secondary:#C7C4D8;
+    --color-mute:#EFF4FF;
+    --color-active:#059669;
+    --color-active-mute:#ECFDF5;
+    --color-warning:#BA1A1A;
+    --color-warning-mute:#FFDAD6;
+    --color-border:#C7C4D8;
+    --color-text-mute:#464555;
+}
+body{
+    background-color:white
+}
+p, h1, span{
+    margin:0;
+}
+.btn-primary{
+    background-color:var(--color-primary);
+    border:var(--color-primary);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+.nav-pills .nav-link.active {
+    background-color: var(--color-primary);
+    color: white;
+}

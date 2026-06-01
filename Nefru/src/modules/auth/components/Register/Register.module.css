@@ -1,0 +1,208 @@
+.StepTwoContainer {
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 22px 28px 28px 22px;
+  overflow-x: hidden;
+}
+
+.container {
+  padding: 0 50px 0 50px;
+}
+
+.content {
+  width: 100%;
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 210px;
+  max-width: 70%;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.inputWrapper {
+  width: 100%;
+  height: 38px;
+  position: relative;
+}
+
+.inputGroup {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 9px;
+  color: #000;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0d1b2a;
+  margin-bottom: 6px;
+  letter-spacing: 0.1px;
+}
+
+.field {
+  margin-bottom: 18px;
+  width: 100%;
+  /* border: 1px solid #0d1b2a; */
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.passportIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.uploadText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.termsRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 4px 0 20px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 5px;
+  border: 1.5px solid #d1d5db;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  margin-top: 1px;
+  padding: 0;
+}
+
+/* ─── Upload Zone ────────────────────────────────────────── */
+.uploadZone {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1.5px dashed #b8860b;
+  border-radius: 10px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  background: #fff;
+  outline: none;
+}
+
+.uploadZone:hover,
+.uploadZone:focus-visible {
+  background: #fdf8ee;
+}
+
+.uploadZoneDragging {
+  background: #fdf8ee;
+  border-color: #9a7309;
+}
+
+.uploadZoneError {
+  border-color: #d44333;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.passportIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.uploadText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.uploadTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #b8860b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.uploadSub {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ─── Terms ──────────────────────────────────────────────── */
+
+.checkboxChecked {
+  background: #b8860b;
+  border-color: #b8860b;
+}
+
+.termsText {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.termsLink {
+  color: #b8860b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.termsLink:hover {
+  text-decoration: underline;
+}
+
+/* ─── Login Row ──────────────────────────────────────────── */
+.loginRow {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.loginLink {
+  color: #b8860b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
+}
