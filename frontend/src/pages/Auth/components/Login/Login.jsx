@@ -5,6 +5,7 @@ function Login(){
     return(<>
     <p>login</p>
     <Link to="/user/home">Home</Link>
+    <Link to="/auth/register">register</Link>
     </>)
 }
 export default Login
