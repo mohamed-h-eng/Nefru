@@ -1,6 +1,7 @@
 import { Button } from "../../../../shared/components/Button/Button";
 import { InputIcon } from "../../../../shared/components/inputs/inputs";
-import { BsFillEnvelopeFill } from "react-icons/bs";
+// import { BsFillEnvelopeFill } from "react-icons/bs";
+import Icons from "../../../../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "./Forgetpassword.module.css";
@@ -28,7 +29,7 @@ export default function Forgetpassword() {
             className={styles.recoveryInputContainer}
             inputClassName={styles.recoveryInput}
             icon={
-              <BsFillEnvelopeFill className="text-2xl text-(--color-secondary)" />
+              <Icons.Envelope className="text-2xl text-(--color-secondary)" />
             }
             placeholder="you@email.com"
             value={email}
@@ -38,12 +39,12 @@ export default function Forgetpassword() {
           />
         </div>
 
-        <ButtonBasic
+        <Button
           className={styles.stepOneBtn}
           onClick={() => navigate("/reset-password")}
         >
           Send Reset Link
-        </ButtonBasic>
+        </Button>
 
         <p className={styles.RememberText}>
           Remember your password?{" "}

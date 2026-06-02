@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { FaHourglassHalf } from "react-icons/fa";
+// import { FaHourglassHalf } from "react-icons/fa";
+import Icons from "../../../../assets/icons";
 import styles from "./ApplicationReceived.module.css";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
 
@@ -12,7 +13,7 @@ export default function ApplicationReceived() {
         <img src={Logo_Light} alt="Nefru Logo" className={styles.logo} />
 
         <div className={styles.iconWrapper}>
-          <FaHourglassHalf className={styles.hourglassIcon} />
+          <Icons.HourglassHalf className={styles.hourglassIcon} />
         </div>
 
         <h1 className={styles.title}>Application Received!</h1>

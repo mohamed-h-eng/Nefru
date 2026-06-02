@@ -13,7 +13,7 @@ const roles = [
     desc: "Discover places and book tours.",
     img: travelerImg,
   },
-  {
+  { 
     id: 2,
     title: "Tour Guide",
     desc: "Create tours and grow your business.",
