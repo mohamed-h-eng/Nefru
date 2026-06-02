@@ -1,4 +1,5 @@
-import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
+// import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
+import Icons from "../../../../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
@@ -45,7 +46,7 @@ export default function ResetPassword() {
         </p>
 
         <div className={styles.successBox}>
-          <FaCheckCircle className={styles.successIcon} />
+          <Icons.CheckCircle className={styles.successIcon} />
 
           <div>
             <h2 className={styles.successTitle}>Reset link sent!</h2>
@@ -79,7 +80,7 @@ export default function ResetPassword() {
                 onClick={() => setShowNewPassword((prev) => !prev)}
                 ariaLabel="Toggle password visibility"
               >
-                {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                {showNewPassword ? <Icons.EyeSlash /> : <Icons.Eye />}
               </ButtonIcon>
             </div>
           </div>
@@ -103,17 +104,17 @@ export default function ResetPassword() {
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
                 ariaLabel="Toggle confirm password visibility"
               >
-                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                {showConfirmPassword ? <Icons.EyeSlash /> : <Icons.Eye />}
               </ButtonIcon>
             </div>
           </div>
 
-          <ButtonBasic
+          <Button
             className={styles.ResetBtn}
             onClick={handleResetPassword}
           >
             Reset Password
-          </ButtonBasic>
+          </Button>
         </div>
 
         <p className={styles.RememberText}>
