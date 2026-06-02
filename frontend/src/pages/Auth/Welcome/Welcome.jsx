@@ -1,8 +1,9 @@
 import styles from "./Welcome.module.css";
 import travelerImg from "../../../assets/images/traveler.jpg";
 import guider from "../../../assets/images/tour-guide.png";
-import { AiOutlineArrowRight, AiOutlineGoogle, AiFillFacebook } from "react-icons/ai";
-import { RiTwitterXFill } from "react-icons/ri";
+// import { AiOutlineArrowRight, AiOutlineGoogle, AiFillFacebook } from "react-icons/ai";
+// import { RiTwitterXFill } from "react-icons/ri";
+import Icons from "../../../assets/icons";
 import { useNavigate } from "react-router-dom";
 import Logo_Dark from "../../../assets/images/Logo_Dark.png";
 const roles = [
@@ -43,7 +44,8 @@ export default function Welcome() {
               <h3>{role.title}</h3>
               <p>{role.desc}</p>
               <span className={styles.wrapper}>
-                <AiOutlineArrowRight className={styles.arrow}/>
+                {/* <AiOutlineArrowRight className={styles.arrow}/> */}
+                <Icons.ArrowRight className={styles.arrow}/>
               </span>
             </div>
           </div>
@@ -57,7 +59,7 @@ export default function Welcome() {
         >Log In</button>
         {/* Gmail Login Button */}
         <button className={styles.gmailLogin}>
-          <AiOutlineGoogle size={20} />
+          <Icons.Google size={20} />
           <span>Continue with Gmail</span>
         </button>
       </div>
@@ -65,8 +67,8 @@ export default function Welcome() {
       {/* Social Media & Slogan Footer */}
       <div className={styles.footer}>
         <div className={styles.socials}>
-          <a href="#" className={styles.socialIcon}><AiFillFacebook size={24} /></a>
-          <a href="#" className={styles.socialIcon}><RiTwitterXFill size={22} /></a>
+          <a href="#" className={styles.socialIcon}><Icons.Facebook size={24} /></a>
+          <a href="#" className={styles.socialIcon}><Icons.Twitter size={22} /></a>
         </div>
         <p className={styles.slogan}>Unveiling the Timeless Wonders of the Nile.</p>
       </div>
