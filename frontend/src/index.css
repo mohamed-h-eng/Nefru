@@ -1,5 +1,5 @@
 :root{
-    --color-primary:#4F46E5;
+    --color-primary:#b8860b;
     --color-primary-mute:#EFF4FF;
     --color-secondary:#C7C4D8;
     --color-mute:#EFF4FF;
@@ -9,7 +9,15 @@
     --color-warning-mute:#FFDAD6;
     --color-border:#C7C4D8;
     --color-text-mute:#464555;
-}
+    --border-radius:8px;
+    --font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    --title-text:16px;
+    --subtitle-text:14px;
+    --body-text:14px;
+    --font-weight:400;
+
+} 
+ 
 body{
     background-color:white
 }
@@ -33,3 +41,4 @@ p, h1, span{
     background-color: var(--color-primary);
     color: white;
 }
+

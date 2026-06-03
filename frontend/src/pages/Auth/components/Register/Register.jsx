@@ -3,9 +3,14 @@ import Logo_Light from "../../../../assets/images/Logo_Light.png";
 import { InputIcon } from "../../../../shared/components/inputs/inputs";
 // import { CheckSVG, PassportSVG } from "../../../../utils/Icon";
 import styles from "./Register.module.css";
-import { CiUser, CiMail, CiLock } from "react-icons/ci";
+// import { CiUser, CiMail, CiLock } from "react-icons/ci";
+// import { GiPassport } from "react-icons/gi";
+// import { IoMdCheckbox } from "react-icons/io";
+import {Button} from "../../../../shared/components/Button/Button";
+import Icons from "../../../../assets/icons";
+import { useNavigate } from "react-router-dom";
 
-export default function Register() {
+export default function Register({ typeUser }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
@@ -24,6 +29,7 @@ export default function Register() {
     if (file) setUploadedFile(file);
   };
 
+const navigate = useNavigate();
   return (
     <>
       <div className={styles.container}>
@@ -32,7 +38,7 @@ export default function Register() {
             <img className={styles.logo} src={Logo_Light} alt="logo" />
             <h1>Create Account</h1>
             <p>
-              Signing up as a <strong>Traveler</strong>
+              Signing up as a <strong>{typeUser}</strong>
             </p>
           </div>
         </div>
@@ -45,7 +51,7 @@ export default function Register() {
               name="fullName"
               type="text"
               placeholder="Enter your full name"
-              icon={<CiUser />}
+              icon={<Icons.User />}
             />
           </div>
           <label htmlFor="email" className={styles.label}>
@@ -54,10 +60,10 @@ export default function Register() {
           <div className={styles.field}>
             <InputIcon
               id="email"
-              name="email"
+              name="email"  
               type="email"
               placeholder="you@email.com"
-              icon={<CiMail />}
+              icon={<Icons.Email />}
             />
           </div>
 
@@ -70,7 +76,7 @@ export default function Register() {
               name="password"
               type="password"
               placeholder="Create a password"
-              icon={<CiLock />}
+              icon={<Icons.Lock />}
               showToggle
             />
           </div>
@@ -84,7 +90,7 @@ export default function Register() {
               name="confirmPassword"
               type="password"
               placeholder="Confirm your password"
-              icon={<CiLock />}
+              icon={<Icons.Lock />}
               showToggle
             />
           </div>
@@ -117,10 +123,11 @@ export default function Register() {
                 aria-hidden="true"
               />
               <div className={styles.passportIcon}>
-                {/* <PassportSVG /> */}
+                  <Icons.Passport />
               </div>
               <div className={styles.uploadText}>
                 <span className={styles.uploadTitle}>
+              
                   {uploadedFile ? uploadedFile.name : "Upload ID or Passport"}
                 </span>
                 <span className={styles.uploadSub}>
@@ -133,44 +140,16 @@ export default function Register() {
             )}
           </div>
 
-          {/* Terms */}
-          <div className={styles.termsRow}>
-            <button
-              type="text"
-              className={styles.checkbox}
-              role="checkbox"
-              aria-label="Agree to terms"
-              aria-checked={agreed}
-              onClick={() => setAgreed((prev) => !prev)}
-              className={`${styles.checkbox} ${agreed ? styles.checkboxChecked : ""}`}
-            >
-              {agreed && <CheckSVG />}
-            </button>
-            <p className={styles.termsText}>
-              I agree to the{" "}
-              <a href="/terms" className={styles.termsLink}>
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a href="/privacy" className={styles.termsLink}>
-                Privacy Policy
-              </a>
-              .
-            </p>
-          </div>
-          {errors.terms && (
-            <span className={styles.errorMsg}>{errors.terms}</span>
-          )}
 
           {/* Submit  */}
           <div>
-            <button type="submit" className={styles.submitBtn}>
+            <Button type="submit" className={styles.submitBtn} onClick={() => navigate("/auth/application-received")}>
               Create Account
-            </button>
+            </Button>
 
             <p className={styles.loginRow}>
               Already have an account?{" "}
-              <a href="/login" className={styles.loginLink}>
+              <a href="/auth/login" className={styles.loginLink}>
                 Log In
               </a>
             </p>

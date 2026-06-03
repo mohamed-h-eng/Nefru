@@ -30,7 +30,7 @@ export default function ApplicationReceived() {
           </p>
         </div>
 
-        <button className={styles.gotItBtn} onClick={() => navigate("/login")}>
+        <button className={styles.gotItBtn} onClick={() => navigate("/auth/login")}>
           Got it, thank you
         </button>
       </div>
