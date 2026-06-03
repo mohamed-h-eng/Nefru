@@ -31,7 +31,7 @@ export default function ResetPassword() {
       return;
     }
 
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   return (
