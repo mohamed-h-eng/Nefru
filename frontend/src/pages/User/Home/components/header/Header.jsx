@@ -2,7 +2,7 @@ import styles from './Header.module.css'
 import {ButtonIcon} from '../../../../../shared/components/Button/Button'
 import { MdOutlineLocationOn , MdSearch } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
-import { InputIcon } from '../../../../../shared/components/inputs/inputs'
+import { InputIcon } from '../../../../../shared/components/Inputs/Inputs'
 
 export default function Header(){
     return (

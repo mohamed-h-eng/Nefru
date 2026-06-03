@@ -19,6 +19,7 @@ import Saved from "../pages/User/Saved/Saved";
 import Profile from "../pages/User/Profile/Profile";
 import Settings from "../pages/User/Settings/Settings";
 import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/ApplicationReceived";
+
 export const router = createBrowserRouter([
   {
     path: "/",

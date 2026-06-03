@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './style.css'
+import style from './Inputs.module.css'
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineTune } from "react-icons/md";
 
@@ -13,15 +13,13 @@ function InputBasic({placeholder, value, setValue}) {
 
 function InputIcon({ placeholder, value, setValue, icon }) {
   return (
-    <div className="input-container">
-      {/* <img  className="icon" src={icon} /> */}
+    <div className={style.input_container}>
       {icon}
       <input
         placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      
     </div>
   )
 }
