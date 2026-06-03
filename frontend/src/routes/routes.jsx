@@ -18,7 +18,7 @@ import Guide from "../pages/User/Trips/Guide/Guide";
 import Saved from "../pages/User/Saved/Saved";
 import Profile from "../pages/User/Profile/Profile";
 import Settings from "../pages/User/Settings/Settings";
-
+import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/ApplicationReceived";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +31,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
+      { path: "application-received", element: <ApplicationReceived /> },
       { path: "forget-password", element: <Forgetpassword /> },
       { path: "reset-password", element: <ResetPassword /> },
     ],
