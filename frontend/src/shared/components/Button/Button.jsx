@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import styles from './Button.module.css'
 
-function Button({children , className, onClick}) {
+function Button({type, children , className, onClick}) {
     return (
     <>
-      <button className={className} onClick={onClick}>{children}</button>
+      <button className={`${className} ${styles[type]}`} onClick={onClick}>{children}</button>
     </>
   )
 }

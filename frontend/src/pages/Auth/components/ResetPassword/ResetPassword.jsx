@@ -5,7 +5,7 @@ import { useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
 import styles from "./ResetPassword.module.css";
 // import logo from "../../../assets/img/nefru-logo.png";
-import { InputBasic } from "../../../../shared/components/Inputs/Inputs";
+import { Input } from "../../../../shared/components/Inputs/Inputs";
 import {
   Button,
   ButtonIcon,
@@ -44,95 +44,47 @@ export default function ResetPassword() {
         <p className={styles.RecoveryText}>
           Don't worry! We'll help you get back in.
         </p>
-
         <div className={styles.successBox}>
           <Icons.CheckCircle className={styles.successIcon} />
-
           <div>
             <h2 className={styles.successTitle}>Reset link sent!</h2>
-
             <p className={styles.successText}>
-              If an account exists for you@email.com, we've sent a password
-              reset link. Check your inbox and spam folder.
+              Check your email
             </p>
           </div>
         </div>
 
         <div className={styles.formBox}>
-          <h3 className={styles.StepTwoTitle}>Step 2 of 2: Set New Password</h3>
-
-          <div className={styles.inputGroup}>
-            <label htmlFor="newPassword">New Password</label>
-
-            <div className={styles.inputWrapper}>
-              <InputBasic
-                id="newPassword"
-                name="newPassword"
-                type={showNewPassword ? "text" : "password"}
-                placeholder="Enter new password"
-                value={newPassword}
-                setValue={setNewPassword}
-              />
-
-              <ButtonIcon
-                type="button"
-                className={styles.eyeButton}
-                onClick={() => setShowNewPassword((prev) => !prev)}
-                ariaLabel="Toggle password visibility"
-              >
-                {showNewPassword ? <Icons.EyeSlash /> : <Icons.Eye />}
-              </ButtonIcon>
-            </div>
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label htmlFor="confirmPassword">Confirm New Password</label>
-
-            <div className={styles.inputWrapper}>
-              <InputBasic
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                setValue={setConfirmPassword}
-              />
-
-              <ButtonIcon
-                type="button"
-                className={styles.eyeButton}
-                onClick={() => setShowConfirmPassword((prev) => !prev)}
-                ariaLabel="Toggle confirm password visibility"
-              >
-                {showConfirmPassword ? <Icons.EyeSlash /> : <Icons.Eye />}
-              </ButtonIcon>
-            </div>
-          </div>
+          <Input
+            id="newPassword"
+            title="New password"
+            type="password"
+            placeholder="Enter new password"
+            value={newPassword}
+            setValue={setNewPassword}
+          />
+          <Input
+            id="confirmPassword"
+            title="Confirm password"
+            type="password"
+            placeholder="Confirm new password"
+            value={confirmPassword}
+            setValue={setConfirmPassword}
+          />
 
           <Button
-            className={styles.ResetBtn}
+            type="primary"
             onClick={handleResetPassword}
           >
             Reset Password
           </Button>
         </div>
-
         <p className={styles.RememberText}>
-          Remember your password?{" "}
-          <button
-            type="button"
-            className={styles.LoginLink}
-            onClick={() => navigate("/login")}
-          >
+          Already have an account?{" "}
+          <span className={styles.loginLink} onClick={() => navigate("/auth/login")}>
             Log In
-          </button>
+          </span>
         </p>
-
-        {/* Temporary button - remove later */}
-
-        {/* <button className={styles.tempBtn} onClick={() => navigate("/home")}>
-          Continue as a Hany
-        </button> */}
       </div>
     </div>
   );

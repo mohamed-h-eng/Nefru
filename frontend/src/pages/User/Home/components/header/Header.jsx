@@ -2,7 +2,7 @@ import styles from './Header.module.css'
 import {ButtonIcon} from '../../../../../shared/components/Button/Button'
 import { MdOutlineLocationOn , MdSearch } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
-import { InputIcon } from '../../../../../shared/components/Inputs/Inputs'
+import { Input } from '../../../../../shared/components/Inputs/Inputs'
 
 export default function Header(){
     return (
@@ -24,7 +24,7 @@ export default function Header(){
                 </div>
             </div>
             <div className={styles.search}>
-                <InputIcon placeholder="Search 'Giza' or 'Luxor'" icon={<MdSearch style={{fontSize:"30px" ,color:"var(--color-text-mute)"}}/>} />
+                <Input placeholder="Search 'Giza' or 'Luxor'" icon={<MdSearch style={{fontSize:"30px" ,color:"var(--color-text-mute)"}}/>} />
             </div>
         </>
     );
