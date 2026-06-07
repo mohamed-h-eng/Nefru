@@ -7,7 +7,7 @@ import { Button } from '../../../../shared/components/Button/Button'
 import {Link, useNavigate} from 'react-router-dom'
 import Icon from '../../../../assets/icons'
 
-export default function Register() {
+export default function Register({ typeUser }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
@@ -26,6 +26,7 @@ export default function Register() {
     if (file) setUploadedFile(file);
   };
 
+const navigate = useNavigate();
   return (
     <>
       <div className={styles.container}>
@@ -33,7 +34,7 @@ export default function Register() {
           <div className={styles.content}>
             <img className={styles.logo} src={Logo_Light} alt="logo" />
             <p>
-              Signing up as a <strong>Traveler</strong>
+              Signing up as a <strong>{typeUser}</strong>
             </p>
           </div>
         </div>
@@ -44,7 +45,7 @@ export default function Register() {
               id="fullName"
               title="Full name"
               placeholder="Enter your full name"
-              icon={<CiUser />}
+              icon={<Icons.User />}
             />
           </div>
           <div className={styles.field}>
@@ -52,7 +53,7 @@ export default function Register() {
               id="email"
               title="Email"
               placeholder="you@email.com"
-              icon={<CiMail />}
+              icon={<Icons.Email />}
             />
           </div>
           <div className={styles.field}>
@@ -60,7 +61,7 @@ export default function Register() {
               id="password"
               title="password"
               placeholder="Create a password"
-              icon={<CiLock />}
+              icon={<Icons.Lock />}
               showToggle
             />
           </div>
@@ -69,7 +70,7 @@ export default function Register() {
               id="confirmPassword"
               title="Confirm password"
               placeholder="Confirm your password"
-              icon={<CiLock />}
+              icon={<Icons.Lock />}
               showToggle
             />
           </div>
@@ -102,10 +103,11 @@ export default function Register() {
                 aria-hidden="true"
               />
               <div className={styles.passportIcon}>
-                {/* <PassportSVG /> */}
+                  <Icons.Passport />
               </div>
               <div className={styles.uploadText}>
                 <span className={styles.uploadTitle}>
+              
                   {uploadedFile ? uploadedFile.name : "Upload ID or Passport"}
                 </span>
                 <span className={styles.uploadSub}>

@@ -17,12 +17,12 @@
 /* Container */
 .container {
   min-height: 100vh;
-  background: 
+  background:
     linear-gradient(to bottom, var(--primary) 10%, transparent 15%),
     linear-gradient(to top, var(--primary) 30%, transparent 30%),
     linear-gradient(to right, var(--primary) 0%, transparent 10%),
     linear-gradient(to left, var(--primary) 0%, transparent 10%),
-    url('../../assets/images/egypt.png') center 60px / 120% auto no-repeat,
+    url('../../../assets/images/egypt.png') center 60px / 120% auto no-repeat,
     var(--primary);
   background-attachment: scroll;
   color: var(--text);
@@ -55,7 +55,7 @@
 /* Cards Container */
 .cards {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 15px;
   width: 100%;
   align-items: center;
@@ -114,6 +114,19 @@
 .cardContent p {
   font-size: 14px;
   color: var(--muted);
+}
+
+.getStarted {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+
+.getStarted:hover {
+  color: var(--gold);
 }
 
 /* Buttons */
