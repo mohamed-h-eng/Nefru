@@ -5,7 +5,7 @@ import styles from "./Register.module.css";
 import { CiUser, CiMail, CiLock } from "react-icons/ci";
 import { Button } from '../../../../shared/components/Button/Button'
 import {Link, useNavigate} from 'react-router-dom'
-import Icon from '../../../../assets/icons'
+import Icons from '../../../../assets/icons'
 
 export default function Register({ typeUser }) {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -26,7 +26,6 @@ export default function Register({ typeUser }) {
     if (file) setUploadedFile(file);
   };
 
-const navigate = useNavigate();
   return (
     <>
       <div className={styles.container}>
