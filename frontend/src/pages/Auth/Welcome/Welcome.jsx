@@ -1,10 +1,12 @@
 import styles from "./Welcome.module.css";
 import travelerImg from "../../../assets/images/traveler.jpg";
 import guider from "../../../assets/images/tour-guide.png";
+
 // import { AiOutlineArrowRight, AiOutlineGoogle, AiFillFacebook } from "react-icons/ai";
 // import { RiTwitterXFill } from "react-icons/ri";
 import Icons from "../../../assets/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
+
 import Logo_Dark from "../../../assets/images/Logo_Dark.png";
 const roles = [
   {
@@ -44,8 +46,10 @@ export default function Welcome() {
               <h3>{role.title}</h3>
               <p>{role.desc}</p>
               <span className={styles.wrapper}>
+                <NavLink to="/auth/register" typeUser={role.title.toLowerCase()} state={{ typeUser: role.title.toLowerCase() }} className={styles.getStarted}>
                 {/* <AiOutlineArrowRight className={styles.arrow}/> */}
                 <Icons.ArrowRight className={styles.arrow}/>
+              </NavLink>
               </span>
             </div>
           </div>

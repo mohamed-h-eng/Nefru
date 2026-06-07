@@ -5,6 +5,7 @@ function Login(){
     return(<>
     <p>login</p>
     <Link to="/user/home">Home</Link>
+    <Link to="/auth/forget-password">Forget Password</Link>
     <Link to="/auth/register">register</Link>
     </>)
 }
