@@ -29,7 +29,7 @@ export default function Forgetpassword() {
             className={styles.recoveryInputContainer}
             inputClassName={styles.recoveryInput}
             icon={
-              <Icons.Envelope className="text-2xl text-(--color-secondary)" />
+              <Icons.Email_fill className="text-2xl text-(--color-secondary)" />
             }
             placeholder="you@email.com"
             value={email}
@@ -41,14 +41,14 @@ export default function Forgetpassword() {
 
         <Button
           className={styles.stepOneBtn}
-          onClick={() => navigate("/reset-password")}
+          onClick={() => navigate("/auth/reset-password")}
         >
           Send Reset Link
         </Button>
 
         <p className={styles.RememberText}>
           Remember your password?{" "}
-          <span className={styles.LoginLink} onClick={() => navigate("/login")}>
+          <span className={styles.LoginLink} onClick={() => navigate("/auth/login")}>
             Log In
           </span>
         </p>

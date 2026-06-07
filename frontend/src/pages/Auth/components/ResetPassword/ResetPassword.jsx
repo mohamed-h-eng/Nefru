@@ -122,7 +122,7 @@ export default function ResetPassword() {
           <button
             type="button"
             className={styles.LoginLink}
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/auth/login")}
           >
             Log In
           </button>
