@@ -8,6 +8,7 @@ button{
     width:100%;
     height:50px;
     justify-items:center;
+    cursor:pointer;
 }
 .btn_icon{
     width:50px;

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
-import { InputIcon } from "../../../../shared/components/inputs/inputs";
+import { InputIcon } from "../../../../shared/components/Inputs/Inputs";
 // import { CheckSVG, PassportSVG } from "../../../../utils/Icon";
 import styles from "./Register.module.css";
 // import { CiUser, CiMail, CiLock } from "react-icons/ci";

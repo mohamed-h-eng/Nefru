@@ -5,7 +5,7 @@ import { useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
 import styles from "./ResetPassword.module.css";
 // import logo from "../../../assets/img/nefru-logo.png";
-import { InputBasic } from "../../../../shared/components/inputs/inputs";
+import { InputBasic } from "../../../../shared/components/Inputs/Inputs";
 import {
   Button,
   ButtonIcon,

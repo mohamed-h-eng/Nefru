@@ -8,6 +8,9 @@ import Icons from "../../../assets/icons";
 import { useNavigate, NavLink } from "react-router-dom";
 
 import Logo_Dark from "../../../assets/images/Logo_Dark.png";
+
+import {Button} from '../../../shared/components/Button/Button'
+
 const roles = [
   {
     id: 1,
@@ -55,20 +58,8 @@ export default function Welcome() {
           </div>
         ))}
       </div>
+      <Button onClick={() => navigate("/auth/login")}>Login</Button>
 
-      <div className={styles.buttons}>
-        <button className={styles.login} 
-        onClick={() => navigate("/auth/login")}
-        
-        >Log In</button>
-        {/* Gmail Login Button */}
-        <button className={styles.gmailLogin}>
-          <Icons.Google size={20} />
-          <span>Continue with Gmail</span>
-        </button>
-      </div>
-
-      {/* Social Media & Slogan Footer */}
       <div className={styles.footer}>
         <div className={styles.socials}>
           <a href="#" className={styles.socialIcon}><Icons.Facebook size={24} /></a>
