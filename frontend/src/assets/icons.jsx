@@ -3,9 +3,14 @@ import { HiOutlineUser, HiOutlineHeart } from "react-icons/hi";
 import { MdOutlineCardTravel } from "react-icons/md";
 import { AiOutlineArrowRight, AiOutlineGoogle, AiFillFacebook } from "react-icons/ai";
 import { RiTwitterXFill } from "react-icons/ri";
+import { BsFillEnvelopeFill } from "react-icons/bs";
+import { FaHourglassHalf } from "react-icons/fa";
+import { CiUser, CiMail, CiLock } from "react-icons/ci";
+import { GiPassport } from "react-icons/gi";
+import { IoMdCheckbox } from "react-icons/io";
+import {FaCheckSquare } from "react-icons/fa";
 import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
-import { FaHourglassHalf, FaCheckSquare } from "react-icons/fa";
 /**
  * Centralized Icon Registry
  * Use these variables throughout the app for consistency.
@@ -24,7 +29,14 @@ const Icons = {
   EyeSlash: FaEyeSlash,
   EmailOutline: MdOutlineEmail ,
   HourglassHalf: FaHourglassHalf,
-  Check:FaCheckSquare
+  Check:FaCheckSquare,
+  Email_fill: BsFillEnvelopeFill,
+  HourglassHalf: FaHourglassHalf,
+  User: CiUser,
+  Lock: CiLock,
+  Passport: GiPassport,
+  Checkbox: IoMdCheckbox,
+  Email: CiMail,
   // Add more icons as needed for the tourist/guide platform
 };
 
