@@ -5,11 +5,8 @@ import { useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
 import styles from "./ResetPassword.module.css";
 // import logo from "../../../assets/img/nefru-logo.png";
-import { Input } from "../../../../shared/components/Inputs/Inputs";
-import {
-  Button,
-  ButtonIcon,
-} from "../../../../shared/components/Button/Button";
+import { Input } from "../../../../shared/components/inputs/inputs";
+import { Button } from "../../../../shared/components/Button/Button";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -48,9 +45,7 @@ export default function ResetPassword() {
           <Icons.CheckCircle className={styles.successIcon} />
           <div>
             <h2 className={styles.successTitle}>Reset link sent!</h2>
-            <p className={styles.successText}>
-              Check your email
-            </p>
+            <p className={styles.successText}>Check your email</p>
           </div>
         </div>
 
@@ -72,16 +67,16 @@ export default function ResetPassword() {
             setValue={setConfirmPassword}
           />
 
-          <Button
-            type="primary"
-            onClick={handleResetPassword}
-          >
+          <Button type="primary" onClick={handleResetPassword}>
             Reset Password
           </Button>
         </div>
         <p className={styles.RememberText}>
           Already have an account?{" "}
-          <span className={styles.loginLink} onClick={() => navigate("/auth/login")}>
+          <span
+            className={styles.loginLink}
+            onClick={() => navigate("/auth/login")}
+          >
             Log In
           </span>
         </p>

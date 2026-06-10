@@ -1,5 +1,5 @@
 import styles from './Header.module.css'
-import {ButtonIcon} from '../../../../../shared/components/Button/Button'
+import {Button} from '../../../../../shared/components/Button/Button'
 import { MdOutlineLocationOn , MdSearch } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
 import { Input } from '../../../../../shared/components/Inputs/Inputs'
@@ -10,9 +10,8 @@ export default function Header(){
             <div className={styles.header}>
                 <div className={styles.left_span}>
                     <div>
-                        <ButtonIcon className={`${styles.icon_button} ${styles.icon_1}`}>
-                            <MdOutlineLocationOn/>
-                        </ButtonIcon>
+                        <Button icon={<MdOutlineLocationOn />}  className={`${styles.icon_button} ${styles.icon_1}`} />
+                      
                     </div>
                     <div className={styles.label}>
                         <p>Explore</p>
@@ -20,7 +19,8 @@ export default function Header(){
                     </div>
                 </div>
                 <div>
-                    <ButtonIcon className={styles.icon_button}><FaRegBell style={{fontSize:"25px"}}/></ButtonIcon>
+                    <Button icon={<FaRegBell style={{fontSize:"25px"}} />} className={styles.icon_button} />
+
                 </div>
             </div>
             <div className={styles.search}>

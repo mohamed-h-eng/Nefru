@@ -1,0 +1,27 @@
+.slotsRow {
+  display: flex;
+  gap: 8px;
+  scrollbar-width: none;
+  width: fit-content;
+  overflow: auto;
+  width: 100%;
+  padding-bottom: 10px;
+}
+.timeSlot {
+  width: 150px;
+  border-radius: 12px;
+}
+
+.traveleCount {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10px;
+  margin: 15px;
+
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
