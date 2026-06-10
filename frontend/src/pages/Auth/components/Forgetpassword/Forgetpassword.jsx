@@ -1,5 +1,5 @@
 import { Button } from "../../../../shared/components/Button/Button";
-import { Input } from "../../../../shared/components/Inputs/Inputs";
+import { Input } from "../../../../shared/components/inputs/inputs";
 // import { BsFillEnvelopeFill } from "react-icons/bs";
 import Icons from "../../../../assets/icons";
 import { useNavigate } from "react-router-dom";

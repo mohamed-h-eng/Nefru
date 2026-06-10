@@ -5,7 +5,7 @@ import { useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
 import styles from "./ResetPassword.module.css";
 // import logo from "../../../assets/img/nefru-logo.png";
-import { Input } from "../../../../shared/components/Inputs/Inputs";
+import { Input } from "../../../../shared/components/inputs/inputs";
 import { Button } from "../../../../shared/components/Button/Button";
 
 export default function ResetPassword() {

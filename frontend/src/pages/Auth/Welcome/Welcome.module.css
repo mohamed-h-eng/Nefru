@@ -1,58 +1,61 @@
-:root {
-  --primary: #001a33;
-  --secondary: #0f172a;
-  --card: #1e293b;
-  --gold: #c5a059;
-  --text: #ffffff;
-  --muted: #94a3b8;
-}
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Container */
 .container {
   min-height: 100vh;
+  width: 100%;
   background:
-    linear-gradient(to bottom, var(--primary) 10%, transparent 15%),
-    linear-gradient(to top, var(--primary) 30%, transparent 30%),
-    linear-gradient(to right, var(--primary) 0%, transparent 10%),
-    linear-gradient(to left, var(--primary) 0%, transparent 10%),
+    linear-gradient(to bottom, var(--color-primary-dark) 10%, transparent 15%),
+    linear-gradient(to top, var(--color-primary-dark) 30%, transparent 30%),
+    linear-gradient(to right, var(--color-primary-dark) 0%, transparent 10%),
+    linear-gradient(to left, var(--color-primary-dark) 0%, transparent 10%),
     url('../../../assets/images/egypt.png') center 60px / 120% auto no-repeat,
-    var(--primary);
+    var(--color-primary-dark);
   background-attachment: scroll;
-  color: var(--text);
+  color: #ffffff;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  padding: 20px;
-  /* font-family: Arial, sans-serif; */
+  gap: 24px;
+
+  padding: var(--auth-page-padding);
+  overflow-x: hidden;
 }
 
-/* Logo */
+.content {
+  width: 100%;
+  max-width: var(--auth-content-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .logo {
-  width: 30%;
+  width: var(--auth-logo-width);
+  max-width: 70%;
+  display: block;
+  margin: 0 auto 16px;
 }
 
-/* Title */
 .title {
-  font-size: 22px;
+  color: #ffffff;
+  font-size: var(--font-title);
+  font-weight: 700;
+  line-height: 1.35;
   text-align: center;
-  max-width: 400px;
-  line-height: 1.4;
+  max-width: var(--auth-content-width);
 }
 
 .title span {
-  color: var(--gold);
+  color: var(--color-secondary);
 }
 
-/* Cards Container */
+.subtitle {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: var(--font-subtitle);
+  line-height: 1.5;
+  text-align: center;
+}
+
 .cards {
   display: flex;
   flex-direction: column;
@@ -61,31 +64,24 @@
   align-items: center;
 }
 
-/* Card (Horizontal) */
 .card {
+  width: 100%;
+  max-width: var(--auth-content-width);
   display: flex;
   align-items: center;
-
-  background: var(--card);
-  border-radius: 16px;
+  background: #1e293b;
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
-
-  width: 100%;
-  max-width: 420px;
-
   cursor: pointer;
   transition: all 0.3s ease;
-
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Hover */
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* Image (left side) */
 .cardImg {
   width: 120px;
   height: 100%;
@@ -93,10 +89,8 @@
   object-fit: cover;
   -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
   mask-image: linear-gradient(to right, black 20%, transparent 100%);
-
 }
 
-/* Content (right side) */
 .cardContent {
   padding: 15px;
   display: flex;
@@ -105,75 +99,141 @@
   gap: 6px;
 }
 
-/* Text */
 .cardContent h3 {
   font-size: 18px;
-  color: var(--gold);
+  color: var(--color-secondary);
 }
 
 .cardContent p {
   font-size: 14px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.68);
 }
 
 .getStarted {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.68);
   text-decoration: none;
 }
 
-
 .getStarted:hover {
-  color: var(--gold);
+  color: var(--color-secondary);
 }
 
-/* Buttons */
+.wrapper {
+  display: inline-flex;
+}
+
+.arrow {
+  display: block;
+}
+
+.form {
+  width: 100%;
+  max-width: var(--auth-content-width);
+}
+
 .buttons {
   display: flex;
   gap: 12px;
   margin-top: 10px;
 }
 
-/* Login */
+.login,
+.register,
+.gmailLogin {
+  width: 100%;
+  min-height: var(--button-height);
+  border-radius: var(--border-radius);
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
 .login {
-  background: var(--gold);
+  background: var(--color-secondary);
   color: #000;
   border: none;
   padding: 10px 22px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
 }
 
-.login:hover {
-  transform: scale(1.05);
+.login:hover,
+.register:hover,
+.gmailLogin:hover {
+  transform: scale(1.03);
   opacity: 0.9;
 }
 
-/* Register */
 .register {
   background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-secondary);
   padding: 10px 22px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
 }
 
 .register:hover {
-  background: var(--gold);
+  background: var(--color-secondary);
   color: #000;
-  transform: scale(1.05);
 }
 
-/* Responsive */
+.gmailLogin {
+  background: #ffffff;
+  color: #000;
+  border: none;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.container > button {
+  max-width: var(--auth-content-width);
+}
+
+.footer {
+  margin-top: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+}
+
+.socialIcon {
+  color: rgba(255, 255, 255, 0.68);
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.socialIcon:hover {
+  color: var(--color-secondary);
+}
+
+.slogan {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.68);
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
 @media (max-width: 500px) {
+  .container {
+    padding: 20px;
+  }
+
+  .logo {
+    width: 155px;
+  }
+
   .title {
-    font-size: 18px;
+    font-size: 24px;
   }
 
   .card {
@@ -186,70 +246,7 @@
   }
 
   .login,
-  .register {
-    width: 100%;
-  }
-}
-
-
-
-
-
-/* Gmail Login Button Styles */
-.gmailLogin {
-  background: #ffffff;
-  color: #000;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.gmailLogin:hover {
-  transform: scale(1.05);
-  background: #f1f1f1;
-}
-
-/* Footer & Socials */
-.footer {
-  margin-top: 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-}
-
-.socials {
-  display: flex;
-  gap: 20px;
-}
-
-.socialIcon {
-  color: var(--muted);
-  transition: 0.3s;
-  text-decoration: none;
-}
-
-.socialIcon:hover {
-  color: var(--gold);
-}
-
-.slogan {
-  font-size: 14px;
-  color: var(--muted);
-  font-style: italic;
-  letter-spacing: 0.5px;
-}
-
-/* Update Media Query for the new Gmail button */
-@media (max-width: 500px) {
+  .register,
   .gmailLogin {
     width: 100%;
   }
