@@ -19,7 +19,7 @@ input:focus{
 .input_container {
   display: flex;
   align-items: center;
-  background-color: var(--color_background_mute);
+  /* background-color: var(--color_background_mute); */
   border-radius: var(--border-radius);
   padding: 0 10px;
   width: 100%;

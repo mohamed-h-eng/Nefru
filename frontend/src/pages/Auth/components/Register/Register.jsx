@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
-import { Input } from "../../../../shared/components/Inputs/Inputs";
+import { Input } from "../../../../shared/components/inputs/inputs";
 import styles from "./Register.module.css";
 import { CiUser, CiMail, CiLock } from "react-icons/ci";
-import { Button } from '../../../../shared/components/Button/Button'
-import {Link, useNavigate} from 'react-router-dom'
-import Icons from '../../../../assets/icons'
+import { Button } from "../../../../shared/components/Button/Button";
+import { Link, useNavigate } from "react-router-dom";
+import Icons from "../../../../assets/icons";
 
 export default function Register({ typeUser }) {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -32,13 +32,13 @@ export default function Register({ typeUser }) {
         <div className={styles.StepTwoContainer}>
           <div className={styles.content}>
             <img className={styles.logo} src={Logo_Light} alt="logo" />
-            <p>
+            <p className={styles.subtitle}>
               Signing up as a <strong>{typeUser}</strong>
             </p>
           </div>
         </div>
 
-        <form>
+        <form className={styles.form}>
           <div className={styles.field}>
             <Input
               id="fullName"
@@ -58,7 +58,8 @@ export default function Register({ typeUser }) {
           <div className={styles.field}>
             <Input
               id="password"
-              title="password"
+              title="Password"
+              type="password"
               placeholder="Create a password"
               icon={<Icons.Lock />}
               showToggle
@@ -68,6 +69,7 @@ export default function Register({ typeUser }) {
             <Input
               id="confirmPassword"
               title="Confirm password"
+              type="password"
               placeholder="Confirm your password"
               icon={<Icons.Lock />}
               showToggle
@@ -102,11 +104,10 @@ export default function Register({ typeUser }) {
                 aria-hidden="true"
               />
               <div className={styles.passportIcon}>
-                  <Icons.Passport />
+                <Icons.Passport />
               </div>
               <div className={styles.uploadText}>
                 <span className={styles.uploadTitle}>
-              
                   {uploadedFile ? uploadedFile.name : "Upload ID or Passport"}
                 </span>
                 <span className={styles.uploadSub}>
@@ -119,11 +120,10 @@ export default function Register({ typeUser }) {
             )}
           </div>
 
-          {/* Terms */}
+          {/* Terms
           <div className={styles.termsRow}>
             <button
-              type="text"
-              className={styles.checkbox}
+              type="button"
               // role="checkbox"
               // aria-label="Agree to terms"
               // aria-checked={agreed}
@@ -131,7 +131,7 @@ export default function Register({ typeUser }) {
               className={`${styles.checkbox} ${agreed ? styles.checkboxChecked : ""}`}
             >
               {/* {agreed? <Icon.Check />:<></>} */}
-            </button>
+          {/* </button>
             <p className={styles.termsText}>
               I agree to the{" "}
               <a href="/terms" className={styles.termsLink}>
@@ -146,17 +146,46 @@ export default function Register({ typeUser }) {
           </div>
           {errors.terms && (
             <span className={styles.errorMsg}>{errors.terms}</span>
+          )} */}
+          <div className={styles.termsRow}>
+            <input
+              type="checkbox"
+              id="agreeTerms"
+              className={styles.checkbox}
+              checked={agreed}
+              onChange={() => setAgreed((prev) => !prev)}
+            />
+            <label htmlFor="agreeTerms" className={styles.termsText}>
+              I agree to the{" "}
+              <a href="/terms" className={styles.termsLink}>
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a href="/privacy" className={styles.termsLink}>
+                Privacy Policy
+              </a>
+              .
+            </label>
+          </div>
+          {errors.terms && (
+            <span className={styles.errorMsg}>{errors.terms}</span>
           )}
 
           {/* Submit  */}
           <div>
-            <Button type="primary" onClick={() => navigate("/auth/application-received")}>
+            <Button
+              type="primary"
+              onClick={() => navigate("/auth/application-received")}
+            >
               Create Account
             </Button>
 
             <p className={styles.loginRow}>
               Already have an account?{" "}
-              <span className={styles.loginLink} onClick={() => navigate("/auth/login")}>
+              <span
+                className={styles.loginLink}
+                onClick={() => navigate("/auth/login")}
+              >
                 Log In
               </span>
             </p>

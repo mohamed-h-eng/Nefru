@@ -15,6 +15,8 @@ import { IoMdCheckbox, IoMdSunny } from "react-icons/io";
 import { FaCheckSquare } from "react-icons/fa";
 import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
+import { BsPersonHearts } from "react-icons/bs";
+
 import { LuSunrise } from "react-icons/lu";
 /**
  * Centralized Icon Registry
@@ -41,6 +43,7 @@ const Icons = {
   Passport: GiPassport,
   Checkbox: IoMdCheckbox,
   Email: CiMail,
+  Guest: BsPersonHearts,
   sun: IoMdSunny,
   event: MdEventRepeat,
   afternoon: LuSunrise
