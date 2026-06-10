@@ -13,11 +13,6 @@ button {
   color: white;
   letter-spacing: 1.5px;
 }
-.secondary {
-  color: white;
-  letter-spacing: 1.5px;
-  background-color: var(--color-secondary);
-}
 .normal {
   color: black;
   background-color: var(--color-primary-mute);
@@ -30,4 +25,4 @@ button {
 .btn_icon :last-child{
     font-size:30px;
     background-color:none;
-} */
+}
