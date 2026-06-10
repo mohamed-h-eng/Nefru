@@ -30,62 +30,26 @@ function Card({placeholder, options, setValue}) {
   )
 }
 
-function CardStrip({placeholder, options, setValue}) {
+function CardStrip({options = []}) {
     return (
     <>
       <div className={styles.container_strip}>
-        <div className={styles.strip}>
-          <div className={styles.strip_image}>
-            <img src={image} />
+        {options.map((item, index) => (
+          <div key={index} className={styles.strip}>
+            <div className={styles.strip_image}>
+              <img src={item.image || image} alt={item.title} />
+            </div>
+            <div className={styles.strip_label}>
+              <p>{item.title}</p>
+              <p>{item.location}</p>
+              <p><span>${item.price}</span> / person</p>
+            </div>
+            <div className={styles.strip_save}>
+              <FaRegHeart />
+            </div>
           </div>
-          <div className={styles.strip_label}>
-            <p>The Royal Retreat</p>
-            <p>Maldives</p>
-            <p><span>$2,200</span> / night</p>
-          </div>
-          <div className={styles.strip_save}>
-            <FaRegHeart />
-          </div>
-        </div>
-        <div className={styles.strip}>
-          <div className={styles.strip_image}>
-            <img src={image} />
-          </div>
-          <div className={styles.strip_label}>
-            <p>The Royal Retreat</p>
-            <p>Maldives</p>
-            <p><span>$2,200</span> / night</p>
-          </div>
-          <div className={styles.strip_save}>
-            <FaRegHeart />
-          </div>
-        </div>
-        <div className={styles.strip}>
-          <div className={styles.strip_image}>
-            <img src={image} />
-          </div>
-          <div className={styles.strip_label}>
-            <p>The Royal Retreat</p>
-            <p>Maldives</p>
-            <p><span>$2,200</span> / night</p>
-          </div>
-          <div className={styles.strip_save}>
-            <FaRegHeart />
-          </div>
-        </div>
-        <div className={styles.strip}>
-          <div className={styles.strip_image}>
-            <img src={image} />
-          </div>
-          <div className={styles.strip_label}>
-            <p>The Royal Retreat</p>
-            <p>Maldives</p>
-            <p><span>$2,200</span> / night</p>
-          </div>
-          <div className={styles.strip_save}>
-            <FaRegHeart />
-          </div>
-        </div>
+        ))}
+        {options.length === 0 && <p style={{textAlign: 'center', width: '100%', padding: '20px'}}>No trips found</p>}
       </div>
     </>
   )  

@@ -19,6 +19,11 @@ import Saved from "../pages/User/Saved/Saved";
 import Profile from "../pages/User/Profile/Profile";
 import Settings from "../pages/User/Settings/Settings";
 import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/ApplicationReceived";
+
+//Tourist Discover Page
+import Discover from "../pages/User/Discover/Discover";
+
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +47,10 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "home", element: <Home /> },
+
+      //Discover Routes
+      { path: "discover", element: <Discover /> },
+
       {
         path: "trips",
         children: [
@@ -61,4 +70,5 @@ export const router = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
+  
 ]);

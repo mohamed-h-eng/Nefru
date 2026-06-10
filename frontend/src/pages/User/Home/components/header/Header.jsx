@@ -4,7 +4,7 @@ import { MdOutlineLocationOn , MdSearch } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
 import { InputIcon } from '../../../../../shared/components/inputs/inputs'
 
-export default function Header(){
+export default function Header({ onSearch }){
     return (
         <>
             <div className={styles.header}>
@@ -24,7 +24,11 @@ export default function Header(){
                 </div>
             </div>
             <div className={styles.search}>
-                <InputIcon placeholder="Search 'Giza' or 'Luxor'" icon={<MdSearch style={{fontSize:"30px" ,color:"var(--color-text-mute)"}}/>} />
+                <InputIcon 
+                    placeholder="Search 'Giza' or 'Luxor'" 
+                    icon={<MdSearch style={{fontSize:"30px" ,color:"var(--color-text-mute)"}}/>} 
+                    onChange={(e) => onSearch(e.target.value)}
+                />
             </div>
         </>
     );

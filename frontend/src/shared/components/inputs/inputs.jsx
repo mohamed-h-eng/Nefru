@@ -11,17 +11,20 @@ function InputBasic({placeholder, value, setValue}) {
   )
 }
 
-function InputIcon({ placeholder, value, setValue, icon }) {
+function InputIcon({ placeholder, value, setValue, onChange, icon }) {
+  const handleChange = (e) => {
+    if (setValue) setValue(e.target.value);
+    if (onChange) onChange(e);
+  };
+
   return (
     <div className="input-container">
-      {/* <img  className="icon" src={icon} /> */}
       {icon}
       <input
         placeholder={placeholder}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
       />
-      
     </div>
   )
 }

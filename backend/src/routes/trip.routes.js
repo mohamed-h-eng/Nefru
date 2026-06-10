@@ -1,15 +1,10 @@
 import { Router } from 'express';
-import { asyncHandler } from '../utils/asyncHandler.js';
+import { getAllTrips, createTrip } from '../controllers/trip.controller.js';
 
 const tripRouter = Router();
 
-// Skeleton endpoints for Trips
-tripRouter.get('/', asyncHandler(async (req, res) => {
-  res.json({ success: true, message: 'Trips fetched (skeleton)', data: [] });
-}));
-
-tripRouter.post('/', asyncHandler(async (req, res) => {
-  res.status(201).json({ success: true, message: 'Trip created (skeleton)' });
-}));
+tripRouter.route('/')
+  .get(getAllTrips)
+  .post(createTrip);
 
 export default tripRouter;
