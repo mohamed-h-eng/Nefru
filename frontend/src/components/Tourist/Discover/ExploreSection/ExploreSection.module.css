@@ -1,0 +1,42 @@
+.section {
+
+    padding: 16px;
+}
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+.header button {
+
+    border: none;
+
+    background: none;
+
+    color: #0E5A77;
+
+    cursor: pointer;
+}
+
+.blogs {
+
+    display: flex;
+
+    gap: 16px;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.blogs::-webkit-scrollbar {
+
+    display: none;
+}
