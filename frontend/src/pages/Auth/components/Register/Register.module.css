@@ -176,6 +176,16 @@
   border-color: #b8860b;
 }
 
+.checkboxChecked::after {
+  content: "";
+  width: 6px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
 .termsText {
   font-size: 13px;
   color: #4b5563;

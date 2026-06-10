@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
 import { Input } from "../../../../shared/components/Inputs/Inputs";
-import styles from "./Register.module.css";
-import { CiUser, CiMail, CiLock } from "react-icons/ci";
+ import styles from "./Register.module.css";
 import { Button } from '../../../../shared/components/Button/Button'
-import {Link, useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import Icons from '../../../../assets/icons'
 
 export default function Register({ typeUser }) {
@@ -122,16 +121,13 @@ export default function Register({ typeUser }) {
           {/* Terms */}
           <div className={styles.termsRow}>
             <button
-              type="text"
-              className={styles.checkbox}
-              // role="checkbox"
-              // aria-label="Agree to terms"
-              // aria-checked={agreed}
+              type="button"
+              role="checkbox"
+              aria-label="Agree to terms"
+              aria-checked={agreed}
               onClick={() => setAgreed((prev) => !prev)}
               className={`${styles.checkbox} ${agreed ? styles.checkboxChecked : ""}`}
-            >
-              {/* {agreed? <Icon.Check />:<></>} */}
-            </button>
+            />
             <p className={styles.termsText}>
               I agree to the{" "}
               <a href="/terms" className={styles.termsLink}>

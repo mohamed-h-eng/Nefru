@@ -11,6 +11,8 @@ import { IoMdCheckbox } from "react-icons/io";
 import {FaCheckSquare } from "react-icons/fa";
 import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
+import { BsPersonHearts } from "react-icons/bs";
+
 /**
  * Centralized Icon Registry
  * Use these variables throughout the app for consistency.
@@ -31,12 +33,12 @@ const Icons = {
   HourglassHalf: FaHourglassHalf,
   Check:FaCheckSquare,
   Email_fill: BsFillEnvelopeFill,
-  HourglassHalf: FaHourglassHalf,
   User: CiUser,
   Lock: CiLock,
   Passport: GiPassport,
   Checkbox: IoMdCheckbox,
   Email: CiMail,
+  Guest: BsPersonHearts,
   // Add more icons as needed for the tourist/guide platform
 };
 
