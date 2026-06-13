@@ -6,7 +6,7 @@ import DiscoverHeader from "../../../components/Tourist/Discover/DiscoverHeader/
 import CategoryTabs from "../../../components/Tourist/Discover/CategoryTabs/CategoryTabs";
 import ExploreCard from "../../../components/Tourist/Discover/ExploreCard/ExploreCard";
 import ExploreSection from "../../../components/Tourist/Discover/ExploreSection/ExploreSection";
-import ToursSection from "../../../components/Tourist/discover/ToursSection/ToursSection";
+import ToursSection from "../../../components/Tourist/Discover/ToursSection/ToursSection";
 
 function Discover() {
     const [searchQuery, setSearchQuery] = useState("");
