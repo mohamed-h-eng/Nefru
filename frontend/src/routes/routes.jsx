@@ -20,6 +20,8 @@ import Profile from "../pages/User/Profile/Profile";
 import Settings from "../pages/User/Settings/Settings";
 import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/ApplicationReceived";
 
+import Admin from '../pages/Admin/Admin'
+// import Admin from '../pages/Admin/Admin'
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +59,13 @@ export const router = createBrowserRouter([
       { path: "profile", element: <Profile /> },
       { path: "settings", element: <Settings /> },
     ],
+  },
+  {
+    path: "admin",
+    element:<Admin/>,
+    // children:[
+    //   {index:true, element:<Home/>}
+    // ]
   },
   {
     path: "*",

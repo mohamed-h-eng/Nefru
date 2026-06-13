@@ -13,16 +13,10 @@ button {
   color: white;
   letter-spacing: 1.5px;
 }
-.secondary {
-  color: white;
-  letter-spacing: 1.5px;
-  background-color: var(--color-secondary);
-}
 .normal {
   color: black;
   background-color: var(--color-primary-mute);
 }
-
 .secondary {
     background: var(--color-secondary);
     color: white;
