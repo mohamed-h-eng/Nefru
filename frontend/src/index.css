@@ -1,35 +1,63 @@
-:root{
-    --color-primary:#4F46E5;
-    --color-primary-mute:#EFF4FF;
-    --color-secondary:#C7C4D8;
-    --color-mute:#EFF4FF;
-    --color-active:#059669;
-    --color-active-mute:#ECFDF5;
-    --color-warning:#BA1A1A;
-    --color-warning-mute:#FFDAD6;
-    --color-border:#C7C4D8;
-    --color-text-mute:#464555;
-}
-body{
-    background-color:white
-}
-p, h1, span{
-    margin:0;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-}
-.btn-primary{
-    background-color:var(--color-primary);
-    border:var(--color-primary);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --color-primary: #003D5B;
+  --color-primary-mute: #EFF4FF;
+  --color-secondary: #EDAE49;
+  --color-mute: #EFF4FF;
+  --color-active: #059669;
+  --color-active-mute: #ECFDF5;
+  --color-warning: #BA1A1A;
+  --color-warning-mute: #FFDAD6;
+  --color-border: #C7C4D8;
+  --color-text-mute: #464555;
+  --border-radius: 8px;
+  --font-body: 18px;
+
+  --color-primary-dark: #001A33;
+
+  --color-bg: #ffffff;
+  --color-card: rgba(255, 255, 255, 0.92);
+  --color-input-bg: #ffffff;
+
+  --color-text: #081126;
+
+  --border-radius-lg: 14px;
+  --border-radius-pill: 999px;
+
+  --font-label: 14px;
+  --font-title: clamp(28px, 5vw, 36px);
+  --font-subtitle: clamp(14px, 3vw, 17px);
+
+  --auth-logo-width: 160px;
+  --auth-content-width: 430px;
+  --auth-page-padding: 24px;
+
+  --input-height: 50px;
+  --button-height: 50px;
+
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  --color_background_mute: var(--color-primary-mute);
+
+  font-family: "Poppins", sans-serif;
 }
 
-.btn-outline-secondary:hover,
-.btn-outline-secondary:focus,
-.btn-outline-secondary:active {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-    color: #fff;
+* {
+  box-sizing: border-box;
 }
-.nav-pills .nav-link.active {
-    background-color: var(--color-primary);
-    color: white;
+
+body {
+   margin: 0;
+  background-color: var(--color-bg);
+  font-family: "Poppins", sans-serif;
+  color: var(--color-text);
+}
+
+p,
+h1,
+h2,
+h3,
+span {
+  margin: 0;
 }

@@ -13,7 +13,7 @@ import Home from "../pages/User/Home/Home";
 import Trips from "../pages/User/Trips/Trips";
 import Info from "../pages/User/Trips/Info/Info";
 import Book from "../pages/User/Trips/Book/Book";
-import Status from "../pages/User/Trips/Book/Status/Status";
+import Status from "../pages/User/Trips/Book/components/Status/Status";
 import Guide from "../pages/User/Trips/Guide/Guide";
 import Saved from "../pages/User/Saved/Saved";
 import Profile from "../pages/User/Profile/Profile";
@@ -24,6 +24,8 @@ import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/Ap
 import Discover from "../pages/User/Discover/Discover";
 
 
+import Admin from '../pages/Admin/Admin'
+// import Admin from '../pages/Admin/Admin'
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -65,6 +67,13 @@ export const router = createBrowserRouter([
       { path: "profile", element: <Profile /> },
       { path: "settings", element: <Settings /> },
     ],
+  },
+  {
+    path: "admin",
+    element:<Admin/>,
+    // children:[
+    //   {index:true, element:<Home/>}
+    // ]
   },
   {
     path: "*",
