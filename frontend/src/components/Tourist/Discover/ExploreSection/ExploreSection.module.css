@@ -14,6 +14,14 @@
     margin-bottom: 16px;
 }
 
+.header h2 {
+
+white-space: nowrap;
+
+    font-size: 25px;
+}
+
+
 .header button {
 
     border: none;
@@ -30,13 +38,27 @@
     display: flex;
 
     gap: 16px;
+    flex-direction: column;
 
-    overflow-x: auto;
+    /* overflow-x: auto; */
 
-    scrollbar-width: none;
+    /* scrollbar-width: none; */
 }
 
 .blogs::-webkit-scrollbar {
 
     display: none;
+}
+
+.seeAll {
+
+    border: none;
+
+    background: none;
+
+    color: #0E5A77;
+
+    font-weight: 600;
+
+    cursor: pointer;
 }

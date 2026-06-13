@@ -11,7 +11,8 @@ function Discover() {
         <div className={styles.discoverPage}>
             <DiscoverHeader/>
             <CategoryTabs/>
-            <ExploreCard/>
+            {/* <ExploreCard/> */}
+            <ExploreSection/>
         </div>
     );
 }

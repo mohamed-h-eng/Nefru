@@ -1,25 +1,53 @@
 import styles from "./ExploreCard.module.css";
-
+import { LuChevronRight } from "react-icons/lu";
 
 function ExploreCard({ blog }) {
-console.log(blog);
     return (
-
         <div className={styles.card}>
-            <div className={styles.image}>
-                <span>Image</span>
-            </div>
+
+            <img
+                src={blog.image}
+                alt={blog.title}
+                className={styles.image}
+            />
 
             <div className={styles.content}>
-                <h3 className={blog.title}>Blog Title</h3>
-                <h3 className={blog.time}>Blog Title</h3>
 
-                {/* <p className={blog.readTime}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur commodo.</p> */}
+                <span className={styles.date}>
+                    {blog.date}
+                </span>
+
+                <h3 className={styles.title}>
+                    {blog.title}
+                </h3>
+
+                <div className={styles.footer}>
+
+                    <div className={styles.tags}>
+
+                        {blog.tags.map((tag) => (
+
+                            <span
+                                key={tag}
+                                className={styles.tag}
+                            >
+                                {tag}
+                            </span>
+
+                        ))}
+
+                    </div>
+
+                    <LuChevronRight
+                        className={styles.arrow}
+                    />
+
+                </div>
+
             </div>
-        </div>
-    
-    )
-}
 
+        </div>
+    );
+}
 
 export default ExploreCard;
