@@ -7,7 +7,7 @@ import pyramidsImage from "../../../../assets/images/explore/pyramids.jpg";
 import khanImage from "../../../../assets/images/explore/khan-el-khalili.jpg";
 import oldCairoImage from "../../../../assets/images/explore/old-cairo.jpg";
 
-function ExploreSection() {
+function ExploreSection({ searchQuery }) {
 
     const blogs = [
 
@@ -39,10 +39,18 @@ function ExploreSection() {
 
     ];
 
+
+
+    const filteredBlogs = blogs.filter((blog) =>
+    blog.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+);
+
     return (
 
         <section className={styles.section}>
-
+ 
             <div className={styles.header}>
 
                 <h2>Explore Egypt</h2>
@@ -55,7 +63,7 @@ function ExploreSection() {
 
             <div className={styles.blogs}>
 
-                {blogs.map((blog) => (
+                {filteredBlogs.map((blog) => (
 
                     <ExploreCard
                         key={blog.id}
@@ -63,6 +71,14 @@ function ExploreSection() {
                     />
 
                 ))}
+
+                {filteredBlogs.length === 0 && (
+
+                    <p>
+                        No Trip or Program found.
+                    </p>
+
+                    )}
 
             </div>
 
