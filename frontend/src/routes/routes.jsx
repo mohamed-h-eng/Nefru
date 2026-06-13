@@ -21,6 +21,7 @@ import Settings from "../pages/User/Settings/Settings";
 import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/ApplicationReceived";
 
 import Admin from '../pages/Admin/Admin'
+import DashboardStatus from '../pages/Admin/components/DashboardStatus/DashboardStatus'
 // import Admin from '../pages/Admin/Admin'
 export const router = createBrowserRouter([
   {
@@ -63,9 +64,12 @@ export const router = createBrowserRouter([
   {
     path: "admin",
     element:<Admin/>,
-    // children:[
-    //   {index:true, element:<Home/>}
-    // ]
+    children:[
+      {index:true, element:<DashboardStatus/>},
+      // {path:"accounts", element:<Booking/>},
+      // {path:"cms", element:<Booking/>},
+      // {path:"analytics", element:<Booking/>},
+    ]
   },
   {
     path: "*",

@@ -4,7 +4,6 @@
   background: var(--color-primary-mute);
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:8px;
   padding:10px;
-  padding-top:70px;
 }

@@ -10,7 +10,8 @@
     align-items:center;
     justify-content: center;
     cursor: pointer;
-    border-radius:var(--border-radius)
+    border-radius:var(--border-radius);
+    justify-content:left;
 }
 .primary {
   color: white;
@@ -19,8 +20,8 @@
 .normal {
   color: black;
   background-color: var(--color-primary-mute);
-  border:2px solid var(--color-border)
 }
+
 .secondary {
     background: var(--color-secondary);
     color: white;

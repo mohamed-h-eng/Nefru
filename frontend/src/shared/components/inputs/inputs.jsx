@@ -3,7 +3,7 @@ import style from './Inputs.module.css'
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineTune } from "react-icons/md";
 import Icons from '../../../assets/icons'
-function Input({ title, placeholder, icon, type, value, setValue }) {
+export default function Input({ title, placeholder, icon, type, value, setValue }) {
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const inputId = useId();

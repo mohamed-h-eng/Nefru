@@ -20,14 +20,3 @@
   align-items:center;
   justify-content:space-between;
 }
-.addEvents{
-  display:flex;
-  justify-content:space-between;
-  gap:40px;
-}
-.events{
-  width:100%;
-}
-.form{
-  width:fit-content;
-}
