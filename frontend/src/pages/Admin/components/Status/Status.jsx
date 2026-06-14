@@ -59,23 +59,14 @@ export function LineChart() {
     labels: ["W1", "W2", "W3", "W4"],
     datasets: [
       {
-        label: "COMPLETED",
+        label: "",
         data: [120, 280, 200, 450],
         borderColor: "#1FA37A",
         backgroundColor:"#1FA37A",
         tension: 0.4,
         borderWidth: 3,
         pointRadius: 4,
-      },
-      {
-        label: "CANCELLED",
-        data: [80, 120, 60, 30],
-        borderColor:  "#BA1A1A",
-        backgroundColor: "#BA1A1A",
-        tension: 0.4,
-        borderWidth: 3,
-        pointRadius: 4,
-      },
+      }
     ],
   };
 
