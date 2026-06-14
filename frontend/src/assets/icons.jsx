@@ -16,8 +16,15 @@ import { FaCheckSquare } from "react-icons/fa";
 import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { BsPersonHearts } from "react-icons/bs";
-
+import { FaRegCalendarCheck } from "react-icons/fa";
+import { LuTicket } from "react-icons/lu";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { LuSunrise } from "react-icons/lu";
+import { BsCashStack } from "react-icons/bs";
+import { IoIosSearch } from "react-icons/io";
+import { FaStar } from "react-icons/fa6";
+import { IoCloseCircleOutline } from "react-icons/io5";
+
 /**
  * Centralized Icon Registry
  * Use these variables throughout the app for consistency.
@@ -46,8 +53,13 @@ const Icons = {
   Guest: BsPersonHearts,
   sun: IoMdSunny,
   event: MdEventRepeat,
-  afternoon: LuSunrise
-
+  afternoon: LuSunrise,
+  ticket:LuTicket,
+  circleCheck:IoIosCheckmarkCircleOutline,
+  circleWrong:IoCloseCircleOutline,
+  cash:BsCashStack,
+  search:IoIosSearch,
+  star:FaStar,
   // Add more icons as needed for the tourist/guide platform
 };
 

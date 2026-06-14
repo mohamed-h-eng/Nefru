@@ -8,7 +8,6 @@
   width:300px;
 }
 .body{
-  /* border:1px solid red; */
   width:100%;
   padding:40px;
   padding-top:10px;
@@ -20,15 +19,4 @@
   display:flex;
   align-items:center;
   justify-content:space-between;
-}
-.addEvents{
-  display:flex;
-  justify-content:space-between;
-  gap:40px;
-}
-.events{
-  width:100%;
-}
-.form{
-  width:fit-content;
 }

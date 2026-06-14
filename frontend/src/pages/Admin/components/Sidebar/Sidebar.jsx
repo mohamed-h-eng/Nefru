@@ -10,7 +10,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { LuUsers } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 
-import {Button} from '../../../../../shared/components/Button/Button'
+import {Button} from '../../../../shared/components/Button/Button'
 
 export default function SideBar() {
   const Pages = [
@@ -22,8 +22,8 @@ export default function SideBar() {
   ]
   return (
     <div className={styles.sidebar}>
-      {Pages.map((page)=>(
-        <Button type="normal">
+      {Pages.map((page,index)=>(
+        <Button type="normal" key={index}>
           <LuLayoutDashboard />
           {page.label}
         </Button>
