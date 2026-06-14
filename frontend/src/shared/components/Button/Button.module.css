@@ -21,7 +21,6 @@
   color: black;
   background-color: var(--color-primary-mute);
 }
-
 .secondary {
     background: var(--color-secondary);
     color: white;
