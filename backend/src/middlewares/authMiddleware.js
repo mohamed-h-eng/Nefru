@@ -1,36 +1,46 @@
 ﻿// require jwt
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 // require admin model
-const Admin = require("../models/admin.model");
+// import { Admin } from "../models/admin.model";
 // require validation schema
-const adminSchema = require("../controllers/validation/authAdminValidation");
+// import adminSchema from "../controllers/validation/authAdminValidation";
+import { env } from "../config/env.js";
+import { User } from "../models/user.model.js";
 // create function
-const authMiddleware = async (req, res, next) => {
+export const protect = async (req, res, next) => {
+  // const authMiddleware = async (req, res, next) => {
   try {
     // get token from header
-    const token =
-      req.header("Authorization") && req.header("Authorization").split(" ")[1];
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      res.status(401);
+      throw new Error("Not authorized");
+    }
+
+    const token = authHeader && authHeader.split(" ")[1];
+
     // check if token exists
     if (!token) {
       return res.status(401).json({ msg: "No token, authorization denied" });
     }
     // verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // get admin from token
-    const admin = await Admin.findById(decoded.id);
-    // check if admin exists
-    if (!admin) {
+    const decoded = jwt.verify(token, env.jwtSecret);
+    // get user from token
+    const user = await User.findById(decoded.id);
+    // check if user exists
+    if (!user || !user.isActive) {
       return res
         .status(401)
-        .json({ msg: "Admin not found, authorization denied" });
+        .json({ msg: "User not found or inactive, authorization denied" });
     }
-    req.admin = admin;
+    req.user = user;
     next();
   } catch (error) {
-    res
-      .status(500)
-      .json({ msg: "Internal Server Error", error: error.message });
+    res.status(401);
+    next(new Error("Not authorized"));
   }
 };
-// export module
-module.exports = authMiddleware;
+
+// will make also role based authorization later
+// 

@@ -5,14 +5,17 @@
 //   await mongoose.connect(env.mongoUri);
 //   console.log(`Database connected: ${mongoose.connection.host}`);
 // }
-const mongoose = require("mongoose");
-const connectedDB = async () => {
+import mongoose from 'mongoose';
+import { env } from './env.js';
+
+export const connectedDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB connected successfully");
+    await mongoose.connect(env.mongoUri);
+    console.log(`Database connected: ${mongoose.connection.host}`);
   } catch (error) {
     console.error("MongoDB connection failed:", error);
+    process.exit(1);
   }
 };
 
-module.exports = connectedDB;
+export default connectedDB;
