@@ -3,6 +3,7 @@ function Button({ type="normal", children, className = "", onClick, icon = "", h
   return (
     <>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <button className={`${styles.button} ${styles[type]}`} onClick={onClick}>
 =======
       {/* <button className={`${styles.button} ${styles[type]}`}>
@@ -16,6 +17,9 @@ function Button({ type="normal", children, className = "", onClick, icon = "", h
         onClick={onClick}
       >
 >>>>>>> 058832be628216da0e1870cbbda67ea18c8ef6ed
+=======
+      <button className={`${styles.button} ${styles[type]}`}>
+>>>>>>> parent of f09c4fb (update)
         {icon}
         {children}
       </button>

@@ -12,6 +12,7 @@
     justify-content: center;
     cursor: pointer;
     border-radius:var(--border-radius);
+<<<<<<< HEAD
 =======
   font-size: var(--font-body);
   font-weight: 600;
@@ -28,6 +29,9 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease,
     background-color 0.2s ease, color 0.2s ease;
 >>>>>>> 058832be628216da0e1870cbbda67ea18c8ef6ed
+=======
+    justify-content:left;
+>>>>>>> parent of f09c4fb (update)
 }
 
 .button:hover {
@@ -61,6 +65,7 @@
   color: #111111;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 .iconButtonNormal{
   justify-content:left;
   background-color: var(--color-primary-mute);
@@ -70,6 +75,8 @@
   background-color:var(--color-primary);
   color:white;
 }
+=======
+>>>>>>> parent of f09c4fb (update)
 .btn_icon :last-child{
     font-size:30px;
     background-color:none;
