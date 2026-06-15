@@ -5,7 +5,7 @@ import guider from "../../../assets/images/tour-guide.png";
 // import { AiOutlineArrowRight, AiOutlineGoogle, AiFillFacebook } from "react-icons/ai";
 // import { RiTwitterXFill } from "react-icons/ri";
 import Icons from "../../../assets/icons";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Logo_Dark from "../../../assets/images/Logo_Dark.png";
 
@@ -15,12 +15,14 @@ const roles = [
   {
     id: 1,
     title: "Traveler",
+    role: "tourist",
     desc: "Discover places and book tours.",
     img: travelerImg,
   },
   {
     id: 2,
     title: "Tour Guide",
+    role: "guide",
     desc: "Create tours and grow your business.",
     img: guider,
   },
@@ -28,8 +30,8 @@ const roles = [
 
 export default function Welcome() {
   const navigate = useNavigate();
-  const handleChooseRole = (role) => {
-    navigate(`/auth/register?role=${role}`);
+  const handleChooseRole = (x) => {
+    navigate(`/auth/register?role=${x.role}`);
   };
 
   return (
@@ -42,22 +44,25 @@ export default function Welcome() {
 
       <div className={styles.cards}>
         {roles.map((role) => (
-          <div key={role.id} className={styles.card}>
+          <div key={role.id} className={styles.card} onClick={() => 
+            handleChooseRole(role)}>
             <img src={role.img} alt={role.title} className={styles.cardImg} />
 
             <div className={styles.cardContent}>
               <h3>{role.title}</h3>
               <p>{role.desc}</p>
               <span className={styles.wrapper}>
-                <NavLink
+                {/* <NavLink
                   to="/auth/register"
                   typeUser={role.title.toLowerCase()}
                   state={{ typeUser: role.title.toLowerCase() }}
                   className={styles.getStarted}
                 >
-                  {/* <AiOutlineArrowRight className={styles.arrow}/> */}
                   <Icons.ArrowRight className={styles.arrow} />
-                </NavLink>
+                </NavLink> */}
+                  <Icons.ArrowRight className={styles.arrow} />
+
+                  {/* <AiOutlineArrowRight className={styles.arrow}/> */}
               </span>
             </div>
           </div>

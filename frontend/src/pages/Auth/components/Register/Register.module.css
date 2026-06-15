@@ -199,6 +199,65 @@
   color: var(--color-text-muted);
 }
 
+.roleToggle {
+  width: 100%;
+  min-height: 48px;
+  padding: 4px;
+  margin-bottom: 18px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.roleOption {
+  flex: 1;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.roleOption svg {
+  font-size: 14px;
+}
+
+.roleOptionActive {
+  background-color: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(6, 38, 77, 0.28);
+}
+
+.roleOption:hover {
+  background-color: rgba(6, 38, 77, 0.08);
+}
+
+.roleOptionActive:hover {
+  background-color: var(--color-primary);
+}
+
+.roleOption:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
 @media (max-width: 480px) {
   .container {
     padding: 20px;
