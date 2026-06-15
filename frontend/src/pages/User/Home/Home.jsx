@@ -7,7 +7,7 @@ import { MdOutlineLocationOn , MdSearch } from "react-icons/md";
 import Header from './components/header/Header'
 import Body from './components/body/Body'
 
-
+import {useState} from 'react'
 const Home = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
