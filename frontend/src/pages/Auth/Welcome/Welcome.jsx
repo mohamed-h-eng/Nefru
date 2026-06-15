@@ -15,14 +15,14 @@ const roles = [
   {
     id: 1,
     title: "Traveler",
-    role: "Tourist",
+    role: "tourist",
     desc: "Discover places and book tours.",
     img: travelerImg,
   },
   {
     id: 2,
     title: "Tour Guide",
-    role: "Guide",
+    role: "guide",
     desc: "Create tours and grow your business.",
     img: guider,
   },

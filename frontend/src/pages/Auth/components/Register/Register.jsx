@@ -30,12 +30,12 @@ export default function Register() {
   const roleFromUrl = searchParams.get("role");
 
   const initialRole =
-    roleFromUrl === "Guide" || roleFromUrl === "Tourist"
+    roleFromUrl === "guide" || roleFromUrl === "tourist"
       ? roleFromUrl
-      : "aaaaaaa";
+      : "tourist";
 
   const [role, setRole] = useState(initialRole);
-
+  const roleLabel = role === "guide" ? "Guide" : "Traveler";
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -49,12 +49,14 @@ export default function Register() {
     }
     setErrors(newErrors);
 
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
     if (role === "guide") {
       navigate("/auth/application-received");
     } else {
       navigate("/auth/login");
     }
-
 
     // هنا بعدين هتحط API register
     // POST /api/auth/register
@@ -67,12 +69,53 @@ export default function Register() {
           <div className={styles.content}>
             <img className={styles.logo} src={Logo_Light} alt="logo" />
             <p className={styles.subtitle}>
-              Signing up as a <strong>{role}</strong>
+              Signing up as a <strong>{roleLabel}</strong>
             </p>
           </div>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
+          {/* <div className={styles.roleToggle} aria-label="Choose account type">
+            <button
+              type="button"
+              className={`${styles.roleButton} ${role === "tourist" ? styles.activeRole : ""}`}
+              onClick={() => setRole("tourist")}
+            >
+              Traveler
+            </button>
+            <button
+              type="button"
+              className={`${styles.roleButton} ${role === "guide" ? styles.activeRole : ""}`}
+              onClick={() => setRole("guide")}
+            >
+              Guide
+            </button>
+          </div> */}
+          <div className={styles.roleToggle} aria-label="Choose account type">
+            <button
+              type="button"
+              className={`${styles.roleOption} ${
+                role === "tourist" ? styles.roleOptionActive : ""
+              }`}
+              onClick={() => setRole("tourist")}
+              aria-pressed={role === "tourist"}
+            >
+              <Icons.User />
+              <span>Traveler</span>
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.roleOption} ${
+                role === "guide" ? styles.roleOptionActive : ""
+              }`}
+              onClick={() => setRole("guide")}
+              aria-pressed={role === "guide"}
+            >
+              <Icons.User />
+              <span>Guide</span>
+            </button>
+          </div>
           <div className={styles.field}>
             <Input
               id="fullName"
