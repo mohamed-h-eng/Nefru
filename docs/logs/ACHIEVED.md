@@ -7,6 +7,7 @@ This file tracks major milestones and completed tasks in the NEFRU project.
 - [x] Frontend initialized with React (Vite) and Bootstrap.
 - [x] Project documentation structure established (Architecture, API Conventions, Validation).
 - [x] Development logs system implemented in `docs/logs/`.
+- [x] **Root Automation**: Created root `package.json` with `concurrently` to run backend and frontend simultaneously.
 
 ## Backend
 - [x] **Core Architecture**: Implemented Route-Middleware-Controller-Service-Model pattern.
@@ -19,6 +20,7 @@ This file tracks major milestones and completed tasks in the NEFRU project.
   - Trip model and routes.
   - Booking model and routes.
   - User management routes.
+  - **Search API**: Implemented searchable and filterable trips endpoint.
 - [x] **Utilities**:
   - Global error handling middleware.
   - Async handler for cleaning up controllers.
@@ -33,6 +35,6 @@ This file tracks major milestones and completed tasks in the NEFRU project.
   - Layouts: Navbar, Footer, AuthLayout, MasterLayout.
 - [x] **Pages**:
   - Auth: Login, Register, Forget Password, Reset Password, Welcome.
-  - User: Home, Profile, Saved, Settings, Trips (Book, Info, Guide).
+  - User: Home (with functional Search), Profile, Saved, Settings, Trips (Book, Info, Guide).
   - Admin: Dashboard.
 - [x] **Assets**: Icon system and image assets organized.
