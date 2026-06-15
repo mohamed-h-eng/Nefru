@@ -4,7 +4,8 @@
   align-items: center;
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+  margin: 4px;
+  padding: 0 12px;
 }
 
 .badge {
@@ -30,5 +31,3 @@
   color: #6b7280;
   margin-bottom: 10px;
 }
-
-
