@@ -10,6 +10,16 @@ export const env = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
   emailAdmin: process.env.EMAIL_ADMIN || "superadmin@nefru.com",
   passwordAdmin: process.env.PASSWORD_ADMIN || "superpassword",
+  emailTourist: process.env.EMAIL_TOURIST || "tourist@test.com",
+  passwordTourist: process.env.PASSWORD_TOURIST || "Tourist123456",
+  emailGuide: process.env.EMAIL_GUIDE || "guide@test.com",
+  passwordGuide: process.env.PASSWORD_GUIDE || "Guide123456",
+
 };
 
 
+// EMAIL_TOURIST=tourist@test.com
+// PASSWORD_TOURIST=Tourist123456
+
+// EMAIL_GUIDE=guide@test.com
+// PASSWORD_GUIDE=Guide123456
