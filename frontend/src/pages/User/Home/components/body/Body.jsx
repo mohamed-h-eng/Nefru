@@ -17,7 +17,7 @@ export default function Body(){
             <div className={styles.card_cointainer}>
                 <div className={styles.cards}>
                     <div className={styles.label}>
-                        <p>Featured Experiences</p>
+                        <p>Featured Niga Experiences</p>
                         <p>View all</p>
                     </div>
                     <Card options={cards}/>
