@@ -1,14 +1,74 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
+const USER_ROLES = ["tourist", "guide", "admin"];
+const REGISTER_ROLES = ["tourist", "guide"];
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ['tourist', 'guide', 'admin'], default: 'tourist' },
-    avatar: { type: String, default: '' }
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 2,
+      maxlength: 50,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
+    },
+    password: { type: String, required: true , minlength: [8, "Password must be at least 8 characters"], select: false },
+    role: { type: String, enum: USER_ROLES, default: "tourist" },
+    avatar: {
+      type: String,
+      default: "",
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
+    // Future document verification
+    // We are not uploading files now.
+    // Later we can add:
+    // document: {
+    //   url: { type: String , default: ""},
+    //   publicId: { type: String , default: ""},
+    //   fileType: { type: String ,enum: ["image", "pdf", ""], default: ""},
+    //   type: {
+    //     type: String,
+    //     enum: ["passport", "national_id", "guide_license"],
+    //   },
+    // },
+    verificationStatus: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+
+    passwordResetExpires: {
+      type: Date,
+      select: false,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const User = mongoose.model('User', userSchema);
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+});
+
+userSchema.methods.comparePassword = async function (matchedPassword) {
+  return await bcrypt.compare(matchedPassword, this.password);
+};
+const User = mongoose.model("User", userSchema);
+
+export { User, USER_ROLES, REGISTER_ROLES };

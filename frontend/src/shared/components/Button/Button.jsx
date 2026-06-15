@@ -1,9 +1,8 @@
 import styles from "./Button.module.css";
-
-function Button({ type, children, className, onClick, icon }) {
+function Button({ type="normal", children, className = "", onClick, icon = "" }) {
   return (
     <>
-      <button className={`${className} ${styles[type]}`} onClick={onClick}>
+      <button className={`${className} ${styles.button} ${styles[type]}`} onClick={onClick}>
         {icon}
         {children}
       </button>
@@ -11,6 +10,8 @@ function Button({ type, children, className, onClick, icon }) {
   );
 }
 
+{
+  /**** 
 function ButtonIcon({ children, className, onClick }) {
   return (
     <>
@@ -20,4 +21,8 @@ function ButtonIcon({ children, className, onClick }) {
     </>
   );
 }
-export { Button, ButtonIcon };
+  ******/
+}
+
+// export { Button, ButtonIcon };
+export { Button };
