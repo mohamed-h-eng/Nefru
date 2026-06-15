@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const tripSchema = new mongoose.Schema(
   {
@@ -7,11 +7,19 @@ const tripSchema = new mongoose.Schema(
     location: { type: String, required: true },
     price: { type: Number, required: true },
     duration: { type: String, required: true }, // e.g., "3 hours", "Full Day"
-    image: { type: String, default: '' },
-    guide: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    category: { type: String, enum: ['History', 'Adventure', 'Culture', 'Food'], required: true }
+    image: { type: String, default: "" },
+    guide: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    category: {
+      type: String,
+      enum: ["History", "Adventure", "Culture", "Food"],
+      required: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Trip = mongoose.model('Trip', tripSchema);
+export const Trip = mongoose.model("Trip", tripSchema);
