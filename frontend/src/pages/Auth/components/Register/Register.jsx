@@ -2,18 +2,17 @@ import { useRef, useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
 import { Input } from "../../../../shared/components/inputs/inputs";
 import styles from "./Register.module.css";
-import { CiUser, CiMail, CiLock } from "react-icons/ci";
 import { Button } from "../../../../shared/components/Button/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Icons from "../../../../assets/icons";
 
-export default function Register({ typeUser }) {
+export default function Register() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
   const [errors, setErrors] = useState({});
   const [agreed, setAgreed] = useState(false);
-  const navigate = useNavigate();
+
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
@@ -26,6 +25,41 @@ export default function Register({ typeUser }) {
     if (file) setUploadedFile(file);
   };
 
+  const [searchParams] = useSearchParams();
+
+  const roleFromUrl = searchParams.get("role");
+
+  const initialRole =
+    roleFromUrl === "Guide" || roleFromUrl === "Tourist"
+      ? roleFromUrl
+      : "aaaaaaa";
+
+  const [role, setRole] = useState(initialRole);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newErrors = {};
+    // if (!uploadedFile) {
+    //   newErrors.document = "Please upload your ID or Passport.";
+    // }
+    if (!agreed) {
+      newErrors.terms = "You must agree to the terms to continue.";
+    }
+    setErrors(newErrors);
+
+    if (role === "guide") {
+      navigate("/auth/application-received");
+    } else {
+      navigate("/auth/login");
+    }
+
+
+    // هنا بعدين هتحط API register
+    // POST /api/auth/register
+    // body هيبقى فيه role
+  };
   return (
     <>
       <div className={styles.container}>
@@ -33,12 +67,12 @@ export default function Register({ typeUser }) {
           <div className={styles.content}>
             <img className={styles.logo} src={Logo_Light} alt="logo" />
             <p className={styles.subtitle}>
-              Signing up as a <strong>{typeUser}</strong>
+              Signing up as a <strong>{role}</strong>
             </p>
           </div>
         </div>
 
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
             <Input
               id="fullName"
@@ -173,10 +207,7 @@ export default function Register({ typeUser }) {
 
           {/* Submit  */}
           <div>
-            <Button
-              type="primary"
-              onClick={() => navigate("/auth/application-received")}
-            >
+            <Button type="primary" onClick={handleSubmit}>
               Create Account
             </Button>
 
