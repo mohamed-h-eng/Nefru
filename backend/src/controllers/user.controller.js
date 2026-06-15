@@ -34,6 +34,28 @@ export const getUserById = asyncHandler(async (req, res) => {
   });
 });
 
+export const getMe = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      success: true,
+      data: {
+        user: {
+          id: req.user._id,
+          name: req.user.name,
+          email: req.user.email,
+          role: req.user.role,
+          avatar: req.user.avatar,
+          verificationStatus: req.user.verificationStatus,
+          isActive: req.user.isActive,
+          createdAt: req.user.createdAt,
+        },
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createUser = asyncHandler(async (req, res) => {
   const { name, email } = req.body;
 
