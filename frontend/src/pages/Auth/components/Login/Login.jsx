@@ -47,7 +47,7 @@ function Login() {
             </Link>
           </div>
 
-          <Button children="Log in" onClick={() => navigate("/user/home")} type="primary" />
+          <Button children="Log in" onClick={() => {}} type="primary" />
         </form>
 
         <div className={styles.divider}>
