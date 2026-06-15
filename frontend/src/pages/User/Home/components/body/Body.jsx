@@ -50,7 +50,7 @@ export default function Body({ searchQuery }){
             <div className={styles.card_cointainer}>
                 <div className={styles.cards}>
                     <div className={styles.label}>
-                        <p>Featured Experiences</p>
+                        <p>Featured Niga Experiences</p>
                         <p>View all</p>
                     </div>
                     {loading ? <p>Loading experiences...</p> : <Card options={featuredCards}/>}
