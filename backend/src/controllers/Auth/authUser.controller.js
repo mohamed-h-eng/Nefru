@@ -1,9 +1,15 @@
-import { User } from "../../models/user.model.js";
+import { User, USER_ROLES, REGISTER_ROLES} from "../../models/user.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 import crypto from "crypto";
+
 export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
+
+    if (!REGISTER_ROLES.includes(role)) {
+      res.status(400);
+      throw new Error("Invalid role");
+    }
 
     const existingUser = await User.findOne({ email });
 
@@ -53,7 +59,7 @@ export const loginUser = async (req, res, next) => {
 
     const user = await User.findOne({
       email,
-      role: { $in: ["tourist", "guide"] },
+      role: { $in: USER_ROLES },
     }).select("+password");
 
     if (!user) {
