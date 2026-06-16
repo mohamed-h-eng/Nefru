@@ -1,4 +1,4 @@
-import styles from './Table.module.css'
+import styles from "./Table.module.css";
 import { IoIosSearch } from "react-icons/io";
 import { IoFilterSharp } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
@@ -49,23 +49,34 @@ export default function Table({title="", headers=[], data=[]}){
     )
 }
 
-function TableItem({id, tour, bookings, revenue, convRate, rating, status}){
-    const states =[
-        {Active:"var(--color"}
-    ]
-    return (
-        <>
-        <div className={styles.itemContainer}>
-            <p className={`${styles.item}`}>{id}</p>
-            <p className={styles.item}>{tour}</p>
-            <p className={styles.item}>{bookings}</p>
-            <p className={styles.item}>${revenue}</p>
-            <p className={styles.item}>{convRate}%</p>
-            <div className={`${styles.item} ${styles.rate}`}><p><Icons.star/></p> <p>{rating}</p></div>
-            <div className={styles.item}><p className={styles.status} style={{
-                color:"var(--color-active)",backgroundColor:"var(--color-active-mute)"
-            }}>{status}</p></div>
+function TableItem({ id, tour, bookings, revenue, convRate, rating, status }) {
+  const states = [{ Active: "var(--color" }];
+  return (
+    <>
+      <div className={styles.itemContainer}>
+        <p className={`${styles.item}`}>{id}</p>
+        <p className={styles.item}>{tour}</p>
+        <p className={styles.item}>{bookings}</p>
+        <p className={styles.item}>${revenue}</p>
+        <p className={styles.item}>{convRate}%</p>
+        <div className={`${styles.item} ${styles.rate}`}>
+          <p>
+            <Icons.star />
+          </p>{" "}
+          <p>{rating}</p>
         </div>
-        </>
-    )
+        <div className={styles.item}>
+          <p
+            className={styles.status}
+            style={{
+              color: "var(--color-active)",
+              backgroundColor: "var(--color-active-mute)",
+            }}
+          >
+            {status}
+          </p>
+        </div>
+      </div>
+    </>
+  );
 }

@@ -1,0 +1,64 @@
+.section {
+
+    padding: 16px;
+}
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+.header h2 {
+
+white-space: nowrap;
+
+    font-size: 25px;
+}
+
+
+.header button {
+
+    border: none;
+
+    background: none;
+
+    color: #0E5A77;
+
+    cursor: pointer;
+}
+
+.blogs {
+
+    display: flex;
+
+    gap: 16px;
+    flex-direction: column;
+
+    /* overflow-x: auto; */
+
+    /* scrollbar-width: none; */
+}
+
+.blogs::-webkit-scrollbar {
+
+    display: none;
+}
+
+.seeAll {
+
+    border: none;
+
+    background: none;
+
+    color: #0E5A77;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
