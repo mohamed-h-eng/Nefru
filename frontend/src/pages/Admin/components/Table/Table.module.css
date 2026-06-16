@@ -68,6 +68,14 @@
     margin-top:-1px;
 
 }
+.footer{
+    display:flex;
+    background-color:var(--color-primary-mute);
+    padding:0 10px;
+    align-items:center;
+    border:1px solid red;
+    justify-content:space-between;
+}
 /* event item */
 .itemContainer{
     display:flex;

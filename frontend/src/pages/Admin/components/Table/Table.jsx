@@ -5,15 +5,20 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Icons from '../../../../assets/icons'
 import Input from '../../../../shared/components/inputs/Inputs'
+import {Button }from '../../../../shared/components/Button/Button'
+
 export default function Table({title="", headers=[], data=[]}){
     return(
         <>
             <div className={styles.container}>
-                <div className={styles.header}>
-                    <p>{title}</p>
-                </div>
+                {
+                    title? <div className={styles.header}>
+                                <p>{title}</p>
+                            </div> :<></>
+                }
                 <div className={styles.body}>
-                    <div className={styles.tableHead}>
+                    <div className={styles.tableHead}
+                        style={{borderRadius:title?"0px":"10px"}}>
                         {headers.map((item,index)=>(
                             <p className={styles.item} key={index}>{item}</p>
                         ))}
@@ -29,6 +34,14 @@ export default function Table({title="", headers=[], data=[]}){
                                 rating={item.rating}
                                 status={item.status} key={index} />
                         ))}
+                    </div>
+                    <div className={styles.footer}>
+                        <div className="t">
+                            <p>total records: 202</p>
+                        </div>
+                        <div className="t">
+                            <Button>1</Button>
+                        </div>
                     </div>
                 </div>
             </div>

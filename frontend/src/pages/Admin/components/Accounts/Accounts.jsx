@@ -41,8 +41,7 @@ export default function Accounts(){
                         }
                     </div>
                     <div className={styles.info}>
-                        <Table title="Top Performing Trips" data={users} headers={['#','Tour',"BOOKINGS","REVENUE","CONVERSION RATE","RATING","STATUS"]}/>
-                        
+                        <Table data={users} headers={['#','Tour',"BOOKINGS","REVENUE","CONVERSION RATE","RATING","STATUS"]}/>
                         <div className={styles.edit}>
                             <div className={styles.section_1}>
                                 <Icons.User/>
