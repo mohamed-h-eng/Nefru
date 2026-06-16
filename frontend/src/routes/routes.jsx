@@ -22,6 +22,10 @@ import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/Ap
 
 import Admin from '../pages/Admin/Admin'
 import DashboardStatus from '../pages/Admin/components/DashboardStatus/DashboardStatus'
+import Accounts from '../pages/Admin/components/Accounts/Accounts'
+import CMS from '../pages/Admin/components/CMS/CMS'
+import Analytics from '../pages/Admin/components/Analytics/Analytics'
+import Booking from '../pages/Admin/components/Booking/Booking'
 // import Admin from '../pages/Admin/Admin'
 export const router = createBrowserRouter([
   {
@@ -65,10 +69,11 @@ export const router = createBrowserRouter([
     path: "admin",
     element:<Admin/>,
     children:[
-      {index:true, element:<DashboardStatus/>},
-      // {path:"accounts", element:<Booking/>},
-      // {path:"cms", element:<Booking/>},
-      // {path:"analytics", element:<Booking/>},
+      {path:"overview", element:<DashboardStatus/>},
+      {path:"accounts", element:<Accounts/>},
+      {path:"cms", element:<CMS/>},
+      {path:"analytics", element:<Analytics/>},
+      {path:"booking", element:<Booking/>},
     ]
   },
   {
