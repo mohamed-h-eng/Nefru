@@ -8,12 +8,13 @@
   width:300px;
 }
 .body{
-  width:100%;
+  width:fit-content;
   padding:40px;
   padding-top:10px;
   display:flex;
   flex-direction:column;
   gap:40px;
+  /* overflow:scroll; */
 }
 .navbar{
   display:flex;

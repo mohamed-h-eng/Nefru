@@ -52,6 +52,7 @@ body {
   background-color: var(--color-bg);
   font-family: "Poppins", sans-serif;
   color: var(--color-text);
+  overflow:hidden;
 }
 
 p,

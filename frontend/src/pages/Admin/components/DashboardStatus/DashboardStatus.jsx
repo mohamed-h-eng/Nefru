@@ -27,13 +27,15 @@ export default function DashboardStatus(){
                     <div className={styles.chart}>
                         <LineChart/>
                     </div>
-                    <PendingList/>
+                    <List title="Pending Approvals">
+                        <PendingItem info="Guide application approval" name="Sarah Mahmoud" tag="Guide" duration="1d ago"/>
+                    </List>
                 </div>
                 <div className={styles.section_2}>
                     <div className={styles.chart}>
                         <Table title="Top Performing Trips" data={tours} headers={['#','Tour',"BOOKINGS","REVENUE","CONVERSION RATE","RATING","STATUS"]}/>
                     </div>
-                    <PendingList/>
+                    <List title="Recent System Logs"/>
                 </div>
             </div>
         </div>
@@ -41,26 +43,53 @@ export default function DashboardStatus(){
     )
 }
 
-function PendingList(){
+function List({title="",children}){
     return(
         <>
         <div className={styles.layout}>
             <div className={styles.layoutTitle}>
-                <p>Pending Approvals</p>
+                <p>{title}</p>
                 <p>View all</p>
             </div>
             <div className={styles.listBody}>
-                <ListItem/>
-                <ListItem/>
-                <ListItem/>
-                <ListItem/>
+                {children}
             </div>
         </div>
         </>
     )
 }
 
-function ListItem(){
+function PendingItem({info, name, tag, duration}){
+    const states = [
+        {icon:'',color:''}
+    ]
+    return(
+        <>
+        <div className={styles.itemContainer}>
+            <div className={styles.itemInfo}>
+                <div className={styles.itemAvatar}>
+                    <Icons.Profile/>
+                </div>
+                <div className={styles.itemLable}>
+                    <p>{info}</p>
+                    <p>{name}</p>
+                </div>
+                <div 
+                    className={styles.itemTag}
+                    style={{backgroundColor:"var(--color-secondary)"}}>
+                        <p>{tag}</p>
+                </div>
+            </div>
+            <div className={styles.itemAction}>
+                <p>{duration}</p>
+                <Icons.ArrowRight/>
+            </div>
+        </div>
+        </>
+    )
+}
+
+function LogItem(){
     return(
         <>
         <div className={styles.itemContainer}>
