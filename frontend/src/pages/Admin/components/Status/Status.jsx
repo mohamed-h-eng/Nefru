@@ -56,7 +56,7 @@ ChartJS.register(
 
 export function LineChart() {
   const data = {
-    labels: ["W1", "W2", "W3", "W4"],
+    labels: ["May 12", "May 13", "May 14", "May 15", "May 16", "May 17", "May 18"],
     datasets: [
       {
         label: "",
@@ -106,10 +106,10 @@ export function LineChart() {
 
       y: {
         beginAtZero: true,
-        max: 600,
+        max: 2500,
 
         ticks: {
-          stepSize: 150,
+          stepSize: 500,
           color: "#9CA3AF",
         },
 
