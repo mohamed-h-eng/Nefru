@@ -60,7 +60,11 @@ export function LineChart() {
     datasets: [
       {
         label: "",
+<<<<<<< HEAD
         data: [400, 600,1000,680, 950, 1900, 2000],
+=======
+        data: [120, 280, 200, 450],
+>>>>>>> b7202a03a47e5e5f6854515a90c627c07a6b0c3e
         borderColor: "#1FA37A",
         backgroundColor:"#1FA37A",
         tension: 0.4,

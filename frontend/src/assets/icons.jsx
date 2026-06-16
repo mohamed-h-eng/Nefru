@@ -11,7 +11,7 @@ import { BsFillEnvelopeFill } from "react-icons/bs";
 import { FaHourglassHalf } from "react-icons/fa";
 import { CiUser, CiMail, CiLock } from "react-icons/ci";
 import { GiPassport } from "react-icons/gi";
-import { IoMdCheckbox, IoMdSunny } from "react-icons/io";
+import { IoMdCheckbox, IoMdShare, IoMdSunny } from "react-icons/io";
 import { FaCheckSquare } from "react-icons/fa";
 import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
@@ -23,7 +23,7 @@ import { LuSunrise } from "react-icons/lu";
 import { BsCashStack } from "react-icons/bs";
 import { IoIosSearch } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
-import { IoCloseCircleOutline } from "react-icons/io5";
+import { IoArrowBack, IoCloseCircleOutline } from "react-icons/io5";
 
 /**
  * Centralized Icon Registry
@@ -60,6 +60,8 @@ const Icons = {
   cash:BsCashStack,
   search:IoIosSearch,
   star:FaStar,
+  back: IoArrowBack,
+  share: IoMdShare
   // Add more icons as needed for the tourist/guide platform
 };
 

@@ -39,7 +39,7 @@ function Login() {
             />
           </div>
 
-          <div className={`row ${styles.options}`}>
+          <div className={`${styles.options}`}>
             <input type="checkbox" id="remember" />
             <label htmlFor="remember">Remember me</label>
             <Link to="/auth/forget-password" className={styles.forgot}>
