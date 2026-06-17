@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 import Logo_Light from "../../../../assets/images/Logo_Light.png";
-import { InputIcon } from "../../../../shared/components/inputs/inputs";
-import { CheckSVG, PassportSVG } from "../../../../utils/Icon";
+import { Input } from "../../../../shared/components/inputs/inputs";
 import styles from "./Register.module.css";
-import { CiUser, CiMail, CiLock } from "react-icons/ci";
+import { Button } from "../../../../shared/components/Button/Button";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import Icons from "../../../../assets/icons";
 
 export default function Register() {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -24,67 +25,130 @@ export default function Register() {
     if (file) setUploadedFile(file);
   };
 
+  const [searchParams] = useSearchParams();
+
+  const roleFromUrl = searchParams.get("role");
+
+  const initialRole =
+    roleFromUrl === "guide" || roleFromUrl === "tourist"
+      ? roleFromUrl
+      : "tourist";
+
+  const [role, setRole] = useState(initialRole);
+  const roleLabel = role === "guide" ? "Guide" : "Traveler";
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newErrors = {};
+    // if (!uploadedFile) {
+    //   newErrors.document = "Please upload your ID or Passport.";
+    // }
+    if (!agreed) {
+      newErrors.terms = "You must agree to the terms to continue.";
+    }
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+    if (role === "guide") {
+      navigate("/auth/application-received");
+    } else {
+      navigate("/auth/login");
+    }
+
+    // هنا بعدين هتحط API register
+    // POST /api/auth/register
+    // body هيبقى فيه role
+  };
   return (
     <>
       <div className={styles.container}>
         <div className={styles.StepTwoContainer}>
           <div className={styles.content}>
             <img className={styles.logo} src={Logo_Light} alt="logo" />
-            <h1>Create Account</h1>
-            <p>
-              Signing up as a <strong>Traveler</strong>
+            <p className={styles.subtitle}>
+              Signing up as a <strong>{roleLabel}</strong>
             </p>
           </div>
         </div>
 
-        <form>
-          <label htmlFor="fullname">Full Name</label>
-          <div className={styles.field}>
-            <InputIcon
-              id="fullName"
-              name="fullName"
-              type="text"
-              placeholder="Enter your full name"
-              icon={<CiUser />}
-            />
-          </div>
-          <label htmlFor="email" className={styles.label}>
-            Email Address
-          </label>
-          <div className={styles.field}>
-            <InputIcon
-              id="email"
-              name="email"
-              type="email"
-              placeholder="you@email.com"
-              icon={<CiMail />}
-            />
-          </div>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          {/* <div className={styles.roleToggle} aria-label="Choose account type">
+            <button
+              type="button"
+              className={`${styles.roleButton} ${role === "tourist" ? styles.activeRole : ""}`}
+              onClick={() => setRole("tourist")}
+            >
+              Traveler
+            </button>
+            <button
+              type="button"
+              className={`${styles.roleButton} ${role === "guide" ? styles.activeRole : ""}`}
+              onClick={() => setRole("guide")}
+            >
+              Guide
+            </button>
+          </div> */}
+          <div className={styles.roleToggle} aria-label="Choose account type">
+            <button
+              type="button"
+              className={`${styles.roleOption} ${
+                role === "tourist" ? styles.roleOptionActive : ""
+              }`}
+              onClick={() => setRole("tourist")}
+              aria-pressed={role === "tourist"}
+            >
+              <Icons.User />
+              <span>Traveler</span>
+            </button>
 
-          <label htmlFor="password" className={styles.label}>
-            Password
-          </label>
+            <button
+              type="button"
+              className={`${styles.roleOption} ${
+                role === "guide" ? styles.roleOptionActive : ""
+              }`}
+              onClick={() => setRole("guide")}
+              aria-pressed={role === "guide"}
+            >
+              <Icons.User />
+              <span>Guide</span>
+            </button>
+          </div>
           <div className={styles.field}>
-            <InputIcon
+            <Input
+              id="fullName"
+              title="Full name"
+              placeholder="Enter your full name"
+              icon={<Icons.User />}
+            />
+          </div>
+          <div className={styles.field}>
+            <Input
+              id="email"
+              title="Email"
+              placeholder="you@email.com"
+              icon={<Icons.Email />}
+            />
+          </div>
+          <div className={styles.field}>
+            <Input
               id="password"
-              name="password"
+              title="Password"
               type="password"
               placeholder="Create a password"
-              icon={<CiLock />}
+              icon={<Icons.Lock />}
               showToggle
             />
           </div>
-
-          <label htmlFor="confirmPassword" className={styles.label}>
-            Confirm Password
-          </label>
           <div className={styles.field}>
-            <InputIcon
+            <Input
               id="confirmPassword"
-              name="confirmPassword"
+              title="Confirm password"
               type="password"
               placeholder="Confirm your password"
-              icon={<CiLock />}
+              icon={<Icons.Lock />}
               showToggle
             />
           </div>
@@ -117,7 +181,7 @@ export default function Register() {
                 aria-hidden="true"
               />
               <div className={styles.passportIcon}>
-                <PassportSVG />
+                <Icons.Passport />
               </div>
               <div className={styles.uploadText}>
                 <span className={styles.uploadTitle}>
@@ -133,19 +197,18 @@ export default function Register() {
             )}
           </div>
 
-          {/* Terms */}
+          {/* Terms
           <div className={styles.termsRow}>
             <button
-              type="text"
-              className={styles.checkbox}
-              role="checkbox"
-              aria-label="Agree to terms"
-              aria-checked={agreed}
+              type="button"
+              // role="checkbox"
+              // aria-label="Agree to terms"
+              // aria-checked={agreed}
               onClick={() => setAgreed((prev) => !prev)}
               className={`${styles.checkbox} ${agreed ? styles.checkboxChecked : ""}`}
             >
-              {agreed && <CheckSVG />}
-            </button>
+              {/* {agreed? <Icon.Check />:<></>} */}
+          {/* </button>
             <p className={styles.termsText}>
               I agree to the{" "}
               <a href="/terms" className={styles.termsLink}>
@@ -160,19 +223,45 @@ export default function Register() {
           </div>
           {errors.terms && (
             <span className={styles.errorMsg}>{errors.terms}</span>
+          )} */}
+          <div className={styles.termsRow}>
+            <input
+              type="checkbox"
+              id="agreeTerms"
+              className={styles.checkbox}
+              checked={agreed}
+              onChange={() => setAgreed((prev) => !prev)}
+            />
+            <label htmlFor="agreeTerms" className={styles.termsText}>
+              I agree to the{" "}
+              <a href="/terms" className={styles.termsLink}>
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a href="/privacy" className={styles.termsLink}>
+                Privacy Policy
+              </a>
+              .
+            </label>
+          </div>
+          {errors.terms && (
+            <span className={styles.errorMsg}>{errors.terms}</span>
           )}
 
           {/* Submit  */}
           <div>
-            <button type="submit" className={styles.submitBtn}>
+            <Button type="primary" onClick={handleSubmit}>
               Create Account
-            </button>
+            </Button>
 
             <p className={styles.loginRow}>
               Already have an account?{" "}
-              <a href="/login" className={styles.loginLink}>
+              <span
+                className={styles.loginLink}
+                onClick={() => navigate("/auth/login")}
+              >
                 Log In
-              </a>
+              </span>
             </p>
           </div>
         </form>

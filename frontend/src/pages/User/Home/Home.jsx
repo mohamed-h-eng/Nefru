@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom'
 import styles  from './Home.module.css'
 
-import { InputIcon } from '../../../shared/components/inputs/inputs'
+import { Input } from '../../../shared/components/Inputs/Inputs'
 import { MdOutlineLocationOn , MdSearch } from "react-icons/md";
 
 import Header from './components/header/Header'

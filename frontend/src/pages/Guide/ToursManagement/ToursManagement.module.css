@@ -1,0 +1,46 @@
+.navbartours {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px;
+  background: #FBF9F8;
+  color: black;
+  border-bottom:1px solid #e7e6e6;
+}
+
+.navbartours h6 {
+    font-size: 20px;
+    margin: 10px;
+    font-weight: 400;
+    opacity: 0.8;
+    color:rgb(72, 73, 73)
+}
+
+.header {
+ margin: 15px;
+ display: flex;
+ flex-direction: column;
+ gap: 15px;
+
+}
+h1{
+  color:#00263B;
+}
+
+.createTourButton {
+  width: fit-content;
+  padding: 10px 1.5rem;
+  max-width: 200px;
+  background-color: #00263B;
+  color: white;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight:bold;
+  cursor: pointer;
+}
+.createTourButton .plus {
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 5px;
+}

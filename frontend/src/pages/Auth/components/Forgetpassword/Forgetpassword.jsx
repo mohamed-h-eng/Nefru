@@ -1,6 +1,7 @@
 import { Button } from "../../../../shared/components/Button/Button";
-import { InputIcon } from "../../../../shared/components/inputs/inputs";
-import { BsFillEnvelopeFill } from "react-icons/bs";
+import { Input } from "../../../../shared/components/inputs/inputs";
+// import { BsFillEnvelopeFill } from "react-icons/bs";
+import Icons from "../../../../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "./Forgetpassword.module.css";
@@ -18,39 +19,28 @@ export default function Forgetpassword() {
         <p className={styles.RecoveryText}>
           Don’t worry! We’ll help you get back in.
         </p>
-        <h3 className={styles.StepTitle}>Step 1 of 2: Request Reset Link</h3>
-
         <div className={styles.formGroup}>
-          <label className={styles.EmailLabel}>Email Address</label>
-
-          <InputIcon
+          <Input
             id="email"
             className={styles.recoveryInputContainer}
             inputClassName={styles.recoveryInput}
             icon={
-              <BsFillEnvelopeFill className="text-2xl text-(--color-secondary)" />
+              <Icons.EmailOutline  />
             }
             placeholder="you@email.com"
             value={email}
             setValue={setEmail}
             type="email"
-            name="email"
+            title="Email address"
           />
         </div>
 
-        <ButtonBasic
-          className={styles.stepOneBtn}
-          onClick={() => navigate("/reset-password")}
+        <Button
+          type="primary"
+          onClick={() => navigate("/auth/reset-password")}
         >
           Send Reset Link
-        </ButtonBasic>
-
-        <p className={styles.RememberText}>
-          Remember your password?{" "}
-          <span className={styles.LoginLink} onClick={() => navigate("/login")}>
-            Log In
-          </span>
-        </p>
+        </Button>
       </div>
     </div>
   );

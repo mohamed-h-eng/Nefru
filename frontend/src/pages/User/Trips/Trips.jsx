@@ -1,18 +1,18 @@
 import Style from "./Trips.module.css";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const Trips = () => {
-    return (
+  return (
     <>
-    <p>trips</p>
-    <Link to="/user/home">home</Link>
-    <Link to="/user/trips">trips</Link>
-    <Link to="/user/saved">saved</Link>
-    <Link to="/user/profile">profile</Link>
-    <Link to="/user/trips/info">info</Link>
-    <Link to="/user/trips/book">book</Link>
+      <p>trips</p>
+      <Link to="/user/home">home</Link>
+      <Link to="/user/trips">trips</Link>
+      <Link to="/user/saved">saved</Link>
+      <Link to="/user/profile">profile</Link>
+      <Link to="/user/trips/info">info</Link>
+      <Link to="/user/trips/book">book</Link>
     </>
-    )
-}
+  );
+};
 
 export default Trips;

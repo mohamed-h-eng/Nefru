@@ -1,0 +1,23 @@
+.dashboard {
+  display: flex;
+  background: #f8fafc;
+  height:100vh;
+}
+.sidebar{
+  width:300px;
+  border-right:1px solid var(--color-border)
+}
+.body{
+  width:100vw;
+  padding:40px;
+  padding-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+  overflow:auto;
+}
+.navbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
