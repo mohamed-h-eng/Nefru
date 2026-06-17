@@ -28,7 +28,7 @@ const Info = () => {
       label: 'Expert Egyptologist',
     },
   ];
-
+//hi
   return (
     <>
     
