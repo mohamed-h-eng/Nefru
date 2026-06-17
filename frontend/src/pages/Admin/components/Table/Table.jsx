@@ -6,8 +6,10 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import Icons from '../../../../assets/icons'
 import Input from '../../../../shared/components/inputs/Inputs'
 import {Button }from '../../../../shared/components/Button/Button'
+import {useState} from 'react'
 
 export default function Table({title="", headers=[], data=[]}){
+    const [active,setActive] = useState()
     return(
         <>
             <div className={styles.container}>
@@ -39,8 +41,12 @@ export default function Table({title="", headers=[], data=[]}){
                         <div className="t">
                             <p>total records: 202</p>
                         </div>
-                        <div className="t">
-                            <Button>1</Button>
+                        <div className={styles.page}>
+                            <Button className={styles.pageBtn} ><Icons.chevronLeft/></Button>
+                            <Button className={styles.pageBtn} type="secondary">1</Button>
+                            <Button className={styles.pageBtn} type="normal">2</Button>
+                            <Button className={styles.pageBtn} type="normal">3</Button>
+                            <Button className={styles.pageBtn} ><Icons.chevronRight/></Button>
                         </div>
                     </div>
                 </div>

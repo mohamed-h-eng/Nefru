@@ -24,7 +24,7 @@ import { BsCashStack } from "react-icons/bs";
 import { IoIosSearch } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
 import { IoArrowBack, IoCloseCircleOutline } from "react-icons/io5";
-
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 /**
  * Centralized Icon Registry
  * Use these variables throughout the app for consistency.
@@ -61,7 +61,9 @@ const Icons = {
   search:IoIosSearch,
   star:FaStar,
   back: IoArrowBack,
-  share: IoMdShare
+  share: IoMdShare,
+  chevronLeft:IoIosArrowBack,
+  chevronRight:IoIosArrowForward ,
   // Add more icons as needed for the tourist/guide platform
 };
 
