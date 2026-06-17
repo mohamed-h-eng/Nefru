@@ -73,8 +73,18 @@
     background-color:var(--color-primary-mute);
     padding:0 10px;
     align-items:center;
-    border:1px solid red;
     justify-content:space-between;
+}
+.page{
+    display:flex;
+    padding:10px 0;
+    gap:8px;
+}
+.pageBtn{
+    height:30px;
+    min-height:auto;
+    border:1px solid var(--color-secondary);
+    font-weight:400;
 }
 /* event item */
 .itemContainer{
