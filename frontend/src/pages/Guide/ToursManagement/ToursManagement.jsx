@@ -1,79 +1,160 @@
-import React from 'react'
-import { Button } from '../../../shared/components/Button/Button'
-import TourCard from './components/TourCard'
-import styles from './ToursManagement.module.css'
-import image1 from '../../../assets/images/egypt.png'
+import styles from "./ToursManagement.module.css";
+import { FaLocationDot, FaBell, FaPlus, FaClock, FaPeopleGroup, FaHouse, FaBookmark, FaEnvelope, FaRegCalendarCheck } from "react-icons/fa6";
+import { useMemo, useState } from "react";
 
-function ToursManagement() {
- const tours = [
-    {
-      id: 1,
-      image: image1,
-      title: "Exclusive Sunrise at the Great Pyramids",
-      duration: "4 Hours",
-      maxPeople: 6,
-      price: 120,
-      status: "Active"
-    },
-    {
-      id: 2,
-      image: image1,
-      title: "Luxor Temple Tour",
-      duration: "3 Hours",
-      maxPeople: 10,
-      price: 80,
-      status: "Draft"
-    }
-  ];
+function ToursManagement({ pageData, toursData, onCreateTour, onManageTour }) {
+  const [activeTab, setActiveTab] = useState("All");
+
+  const headerData = pageData || {
+    exploreText: "Explore",
+    title: "Discover Egypt",
+    notificationCount: 1,
+  };
+
+  const tours = toursData || [];
+
+  const tabs = useMemo(() => {
+    const allCount = tours.length;
+    const activeCount = tours.filter((tour) => tour.status === "active").length;
+    const reviewCount = tours.filter((tour) => tour.status === "reviewing").length;
+    const draftCount = tours.filter((tour) => tour.status === "draft").length;
+
+    return [
+      { label: `All (${allCount})`, value: "All" },
+      { label: `Active (${activeCount})`, value: "active" },
+      { label: `Reviewing (${reviewCount})`, value: "reviewing" },
+      { label: `Drafts (${draftCount})`, value: "draft" },
+    ];
+  }, [tours]);
+
+  const visibleTours = tours.filter((tour) => {
+    if (activeTab === "All") return true;
+    return tour.status === activeTab;
+  });
+
+  const getStatusClass = (status) => {
+    if (status === "active") return styles.statusActive;
+    if (status === "draft") return styles.statusDraft;
+    if (status === "reviewing") return styles.statusReviewing;
+    return styles.statusActive;
+  };
 
   return (
-<>
- <nav className={styles.navbartours}>
-     <h6>Explore</h6>
-     <h4>Discover Egypt</h4>
- </nav>
+    <div className={styles.page}>
+      <header className={styles.topHeader}>
+        <div className={styles.topLeft}>
+          <div className={styles.locationIcon}>
+            <FaLocationDot />
+          </div>
 
-<div className={styles.header}>
- 
- <h1>My Tours</h1>
+          <div>
+            <p className={styles.smallText}>{headerData.exploreText}</p>
+            <h1 className={styles.topTitle}>{headerData.title}</h1>
+          </div>
+        </div>
 
-<div className="description">
-<p>Manage your curated experiences and
-track their performance.</p>
-</div>
+        <button type="button" className={styles.roundButton}>
+          <FaBell />
+          {headerData.notificationCount > 0 ? <span className={styles.dot} /> : null}
+        </button>
+      </header>
 
-<button className={styles.createTourButton}
-onClick={()=>console.log("create new tour")}>
-  <span className={styles.plus}>+</span>
-Create New Tour
-</button>
+      <main className={styles.content}>
+        <section className={styles.hero}>
+          <h2 className={styles.heroTitle}>My Tours</h2>
+          <p className={styles.heroText}>
+            Manage your curated experiences and track their performance.
+          </p>
 
-</div>
+          <button type="button" className={styles.createButton} onClick={onCreateTour}>
+            <FaPlus />
+            Create New Tour
+          </button>
+        </section>
 
-<div className='insights'>
-{/*
-<p>{`all(${tours.all}) active(${tours.active}) Reviewing(${tours.all}) Draft(${tours.all})  `}</p>
-*/}
+        <section className={styles.tabs}>
+          {tabs.map((tab) => (
+            <button
+              key={tab.value}
+              type="button"
+              className={`${styles.tabButton} ${activeTab === tab.value ? styles.tabActive : ""}`}
+              onClick={() => setActiveTab(tab.value)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </section>
 
-</div>
+        <section className={styles.cardsList}>
+          {visibleTours.map((tour) => (
+            <article key={tour.id} className={styles.card}>
+              <div className={styles.cardImageWrap}>
+                <img
+                  src={tour.image}
+                  alt={tour.title}
+                  className={styles.cardImage}
+                />
+                <span className={`${styles.badge} ${getStatusClass(tour.status)}`}>
+                  {tour.statusText || tour.status}
+                </span>
+              </div>
 
- <div className="toursContainer">
-        {tours.map((tour) => (
-          <TourCard
-            key={tour.id}
-            image={tour.image}
-            title={tour.title}
-            duration={tour.duration}
-            maxPeople={tour.maxPeople}
-            price={tour.price}
-            status={tour.status}
-            actionText="Manage"
-            onAction={() => console.log(tour.id)}
-          />
-        ))}
-      </div>
-</>
-  )
+              <div className={styles.cardBody}>
+                <h3 className={styles.cardTitle}>{tour.title}</h3>
+
+                <div className={styles.metaRow}>
+                  <span className={styles.metaItem}>
+                    <FaClock />
+                    {tour.duration}
+                  </span>
+                  <span className={styles.metaItem}>
+                    <FaPeopleGroup />
+                    Max {tour.groupSize}
+                  </span>
+                </div>
+
+                <div className={styles.bottomRow}>
+                  <p className={styles.price}>
+                    ${tour.price} <span>/ person</span>
+                  </p>
+
+                  <button
+                    type="button"
+                    className={styles.manageButton}
+                    onClick={() => onManageTour?.(tour)}
+                  >
+                    {tour.actionLabel || "Manage"} →
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </section>
+      </main>
+
+      <footer className={styles.bottomNav}>
+        <button type="button" className={styles.navItem}>
+          <FaHouse />
+          <span>Home</span>
+        </button>
+
+        <button type="button" className={`${styles.navItem} ${styles.navActive}`}>
+          <FaRegCalendarCheck />
+          <span>My Tours</span>
+        </button>
+
+        <button type="button" className={styles.navItem}>
+          <FaBookmark />
+          <span>Saved</span>
+        </button>
+
+        <button type="button" className={styles.navItem}>
+          <FaEnvelope />
+          <span>Inbox</span>
+        </button>
+      </footer>
+    </div>
+  );
 }
 
-export default ToursManagement
+export default ToursManagement;

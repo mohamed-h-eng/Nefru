@@ -1,46 +1,349 @@
-.navbartours {
+.page {
+  min-height: 100vh;
+  background: #fbf9f8;
+  color: #00263b;
+  padding-top: 80px;
+  padding-bottom: 70px;
+}
+
+.topHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  height: 68px;
+  background: #fbf9f8;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 20px;
-  background: #FBF9F8;
-  color: black;
-  border-bottom:1px solid #e7e6e6;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
 }
 
-.navbartours h6 {
-    font-size: 20px;
-    margin: 10px;
-    font-weight: 400;
-    opacity: 0.8;
-    color:rgb(72, 73, 73)
+.topLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.header {
- margin: 15px;
- display: flex;
- flex-direction: column;
- gap: 15px;
-
+.locationIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(0, 61, 91, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #003d5b;
+  font-size: 18px;
 }
-h1{
-  color:#00263B;
+
+.smallText {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
 }
 
-.createTourButton {
-  width: fit-content;
-  padding: 10px 1.5rem;
-  max-width: 200px;
-  background-color: #00263B;
-  color: white;
-  border-radius: 9px;
-  font-size: 16px;
-  font-weight:bold;
+.topTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111618;
+}
+
+.roundButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 18px;
+  color: #111618;
   cursor: pointer;
 }
-.createTourButton .plus {
-  font-size: 20px;
-  font-weight: bold;
-  margin-right: 5px;
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #815600;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.content {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 24px 24px;
+}
+
+.hero {
+  padding: 16px 0 24px;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #00263b;
+}
+
+.heroText {
+  margin: 16px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #41474d;
+}
+
+.createButton {
+  margin-top: 24px;
+  border: none;
+  background: #00263b;
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.tabs {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tabButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #41474d;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tabActive {
+  color: #00263b;
+}
+
+.cardsList {
+  display: grid;
+  gap: 18px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e4e2e1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cardImageWrap {
+  position: relative;
+  height: 192px;
+  background: #f0eded;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+}
+
+.statusActive {
+  background: rgba(0, 38, 59, 0.9);
+  color: #fff;
+}
+
+.statusDraft {
+  background: #e4e2e1;
+  color: #41474d;
+}
+
+.statusReviewing {
+  background: #ffbd57;
+  color: #734c00;
+}
+
+.cardBody {
+  padding: 24px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 700;
+  color: #1b1c1c;
+  font-family: Georgia, serif;
+}
+
+.metaRow {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #41474d;
+}
+
+.bottomRow {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #f0eded;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.price {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: #00263b;
+}
+
+.price span {
+  font-size: 14px;
+  color: #41474d;
+}
+
+.manageButton {
+  border: none;
+  background: transparent;
+  color: #00263b;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bottomNav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58px;
+  background: #fbf9f8;
+  box-shadow: 0 -4px 12px rgba(0, 38, 59, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 10px 0;
+  z-index: 30;
+}
+
+.navItem {
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #41474d;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.navItem svg {
+  font-size: 18px;
+}
+
+.navActive {
+  color: #734c00;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-top: 84px;
+  }
+
+  .content {
+    max-width: 920px;
+  }
+
+  .cardsList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bottomNav {
+    max-width: 420px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content {
+    max-width: 1100px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .cardsList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bottomNav {
+    max-width: 390px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 0 16px 16px;
+  }
+
+  .heroTitle {
+    font-size: 40px;
+  }
+
+  .heroText {
+    font-size: 16px;
+  }
 }

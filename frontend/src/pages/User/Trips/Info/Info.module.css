@@ -1,59 +1,426 @@
-.navbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background: #FBF9F8;
-  color: black;
-  border-bottom: 1px solid #e7e6e6;
+.page {
+  min-height: 100vh;
+  background: #fbf9f4;
+  color: #00263b;
+  font-family: Arial, sans-serif;
 }
 
-.backButton {
-  border: none;
-  width: fit-content;
+.header {
+  height: 65px;
+  background: #fff;
+  border-bottom: 1px solid #f1f5f9;
   display: flex;
-  font-size: 40px;
-  color: black;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+  padding-left: 8px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.iconButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  color: #0f172a;
+}
+
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+}
+
+.hero {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.heroImage {
+  width: 100%;
+  height: 256px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.bookingBar {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e4e2dd;
+}
+
+.priceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.priceLine {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #00263b;
+}
+
+.perPerson {
+  font-size: 16px;
+  color: #41474d;
+}
+
+.dateLine {
+  margin: 0;
+  font-size: 12px;
+  text-decoration: underline;
+  color: #00263b;
+}
+
+.reserveButton {
+  border: none;
+  background: #ffbd57;
+  color: #734c00;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 12px 28px;
+  min-width: 124px;
+  height: 44px;
   cursor: pointer;
 }
 
-
-
-
-
-/* gridddddddddddddddd */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; 
-  gap: 12px;                      
-  padding: 16px;
-  max-width: 400px; 
-  border-bottom:1px solid #e7e6e6;              
+.tagsRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 18px;
 }
 
+.mainTag,
+.secondTag {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
 
-.card {
-  background-color: #f3f4f6;     
-  border-radius: 14px;
-  padding: 20px 16px;
+.mainTag {
+  background: #003d5b;
+  color: #7ba8cb;
+}
+
+.secondTag {
+  background: #e4e2dd;
+  color: #41474d;
+}
+
+.titleSection {
+  margin-top: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e4e2dd;
+}
+
+.title {
+  font-size: 32px;
+  line-height: 1.25;
+  margin: 10px 0 12px;
+  font-weight: 600;
+  color: #00263b;
+}
+
+.metaRow {
   display: flex;
-  flex-direction: column;        
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  color: #41474d;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+}
+
+.starIcon {
+  color: #ffbd57;
+}
+
+.metaIcon {
+  color: #41474d;
+}
+
+.boldText {
+  font-weight: 700;
+}
+
+.linkText {
+  text-decoration: underline;
+}
+
+.normalText {
+  color: #41474d;
+}
+
+.section {
+  margin-top: 32px;
+  padding-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: #00263b;
+}
+
+.paragraph {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #41474d;
+  margin: 0 0 16px;
+}
+
+.readMore {
+  border: none;
+  background: transparent;
+  color: #00263b;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.highlightsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.highlightCard {
+  min-height: 128px;
+  background: #f5f3ee;
+  border: 1px solid #e4e2dd;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.highlightIcon {
+  font-size: 20px;
+  color: #00263b;
+}
+
+.highlightText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #1b1c19;
+}
+
+.highlightText strong {
+  font-size: 14px;
+}
+
+.highlightText span {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.guideCard {
+  display: flex;
+  gap: 16px;
+  padding: 0;
+  align-items: flex-start;
+}
+
+.guideAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #ddd;
+}
+
+.guideBody {
+  flex: 1;
+}
+
+.guideName {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #00263b;
+}
+
+.guideMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.guideBadge {
+  background: #e4e2dd;
+  color: #41474d;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.guideRate {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #41474d;
+}
+
+.guideText {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #41474d;
+}
+
+.reviewsHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: 16px;
 }
 
-
-.icon {
-  color: #1a3c5e;             
-  display: flex;
-  align-items: center;
+.seeAll {
+  border: none;
+  background: transparent;
+  color: #00263b;
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
+.reviewsList {
+  display: grid;
+  gap: 16px;
+  margin-top: 8px;
+}
 
-.label {
+.reviewCard {
+  background: #f5f3ee;
+  border: 1px solid #e4e2dd;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.reviewTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reviewAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #ddd;
+}
+
+.reviewName {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: #111827;
-  line-height: 1.4;
+  color: #1b1c19;
+}
+
+.reviewDate {
+  margin: 0;
+  font-size: 12px;
+  color: #41474d;
+}
+
+.reviewStars {
+  display: flex;
+  gap: 4px;
+  color: #ffbd57;
+  margin: 12px 0;
+}
+
+.reviewText {
+  margin: 0;
+  color: #41474d;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 12px 12px 28px;
+  }
+
+  .heroImage {
+    height: 220px;
+  }
+
+  .bookingBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .reserveButton {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+  }
+
+  .highlightsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reviewCard {
+    padding: 18px;
+  }
 }

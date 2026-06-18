@@ -1,133 +1,242 @@
-import styles from "./Info.module.css";
 import { useNavigate } from "react-router-dom";
-import { FiUsers, FiTruck } from 'react-icons/fi';
-import { MdOutlineBreakfastDining, MdOutlineHistoryEdu } from 'react-icons/md';
+import {
+  FaArrowLeft,
+  FaStar,
+  FaLocationDot,
+  FaClock,
+  FaCircleCheck,
+  FaUsers,
+  FaCarSide,
+  FaUtensils,
+  FaUserTie,
+  FaChevronRight,
+} from "react-icons/fa6";
+import { FiShare2, FiBookmark } from "react-icons/fi";
+import styles from "./Info.module.css";
 
-const Info = () => {
+function Info({ tourData }) {
   const navigate = useNavigate();
+  const tour = tourData || {};
 
-  const Features = [
+  const highlights = tour.highlights || [
+    { icon: <FaUsers />, title: "Small Group", text: "(Max 6)" },
+    { icon: <FaCarSide />, title: "Luxury", text: "Transfers" },
+    { icon: <FaUtensils />, title: "Breakfast", text: "Included" },
+    { icon: <FaUserTie />, title: "Expert", text: "Egyptologist" },
+  ];
+
+  const reviews = tour.reviews || [
     {
       id: 1,
-      icon: <FiUsers size={32} />,
-      label: 'Small Group (Max 6)',
+      name: "Eleanor V.",
+      date: "October 2023",
+      text: "Absolutely mesmerizing. Seeing the pyramids at sunrise without the crowds is a must.",
+      avatar: "",
+      rating: 5,
     },
     {
       id: 2,
-      icon: <FiTruck size={32} />,
-      label: 'Luxury Transfers',
-    },
-    {
-      id: 3,
-      icon: <MdOutlineBreakfastDining size={32} />,
-      label: 'Breakfast Included',
-    },
-    {
-      id: 4,
-      icon: <MdOutlineHistoryEdu size={32} />,
-      label: 'Expert Egyptologist',
+      name: "James W.",
+      date: "September 2023",
+      text: "The luxury transfer was smooth, and the breakfast view was incredible.",
+      avatar: "",
+      rating: 5,
     },
   ];
-//hi
+
+  const guide = tour.guide || {
+    name: "Dr. Zahi M.",
+    badge: "PhD Egyptology",
+    rating: "4.9",
+    reviewsCount: "450",
+    about:
+      "A passionate historian and seasoned storyteller. With over 15 years of experience, he brings the ancient world to life.",
+    avatar: "",
+  };
+
   return (
-    <>
-    
-      <nav className={styles.navbar}>
-      <button
-        className={styles.backButton}
-        onClick={() => navigate(-1)}
-      >
-        ←
-      </button>
+    <div className={styles.page}>
+      <header className={styles.header}>
+        <button
+          type="button"
+          className={styles.iconButton}
+          onClick={() => navigate(-1)}
+        >
+          <FaArrowLeft />
+        </button>
 
-      <h4>Tours</h4>
-    </nav>
-    
-    <div className={styles.body}>
-      
-      <div className={styles.infoimage}>
-        <img
-        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dG91cnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
-        alt="Tour"/>  
-      </div>
-      
-     <div className={styles.reserve}>
- 
-      <div className={styles.price}>
-      <p>$189/person</p>
-      <p>24oct-1guest</p>
-      </div>
+        <h1 className={styles.headerTitle}>Tours</h1>
 
-      <button className={styles.reserveButton}>
-        Reserve 
-      </button>
-     </div>
+        <div className={styles.headerActions}>
+          <button type="button" className={styles.iconButton}>
+            <FiShare2 />
+          </button>
+          <button type="button" className={styles.iconButton}>
+            <FiBookmark />
+          </button>
+        </div>
+      </header>
 
-     <h1 className={styles.tourName}>Majestic Pyramids &
-Sphinx Exclusive
-Sunrise Tour</h1>
+      <main className={styles.content}>
+        <section className={styles.hero}>
+          <img
+            src={tour.image || ""}
+            alt={tour.title || "Tour"}
+            className={styles.heroImage}
+          />
+        </section>
 
- <div  className={styles.tourInfo}>
-   <p>4.96(128 reviews) </p>
-    <p>giza, egypt</p>
-    
- </div>
- <p>4 hours</p>
+        <section className={styles.bookingBar}>
+          <div className={styles.priceBox}>
+            <div className={styles.priceLine}>
+              <span className={styles.price}>${tour.price || 185}</span>
+              <span className={styles.perPerson}>/ person</span>
+            </div>
 
- 
-    <h3>About this experience</h3>
-    <p>
-      Experience the awe-inspiring Great Pyramids
-of Giza before the crowds arrive. This
-exclusive sunrise tour offers unparalleled
-access to one of the world's most iconic
-ancient sites, bathed in the soft, golden light of
-dawn.
-    </p>
-    <p>
-     Accompanied by a leading Egyptologist, you'll
-uncover the secrets of the Pharaohs, explore
-the enigmatic Sphinx, and gain a profound
-understanding of the monumental architecture
-that has stood for millennia. This is not just a
-tour; it's a curated journey into the heart of
-ancient civilization, designed for the discerning
-traveler seeking authenticity and depth.
-    </p>
-
-  <h3>Experience Highlights</h3>
-
-
-<div className={styles.grid}>
-
-      {Features.map(function (feature) {
-        return (
-          <div key={feature.id} className={styles.card}>
-
-            <span className={styles.icon}>
-              {feature.icon}
-            </span>
-
-           
-            <p className={styles.label}>
-              {feature.label}
+            <p className={styles.dateLine}>
+              {tour.date || "Oct 24"} - {tour.guests || "1 guest"}
             </p>
-
           </div>
-        );
-      })}
 
+          <button type="button" className={styles.reserveButton}>
+            Reserve
+          </button>
+        </section>
+
+        <section className={styles.tagsRow}>
+          <span className={styles.mainTag}>NEFRU Original</span>
+          <span className={styles.secondTag}>Guided Tour</span>
+        </section>
+
+        <section className={styles.titleSection}>
+          <h2 className={styles.title}>
+            {tour.title || "Majestic Pyramids & Sphinx Exclusive Sunrise Tour"}
+          </h2>
+
+          <div className={styles.metaRow}>
+            <div className={styles.metaItem}>
+              <FaStar className={styles.starIcon} />
+              <span className={styles.boldText}>
+                {tour.rating || "4.96"}
+              </span>
+              <span className={styles.linkText}>
+                ({tour.reviewsCount || "128 reviews"})
+              </span>
+            </div>
+
+            <div className={styles.metaItem}>
+              <FaLocationDot className={styles.metaIcon} />
+              <span className={styles.normalText}>
+                {tour.location || "Giza, Egypt"}
+              </span>
+            </div>
+
+            <div className={styles.metaItem}>
+              <FaClock className={styles.metaIcon} />
+              <span className={styles.normalText}>
+                {tour.duration || "4 Hours"}
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>About this experience</h3>
+          <p className={styles.paragraph}>
+            {tour.description ||
+              "Experience the awe-inspiring Great Pyramids of Giza before the crowds arrive. This exclusive sunrise tour offers unparalleled access to one of the world's most iconic ancient sites."}
+          </p>
+
+          <p className={styles.paragraph}>
+            {tour.longDescription ||
+              "Accompanied by a leading Egyptologist, you'll uncover the secrets of the Pharaohs, explore the enigmatic Sphinx, and gain a deeper understanding of the monumental architecture."}
+          </p>
+
+          <button type="button" className={styles.readMore}>
+            Read full description <FaChevronRight />
+          </button>
+        </section>
+
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>Experience Highlights</h3>
+
+          <div className={styles.highlightsGrid}>
+            {highlights.map((item, index) => (
+              <div key={index} className={styles.highlightCard}>
+                <div className={styles.highlightIcon}>{item.icon}</div>
+                <div className={styles.highlightText}>
+                  <strong>{item.title}</strong>
+                  <span>{item.text}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>Meet your Guide</h3>
+
+          <div className={styles.guideCard}>
+            <img
+              src={guide.avatar || ""}
+              alt={guide.name}
+              className={styles.guideAvatar}
+            />
+
+            <div className={styles.guideBody}>
+              <h4 className={styles.guideName}>{guide.name}</h4>
+
+              <div className={styles.guideMeta}>
+                <span className={styles.guideBadge}>{guide.badge}</span>
+                <span className={styles.guideRate}>
+                  <FaStar className={styles.starIcon} />
+                  {guide.rating} ({guide.reviewsCount} reviews)
+                </span>
+              </div>
+
+              <p className={styles.guideText}>{guide.about}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.reviewsHeader}>
+            <h3 className={styles.sectionTitle}>Guest Reviews</h3>
+            <button type="button" className={styles.seeAll}>
+              See all {tour.reviewsCount || 128}
+            </button>
+          </div>
+
+          <div className={styles.reviewsList}>
+            {reviews.map((review) => (
+              <div key={review.id} className={styles.reviewCard}>
+                <div className={styles.reviewTop}>
+                  <img
+                    src={review.avatar || ""}
+                    alt={review.name}
+                    className={styles.reviewAvatar}
+                  />
+
+                  <div>
+                    <h4 className={styles.reviewName}>{review.name}</h4>
+                    <p className={styles.reviewDate}>{review.date}</p>
+                  </div>
+                </div>
+
+                <div className={styles.reviewStars}>
+                  {Array.from({ length: review.rating || 5 }).map((_, i) => (
+                    <FaStar key={i} />
+                  ))}
+                </div>
+
+                <p className={styles.reviewText}>"{review.text}"</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
-
-    <h3>Meet your Guide</h3>
-  
-
-    </div>
-    
-    </>
-  
-    
   );
-};
+}
 
 export default Info;
