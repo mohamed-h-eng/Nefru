@@ -1,88 +1,120 @@
 import styles from "./Welcome.module.css";
-import travelerImg from "../../../assets/images/traveler.jpg";
-import guider from "../../../assets/images/tour-guide.png";
-
-// import { AiOutlineArrowRight, AiOutlineGoogle, AiFillFacebook } from "react-icons/ai";
-// import { RiTwitterXFill } from "react-icons/ri";
+import travelerImg from "../../../assets/images/auth/traveler.jpg";
+import guideImg from "../../../assets/images/auth/tour-guide.png";
 import Icons from "../../../assets/icons";
 import { useNavigate } from "react-router-dom";
 
-import Logo_Dark from "../../../assets/images/Logo_Dark.png";
-
-import { Button } from "../../../shared/components/Button/Button";
+import LogoDark from "../../../assets/images/Logo_Dark.png";
+import LogoLight from "../../../assets/images/Logo_Light.png";
+import Footer from "../../../shared/Footer/Footer";
 
 const roles = [
   {
     id: 1,
     title: "Traveler",
     role: "tourist",
-    desc: "Discover places and book tours.",
+    desc: "Discover curated trips and book with clear prices.",
+    cta: "Continue as Traveler",
     img: travelerImg,
   },
   {
     id: 2,
     title: "Tour Guide",
     role: "guide",
-    desc: "Create tours and grow your business.",
-    img: guider,
+    desc: "Create tours, manage bookings, and grow your business.",
+    cta: "Continue as Guide",
+    img: guideImg,
   },
 ];
 
 export default function Welcome() {
   const navigate = useNavigate();
-  const handleChooseRole = (x) => {
-    navigate(`/auth/register?role=${x.role}`);
+
+  const handleChooseRole = (role) => {
+    navigate(`/auth/register?role=${role}`);
+  };
+
+  const handleLogin = () => {
+    navigate("/auth/login");
   };
 
   return (
-    <div className={styles.container}>
-      <img src={Logo_Dark} alt="Logo_Dark" className={styles.logo} />
+    <main className={styles.page}>
+      <header className={styles.topBar}>
+        <img src={LogoLight} alt="Nefru" className={styles.topLogo} />
 
-      <h2 className={styles.title}>
-        Choose how you want to explore <span>Egypt</span>
-      </h2>
+        <button className={styles.signInLink} type="button" onClick={handleLogin}>
+          <Icons.User />
+          <span>Sign in</span>
+        </button>
+      </header>
 
-      <div className={styles.cards}>
-        {roles.map((role) => (
-          <div key={role.id} className={styles.card} onClick={() => 
-            handleChooseRole(role)}>
-            <img src={role.img} alt={role.title} className={styles.cardImg} />
+      <section className={styles.mainGrid}>
+        <div className={styles.contentSide}>
+          <img src={LogoDark} alt="Nefru" className={styles.mobileLogo} />
 
-            <div className={styles.cardContent}>
-              <h3>{role.title}</h3>
-              <p>{role.desc}</p>
-              <span className={styles.wrapper}>
-                {/* <NavLink
-                  to="/auth/register"
-                  typeUser={role.title.toLowerCase()}
-                  state={{ typeUser: role.title.toLowerCase() }}
-                  className={styles.getStarted}
-                >
-                  <Icons.ArrowRight className={styles.arrow} />
-                </NavLink> */}
-                  <Icons.ArrowRight className={styles.arrow} />
+          <div className={styles.copyBlock}>
+            <h1 className={styles.title}>Welcome to Nefru</h1>
+            <div className={styles.divider} aria-hidden="true" />
 
-                  {/* <AiOutlineArrowRight className={styles.arrow}/> */}
-              </span>
-            </div>
+            <h2 className={styles.subtitle}>
+              Choose how you want to explore <span>Egypt</span>
+            </h2>
+            <p className={styles.description}>
+              Find trusted local tours, clear prices, and unforgettable Egyptian
+              experiences from verified guides.
+            </p>
           </div>
-        ))}
-      </div>
-      <Button  type="secondary" onClick={() => navigate("/auth/login")}>Login</Button>
 
-      <div className={styles.footer}>
-        <div className={styles.socials}>
-          <a href="#" className={styles.socialIcon}>
-            <Icons.Facebook size={24} />
-          </a>
-          <a href="#" className={styles.socialIcon}>
-            <Icons.Twitter size={22} />
-          </a>
+          <div className={styles.cards} aria-label="Choose account type">
+            {roles.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={styles.roleCard}
+                onClick={() => handleChooseRole(item.role)}
+              >
+                <img src={item.img} alt="" className={styles.cardImg} />
+
+                <div className={styles.cardOverlay} />
+
+                <div className={styles.cardContent}>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+
+                  <span className={styles.cardCta}>
+                    {item.cta}
+                    <Icons.ArrowRight />
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.mobileLoginBlock}>
+            <button className={styles.loginButton} type="button" onClick={handleLogin}>
+              Login
+            </button>
+
+            <div className={styles.mobileSocials} aria-label="Social links">
+              <a href="#" aria-label="Facebook">
+                <Icons.Facebook />
+              </a>
+              <a href="#" aria-label="Twitter X">
+                <Icons.Twitter />
+              </a>
+            </div>
+
+            <p>Unveiling the Timeless Wonders of the Nile.</p>
+          </div>
         </div>
-        <p className={styles.slogan}>
-          Unveiling the Timeless Wonders of the Nile.
-        </p>
-      </div>
-    </div>
+
+        <aside className={styles.heroSide} aria-label="Egypt travel inspiration">
+          <div className={styles.heroImage} />
+        </aside>
+      </section>
+
+      <Footer />
+    </main>
   );
 }
