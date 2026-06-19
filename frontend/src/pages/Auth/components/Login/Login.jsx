@@ -8,6 +8,7 @@ import Icons from "../../../../assets/icons";
 import LogoLight from "../../../../assets/images/Logo_Light.png";
 import styles from "./Login.module.css";
 
+import { apiRequest } from "../../../../../services/api";
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -15,7 +16,10 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -24,8 +28,38 @@ function Login() {
       return;
     }
 
-    // Auth API integration will be connected later.
-    navigate("/user/home");
+    try {
+      setIsLoading(true);
+
+      const response = await apiRequest("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      const role = response.data.user.role;
+
+      if (role === "admin") {
+        navigate("/admin/overview");
+        return;
+      }
+
+      if (role === "guide") {
+        navigate("/user/home");
+        return;
+      }
+
+      navigate("/user/home");
+    } catch (error) {
+      setError(error.message || "Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -96,8 +130,8 @@ function Login() {
 
               {error && <p className={styles.errorMsg}>{error}</p>}
 
-              <Button type="primary" onClick={handleLogin}>
-                Log in
+              <Button type="primary" htmlType="submit" disabled={isLoading}>
+                {isLoading ? "Logging in..." : "Log in"}
               </Button>
             </form>
 

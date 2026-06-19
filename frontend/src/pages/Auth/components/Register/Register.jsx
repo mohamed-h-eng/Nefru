@@ -8,10 +8,14 @@ import { Button } from "../../../../shared/components/Button/Button";
 import Footer from "../../../../shared/Footer/Footer";
 import styles from "./Register.module.css";
 
+import { apiRequest } from "../../../../../services/api";
 export default function Register() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
+
   const [agreed, setAgreed] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -40,18 +44,39 @@ export default function Register() {
     if (file) setUploadedFile(file);
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError("");
 
     const newErrors = {};
 
-    // Later, when backend file upload is ready, enable this validation again.
-    // if (!uploadedFile) {
-    //   newErrors.document = "Please upload your ID or Passport.";
-    // }
+    if (!fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    }
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+
+    if (password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    }
+
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    if (!selectedFile) {
+      newErrors.document = "Document is required";
+    }
 
     if (!agreed) {
-      newErrors.terms = "You must agree to the terms to continue.";
+      newErrors.terms = "You must agree to the terms";
     }
 
     setErrors(newErrors);
@@ -60,11 +85,33 @@ export default function Register() {
       return;
     }
 
-    // Later this will call POST /api/auth/register with the selected role.
-    if (role === "guide") {
-      navigate("/auth/application-received");
-    } else {
-      navigate("/auth/login");
+    try {
+      setIsLoading(true);
+
+      const response = await apiRequest("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          fullName,
+          email,
+          password,
+          confirmPassword,
+          role,
+        }),
+      });
+
+      if (role === "guide") {
+        navigate("/auth/application-received");
+        return;
+      }
+
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      navigate("/user/home");
+    } catch (error) {
+      setApiError(error.message || "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -98,9 +145,8 @@ export default function Register() {
               <div className={styles.roleToggle} aria-label="Choose account type">
                 <button
                   type="button"
-                  className={`${styles.roleOption} ${
-                    role === "tourist" ? styles.roleOptionActive : ""
-                  }`}
+                  className={`${styles.roleOption} ${role === "tourist" ? styles.roleOptionActive : ""
+                    }`}
                   onClick={() => setRole("tourist")}
                   aria-pressed={role === "tourist"}
                 >
@@ -110,9 +156,8 @@ export default function Register() {
 
                 <button
                   type="button"
-                  className={`${styles.roleOption} ${
-                    role === "guide" ? styles.roleOptionActive : ""
-                  }`}
+                  className={`${styles.roleOption} ${role === "guide" ? styles.roleOptionActive : ""
+                    }`}
                   onClick={() => setRole("guide")}
                   aria-pressed={role === "guide"}
                 >
@@ -164,9 +209,8 @@ export default function Register() {
               <label className={styles.label}>Document Verification</label>
               <div className={styles.field}>
                 <div
-                  className={`${styles.uploadZone} ${
-                    isDragging ? styles.uploadZoneDragging : ""
-                  } ${errors.document ? styles.uploadZoneError : ""}`}
+                  className={`${styles.uploadZone} ${isDragging ? styles.uploadZoneDragging : ""
+                    } ${errors.document ? styles.uploadZoneError : ""}`}
                   role="button"
                   tabIndex={0}
                   aria-label="Upload ID or Passport"
@@ -233,8 +277,9 @@ export default function Register() {
               )}
 
               <div>
-                <Button type="primary" onClick={handleSubmit}>
-                  Create Account
+                {apiError && <p className={styles.errorMsg}>{apiError}</p>}
+                <Button type="primary" htmlType="submit" disabled={isLoading}>
+                  {isLoading ? "Creating account..." : "Create Account"}
                 </Button>
 
                 <p className={styles.loginRow}>

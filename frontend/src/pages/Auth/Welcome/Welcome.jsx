@@ -43,9 +43,9 @@ export default function Welcome() {
       <header className={styles.topBar}>
         <img src={LogoLight} alt="Nefru" className={styles.topLogo} />
 
-        <button className={styles.signInLink} type="button" onClick={handleLogin}>
+        <button className={styles.loginLink} type="button" onClick={handleLogin}>
           <Icons.User />
-          <span>Sign in</span>
+          <span>Login</span>
         </button>
       </header>
 
@@ -89,6 +89,14 @@ export default function Welcome() {
                 </div>
               </button>
             ))}
+          </div>
+
+          <div className={styles.alreadyHaveAccount}>
+            <p>Already have an account?</p>
+            <button className={styles.loginLink} type="button" onClick={handleLogin}>
+              <Icons.User />
+              <span>Login</span>
+            </button>
           </div>
 
           <div className={styles.mobileLoginBlock}>

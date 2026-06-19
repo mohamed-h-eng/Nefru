@@ -57,7 +57,7 @@
   opacity: 0.96;
 }
 
-.signInLink {
+.loginLink {
   border: 0;
   background: transparent;
   color: var(--color-primary-dark);
@@ -71,7 +71,7 @@
   position: relative;
 }
 
-.signInLink::after {
+.loginLink::after {
   content: "";
   position: absolute;
   left: 28px;
@@ -81,8 +81,18 @@
   background: var(--color-secondary);
 }
 
-.signInLink svg {
+.loginLink svg {
   font-size: 22px;
+}
+
+.alreadyHaveAccount {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
 }
 
 .mainGrid {

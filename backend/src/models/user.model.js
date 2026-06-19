@@ -5,7 +5,7 @@ const USER_ROLES = ["tourist", "guide", "admin"];
 const REGISTER_ROLES = ["tourist", "guide"];
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    fullName: {
       type: String,
       required: true,
       trim: true,
