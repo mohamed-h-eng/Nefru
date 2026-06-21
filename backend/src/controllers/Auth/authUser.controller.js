@@ -1,7 +1,7 @@
-import { User, USER_ROLES, REGISTER_ROLES} from "../../models/user.model.js";
+import { User, USER_ROLES, REGISTER_ROLES } from "../../models/user.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 import crypto from "crypto";
-
+import {env} from "../../config/env.js";
 export const registerUser = async (req, res, next) => {
   try {
     const { fullName, email, password, role } = req.body;
@@ -129,13 +129,20 @@ export const forgotPassword = async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
+    if (env.nodeEnv === "development") {
+      return res.status(200).json({
+        success: true,
+        message: "If this email exists, a reset token has been generated",
+        resetToken,
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "If this email exists, a reset token has been generated",
-
-      // Temporary only until we add email service
-      resetToken,
     });
+
+    console.log("NODE_ENV:", env.nodeEnv);
   } catch (error) {
     next(error);
   }
