@@ -1,5 +1,5 @@
 import styles from './Accounts.module.css'
-import Table from '../Table/Table'
+import Table,{AccountItem} from '../Table/Table'
 import {Button }from '../../../../shared/components/Button/Button'
 import {Input }from '../../../../shared/components/Inputs/Inputs'
 import {useState} from 'react'
@@ -7,13 +7,17 @@ import Icons from '../../.././../assets/icons'
 
 export default function Accounts(){
     const users = [
-        { id: 1, tour: "Cairo Tour", bookings: 245, revenue: 12500, convRate: "8.4", rating: 4.8, status: "Active" },
-        { id: 2, tour: "Luxor Escape", bookings: 189, revenue: 9800, convRate: "7.2", rating: 4.7, status: "Active" },
-        { id: 3, tour: "Nile Cruise", bookings: 320, revenue: 18200, convRate: "10.1", rating: 4.9, status: "Popular" },
-        { id: 4, tour: "Desert Safari", bookings: 98, revenue: 4300, convRate: "5.8", rating: 4.5, status: "Inactive" },
-        { id: 5, tour: "Alex Day Trip", bookings: 156, revenue: 7600, convRate: "6.9", rating: 4.6, status: "Active" },
-        { id: 6, tour: "Siwa Adventure", bookings: 87, revenue: 5100, convRate: "4.9", rating: 4.4, status: "Draft" }
-    ]
+        { name: "Ahmed Hassan", email: "ahmed.hassan@example.com", role: "admin", status: "active", joined: "2023-01-15" },
+        { name: "Sara Mohamed", email: "sara.mohamed@example.com", role: "tourist", status: "pending", joined: "2023-03-22" },
+        { name: "Omar Ali", email: "omar.ali@example.com", role: "guide", status: "active", joined: "2023-05-10" },
+        { name: "Mona Ibrahim", email: "mona.ibrahim@example.com", role: "tourist", status: "suspended", joined: "2023-07-18" },
+        { name: "Youssef Khaled", email: "youssef.khaled@example.com", role: "admin", status: "active", joined: "2023-09-05" },
+        { name: "Nour Abdelrahman", email: "nour.abdelrahman@example.com", role: "guide", status: "pending", joined: "2023-11-12" },
+        { name: "Karim Mostafa", email: "karim.mostafa@example.com", role: "tourist", status: "active", joined: "2024-02-08" },
+        { name: "Laila Samir", email: "laila.samir@example.com", role: "guide", status: "active", joined: "2024-04-25" },
+        { name: "Hassan Adel", email: "hassan.adel@example.com", role: "admin", status: "suspended", joined: "2024-06-14" },
+        { name: "Fatma Tarek", email: "fatma.tarek@example.com", role: "tourist", status: "pending", joined: "2024-08-30" }
+        ]
     const [activeTab,setActiveTab] = useState("Tourists")
     const tabs = [
         {label:"Tourists"},
@@ -41,7 +45,10 @@ export default function Accounts(){
                         }
                     </div>
                     <div className={styles.info}>
-                        <Table data={users} headers={['#','Tour',"BOOKINGS","REVENUE","CONVERSION RATE","RATING","STATUS"]}/>
+                        <Table 
+                            data={users}
+                            headers={["NAME","EMAIL","ROLE","STATUS","JOINED"]}
+                            item={AccountItem}/>
                         <div className={styles.edit}>
                             <div className={styles.section_1}>
                                 <Icons.User/>
