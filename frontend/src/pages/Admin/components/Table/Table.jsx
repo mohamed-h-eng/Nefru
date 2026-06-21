@@ -7,82 +7,91 @@ import Icons from '../../../../assets/icons'
 import Input from '../../../../shared/components/inputs/Inputs'
 import {Button }from '../../../../shared/components/Button/Button'
 import {useState} from 'react'
+import {status, roles} from '../../../../assets/variables'
 
-export default function Table({title="", headers=[], data=[]}){
-    const [active,setActive] = useState()
+export default function Table({title="", headers=[], data="", item=""}){
+    const Item = item;
     return(
         <>
-            <div className={styles.container}>
-                {
-                    title? <div className={styles.header}>
-                                <p>{title}</p>
-                            </div> :<></>
-                }
-                <div className={styles.body}>
-                    <div className={styles.tableHead}
-                        style={{borderRadius:title?"0px":"10px"}}>
-                        {headers.map((item,index)=>(
-                            <p className={styles.item} key={index}>{item}</p>
-                        ))}
-                    </div>
-                    <div className={styles.tableBody}>
-                        {data.map((item,index)=>(
-                            <TableItem 
-                                id={item.id}
-                                tour={item.tour}
-                                bookings={item.bookings}
-                                revenue={item.revenue}
-                                convRate={item.convRate}
-                                rating={item.rating}
-                                status={item.status} key={index} />
-                        ))}
-                    </div>
-                    <div className={styles.footer}>
-                        <div className="t">
-                            <p>total records: 202</p>
-                        </div>
-                        <div className={styles.page}>
-                            <Button className={styles.pageBtn} ><Icons.chevronLeft/></Button>
-                            <Button className={styles.pageBtn} type="secondary">1</Button>
-                            <Button className={styles.pageBtn} type="normal">2</Button>
-                            <Button className={styles.pageBtn} type="normal">3</Button>
-                            <Button className={styles.pageBtn} ><Icons.chevronRight/></Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className={styles.container}>
+          <table className={styles.table}>
+            <thead className={styles.tableHead}>
+              <tr>
+                {headers.map((item,index)=>(
+                  <th className={styles.tableHeadItem} key={index}>{item}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item,index)=>(
+                <Item key={index} data={item} style={{cursor:"pointer"}} />
+              ))}
+            </tbody>
+          </table>
+        </div>
         </>
     )
 }
 
-function TableItem({ id, tour, bookings, revenue, convRate, rating, status }) {
-  const states = [{ Active: "var(--color" }];
+export function TourItem({ data }) {
   return (
-    <>
-      <div className={styles.itemContainer}>
-        <p className={`${styles.item}`}>{id}</p>
-        <p className={styles.item}>{tour}</p>
-        <p className={styles.item}>{bookings}</p>
-        <p className={styles.item}>${revenue}</p>
-        <p className={styles.item}>{convRate}%</p>
-        <div className={`${styles.item} ${styles.rate}`}>
-          <p>
+    <tr className={styles.item} onClick={()=>console.log("hgere")}>
+
+        <td>{data.id}</td>
+        <td >{data.tour}</td>
+        <td >{data.bookings}</td>
+        <td >${data.revenue}</td>
+        <td >{data.convRate}%</td>
+        <td>
+          <div className={styles.rate}>
             <Icons.star />
-          </p>{" "}
-          <p>{rating}</p>
-        </div>
-        <div className={styles.item}>
-          <p
-            className={styles.status}
+          {" "}{data.rating}</div>
+        </td>
+        <td >
+          <div className={styles.status}
             style={{
-              color: "var(--color-active)",
-              backgroundColor: "var(--color-active-mute)",
+              backgroundColor: status[data.status].back,
+              color:status[data.status].text,
+              border:`1px solid ${status[data.status].text}`
             }}
           >
-            {status}
-          </p>
-        </div>
-      </div>
-    </>
+            {data.status}
+          </div>
+        </td>
+    </tr>
+  );
+}
+
+export function AccountItem({ data }) {
+  return (
+    <tr className={styles.item}>
+        <td ><div className={styles.avatar}>
+            <Icons.User/>
+            {data.name}
+            </div></td>
+        <td >{data.email}</td>
+        <td >
+          <div className={styles.role}
+          style={{
+              backgroundColor: roles[data.role].back,
+              color:roles[data.role].text,
+              border:`1px solid ${roles[data.role].text}`
+            }}
+            >{data.role}
+            </div>
+        </td>
+        <td >
+          <div className={styles.status}
+            style={{
+              backgroundColor: status[data.status].back,
+              color:status[data.status].text,
+              border:`1px solid ${status[data.status].text}`
+            }}
+          >
+            {data.status}
+          </div>
+        </td>
+        <td>{data.joined}</td>
+    </tr>
   );
 }
