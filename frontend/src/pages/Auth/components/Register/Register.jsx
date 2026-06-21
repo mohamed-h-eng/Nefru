@@ -8,15 +8,44 @@ import { Button } from "../../../../shared/components/Button/Button";
 import Footer from "../../../../shared/Footer/Footer";
 import styles from "./Register.module.css";
 
-import { apiRequest } from "../../../../../services/api";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../../../store/slices/authSlice";
+import { apiRequest } from "../../../../services/api";
+
+const REGISTER_VALIDATION_SCHEMA = Yup.object({
+  fullName: Yup.string()
+    .trim()
+    .min(3, "Full name must be at least 3 characters.")
+    .required("Full name is required."),
+
+  email: Yup.string()
+    .email("Please enter a valid email address.")
+    .required("Email is required."),
+
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters.")
+    .required("Password is required."),
+
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords do not match.")
+    .required("Confirm password is required."),
+
+  document: Yup.mixed().required("Verification document is required."),
+
+  terms: Yup.boolean()
+    .oneOf([true], "You must agree to the terms.")
+    .required("You must agree to the terms."),
+});
+
 export default function Register() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const [apiError, setApiError] = useState("");
 
-  const [agreed, setAgreed] = useState(false);
   const fileInputRef = useRef(null);
 
   const [searchParams] = useSearchParams();
@@ -36,84 +65,71 @@ export default function Register() {
     setIsDragging(false);
 
     const file = e.dataTransfer.files[0];
-    if (file) setUploadedFile(file);
+
+    if (!file) return;
+
+    setUploadedFile(file);
+    formik.setFieldValue("document", file);
+    formik.setFieldTouched("document", true);
   };
 
   const handleFileInput = (e) => {
     const file = e.target.files[0];
-    if (file) setUploadedFile(file);
+
+    if (!file) return;
+
+    setUploadedFile(file);
+    formik.setFieldValue("document", file);
+    formik.setFieldTouched("document", true);
   };
 
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      document: null,
+      terms: false,
+    },
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setApiError("");
+    validationSchema: REGISTER_VALIDATION_SCHEMA,
 
-    const newErrors = {};
+    onSubmit: async (values, { setSubmitting }) => {
+      setApiError("");
 
-    if (!fullName.trim()) {
-      newErrors.fullName = "Full name is required";
-    }
+      try {
+        const response = await apiRequest("/auth/register", {
+          method: "POST",
+          body: JSON.stringify({
+            fullName: values.fullName,
+            email: values.email,
+            password: values.password,
+            confirmPassword: values.confirmPassword,
+            role,
+          }),
+        });
 
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-    }
+        if (role === "guide") {
+          navigate("/auth/application-received");
+          return;
+        }
 
-    if (!password) {
-      newErrors.password = "Password is required";
-    }
+        dispatch(
+          loginSuccess({
+            token: response.token,
+            user: response.data.user,
+          }),
+        );
 
-    if (password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
-    }
-
-    if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    if (!selectedFile) {
-      newErrors.document = "Document is required";
-    }
-
-    if (!agreed) {
-      newErrors.terms = "You must agree to the terms";
-    }
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length > 0) {
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-
-      const response = await apiRequest("/auth/register", {
-        method: "POST",
-        body: JSON.stringify({
-          fullName,
-          email,
-          password,
-          confirmPassword,
-          role,
-        }),
-      });
-
-      if (role === "guide") {
-        navigate("/auth/application-received");
-        return;
+        navigate("/user/home");
+      } catch (error) {
+        setApiError(error.message || "Registration failed. Please try again.");
+      } finally {
+        setSubmitting(false);
       }
-
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      navigate("/user/home");
-    } catch (error) {
-      setApiError(error.message || "Registration failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+  });
 
   return (
     <div className={styles.container}>
@@ -134,19 +150,27 @@ export default function Register() {
           <div className={styles.registerCard}>
             <div className={styles.StepTwoContainer}>
               <div className={styles.content}>
-                <img className={styles.logo} src={Logo_Light} alt="Nefru logo" />
+                <img
+                  className={styles.logo}
+                  src={Logo_Light}
+                  alt="Nefru logo"
+                />
                 <p className={styles.subtitle}>
                   Signing up as a <strong>{roleLabel}</strong>
                 </p>
               </div>
             </div>
 
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.roleToggle} aria-label="Choose account type">
+            <form className={styles.form} onSubmit={formik.handleSubmit}>
+              <div
+                className={styles.roleToggle}
+                aria-label="Choose account type"
+              >
                 <button
                   type="button"
-                  className={`${styles.roleOption} ${role === "tourist" ? styles.roleOptionActive : ""
-                    }`}
+                  className={`${styles.roleOption} ${
+                    role === "tourist" ? styles.roleOptionActive : ""
+                  }`}
                   onClick={() => setRole("tourist")}
                   aria-pressed={role === "tourist"}
                 >
@@ -156,8 +180,9 @@ export default function Register() {
 
                 <button
                   type="button"
-                  className={`${styles.roleOption} ${role === "guide" ? styles.roleOptionActive : ""
-                    }`}
+                  className={`${styles.roleOption} ${
+                    role === "guide" ? styles.roleOptionActive : ""
+                  }`}
                   onClick={() => setRole("guide")}
                   aria-pressed={role === "guide"}
                 >
@@ -172,16 +197,32 @@ export default function Register() {
                   title="Full name"
                   placeholder="Enter your full name"
                   icon={<Icons.User />}
+                  value={formik.values.fullName}
+                  setValue={(value) => formik.setFieldValue("fullName", value)}
+                  onBlur={() => formik.setFieldTouched("fullName", true)}
                 />
+                {formik.touched.fullName && formik.errors.fullName && (
+                  <span className={styles.errorMsg}>
+                    {formik.errors.fullName}
+                  </span>
+                )}
               </div>
 
               <div className={styles.field}>
                 <Input
                   id="email"
+                  name="email"
+                  type="email"
                   title="Email"
                   placeholder="you@email.com"
                   icon={<Icons.Email />}
+                  value={formik.values.email}
+                  setValue={(value) => formik.setFieldValue("email", value)}
+                  onBlur={() => formik.setFieldTouched("email", true)}
                 />
+                {formik.touched.email && formik.errors.email && (
+                  <span className={styles.errorMsg}>{formik.errors.email}</span>
+                )}
               </div>
 
               <div className={styles.field}>
@@ -191,8 +232,15 @@ export default function Register() {
                   type="password"
                   placeholder="Create a password"
                   icon={<Icons.Lock />}
-                  showToggle
+                  value={formik.values.password}
+                  setValue={(value) => formik.setFieldValue("password", value)}
+                  onBlur={() => formik.setFieldTouched("password", true)}
                 />
+                {formik.touched.password && formik.errors.password && (
+                  <span className={styles.errorMsg}>
+                    {formik.errors.password}
+                  </span>
+                )}
               </div>
 
               <div className={styles.field}>
@@ -202,15 +250,27 @@ export default function Register() {
                   type="password"
                   placeholder="Confirm your password"
                   icon={<Icons.Lock />}
-                  showToggle
+                  value={formik.values.confirmPassword}
+                  setValue={(value) =>
+                    formik.setFieldValue("confirmPassword", value)
+                  }
+                  onBlur={() => formik.setFieldTouched("confirmPassword", true)}
                 />
+
+                {formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword && (
+                    <span className={styles.errorMsg}>
+                      {formik.errors.confirmPassword}
+                    </span>
+                  )}
               </div>
 
               <label className={styles.label}>Document Verification</label>
               <div className={styles.field}>
                 <div
-                  className={`${styles.uploadZone} ${isDragging ? styles.uploadZoneDragging : ""
-                    } ${errors.document ? styles.uploadZoneError : ""}`}
+                  className={`${styles.uploadZone} ${
+                    isDragging ? styles.uploadZoneDragging : ""
+                  } ${formik.touched.document && formik.errors.document ? styles.uploadZoneError : ""}`}
                   role="button"
                   tabIndex={0}
                   aria-label="Upload ID or Passport"
@@ -238,16 +298,21 @@ export default function Register() {
                   </div>
                   <div className={styles.uploadText}>
                     <span className={styles.uploadTitle}>
-                      {uploadedFile ? uploadedFile.name : "Upload ID or Passport"}
+                      {uploadedFile
+                        ? uploadedFile.name
+                        : "Upload ID or Passport"}
                     </span>
                     <span className={styles.uploadSub}>
-                      {uploadedFile ? "Click to replace" : "Drag & drop or browse"}
+                      {uploadedFile
+                        ? "Click to replace"
+                        : "Drag & drop or browse"}
                     </span>
                   </div>
                 </div>
-
-                {errors.document && (
-                  <span className={styles.errorMsg}>{errors.document}</span>
+                {formik.touched.document && formik.errors.document && (
+                  <span className={styles.errorMsg}>
+                    {formik.errors.document}
+                  </span>
                 )}
               </div>
 
@@ -256,8 +321,12 @@ export default function Register() {
                   type="checkbox"
                   id="agreeTerms"
                   className={styles.checkbox}
-                  checked={agreed}
-                  onChange={() => setAgreed((prev) => !prev)}
+                  checked={formik.values.terms}
+                  onChange={(e) => {
+                    formik.setFieldValue("terms", e.target.checked);
+                    formik.setFieldTouched("terms", true);
+                  }}
+                  onBlur={() => formik.setFieldTouched("terms", true)}
                 />
                 <label htmlFor="agreeTerms" className={styles.termsText}>
                   I agree to the{" "}
@@ -272,14 +341,20 @@ export default function Register() {
                 </label>
               </div>
 
-              {errors.terms && (
-                <span className={styles.errorMsg}>{errors.terms}</span>
+              {formik.touched.terms && formik.errors.terms && (
+                <span className={styles.errorMsg}>{formik.errors.terms}</span>
               )}
 
               <div>
                 {apiError && <p className={styles.errorMsg}>{apiError}</p>}
-                <Button type="primary" htmlType="submit" disabled={isLoading}>
-                  {isLoading ? "Creating account..." : "Create Account"}
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={formik.isSubmitting}
+                >
+                  {formik.isSubmitting
+                    ? "Creating account..."
+                    : "Create Account"}
                 </Button>
 
                 <p className={styles.loginRow}>

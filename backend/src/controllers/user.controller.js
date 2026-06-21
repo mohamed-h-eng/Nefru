@@ -41,7 +41,7 @@ export const getMe = async (req, res, next) => {
       data: {
         user: {
           id: req.user._id,
-          name: req.user.name,
+          fullName: req.user.fullName,
           email: req.user.email,
           role: req.user.role,
           avatar: req.user.avatar,
@@ -57,11 +57,11 @@ export const getMe = async (req, res, next) => {
 };
 
 export const createUser = asyncHandler(async (req, res) => {
-  const { name, email } = req.body;
+  const { fullName, email } = req.body;
 
-  if (!name || !email) {
+  if (!fullName || !email) {
     res.status(400);
-    throw new Error('name and email are required');
+    throw new Error('Full Name and email are required');
   }
 
   const existingUser = await User.findOne({ email: email.toLowerCase() });
@@ -71,7 +71,7 @@ export const createUser = asyncHandler(async (req, res) => {
     throw new Error('User already exists');
   }
 
-  const user = await User.create({ name, email });
+  const user = await User.create({ fullName, email });
 
   res.status(201).json({
     success: true,

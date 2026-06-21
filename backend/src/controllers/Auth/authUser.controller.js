@@ -4,7 +4,7 @@ import crypto from "crypto";
 
 export const registerUser = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { fullName, email, password, role } = req.body;
 
     if (!REGISTER_ROLES.includes(role)) {
       res.status(400);
@@ -19,7 +19,7 @@ export const registerUser = async (req, res, next) => {
     }
 
     const user = await User.create({
-      name,
+      fullName,
       email,
       password,
       role,
@@ -38,7 +38,7 @@ export const registerUser = async (req, res, next) => {
       data: {
         user: {
           id: user._id,
-          name: user.name,
+          fullName: user.fullName,
           email: user.email,
           role: user.role,
           avatar: user.avatar,
@@ -88,7 +88,7 @@ export const loginUser = async (req, res, next) => {
       data: {
         user: {
           id: user._id,
-          name: user.name,
+          fullName: user.fullName,
           email: user.email,
           role: user.role,
           avatar: user.avatar,
