@@ -1,0 +1,163 @@
+.page {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #00263b;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 73px;
+  background: #fbf9f8;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.content {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 24px 24px 0;
+  flex: 1;
+}
+
+.stepper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 95px;
+}
+
+.line,
+.activeLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20px;
+  height: 2px;
+  background: #e4e2e1;
+}
+
+.activeLine {
+  right: 17%;
+  background: #00263b;
+}
+
+.step {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eae8e7;
+  border: 3px solid #e4e2e1;
+  color: #41474d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.activeStep {
+  background: #00263b;
+  border-color: #00263b;
+  color: #ffffff;
+}
+
+.messageBox {
+  text-align: center;
+}
+
+.messageBox p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: #41474d;
+  font-size: 26px;
+  line-height: 1.8;
+}
+
+.supportButton {
+  margin-top: 70px;
+  border: 0;
+  background: transparent;
+  color: #007efb;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.footer {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 24px;
+  padding-bottom: 42px;
+}
+
+.footer button {
+  width: 100%;
+  height: 56px;
+  border: 0;
+  border-radius: 8px;
+  background: #00263b;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 38, 59, 0.18);
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .content {
+    padding: 24px 16px 0;
+  }
+
+  .stepper {
+    margin-bottom: 90px;
+  }
+
+  .step {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    border-width: 2px;
+  }
+
+  .line,
+  .activeLine {
+    top: 15px;
+  }
+
+  .messageBox p {
+    font-size: 22px;
+    line-height: 1.8;
+  }
+
+  .supportButton {
+    font-size: 20px;
+    margin-top: 64px;
+  }
+
+  .footer {
+    padding: 24px;
+    padding-bottom: 32px;
+  }
+
+  .footer button {
+    height: 44px;
+    font-size: 18px;
+  }
+}

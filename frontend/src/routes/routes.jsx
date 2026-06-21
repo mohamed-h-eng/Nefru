@@ -19,9 +19,18 @@ import Saved from "../pages/User/Saved/Saved";
 import Profile from "../pages/User/Profile/Profile";
 import Settings from "../pages/User/Settings/Settings";
 import ApplicationReceived from "../pages/Auth/components/ApplicationReceived/ApplicationReceived";
+import GuideProfile from "../pages/Guide/GuideProfile/GuideProfile";
 
 //Tourist Discover Page
 import Discover from "../pages/User/Discover/Discover";
+
+
+// Guide Pages
+import ToursManagement from "../pages/Guide/ToursManagement/ToursManagement";
+import CreateTour from "../pages/Guide/CreateTour/CreateTour";
+import Schedule from "../pages/Guide/Schedule/Schedule";
+import TourMedia from "../pages/Guide/TourMedia/TourMedia";
+import TourApprove from "../pages/Guide/TourApprove/TourApprove";
 
 
 import Admin from '../pages/Admin/Admin'
@@ -54,7 +63,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "home", element: <Home /> },
-
+      { path: "guideprofile", element: <GuideProfile /> },
       //Discover Routes
       { path: "discover", element: <Discover /> },
 
@@ -71,6 +80,17 @@ export const router = createBrowserRouter([
       { path: "saved", element: <Saved /> },
       { path: "profile", element: <Profile /> },
       { path: "settings", element: <Settings /> },
+    ],
+  },
+ 
+  {
+    path: "guide",
+    element: <ToursManagement />,
+    children: [
+       { path: "createtour", element: <CreateTour /> },
+       { path: "createtour/schedule", element: <Schedule /> },
+       { path: "createtour/schedule/tourmedia", element: <TourMedia /> },
+       { path: "createtour/schedule/tourmedia/tourapprove", element: <TourApprove /> },
     ],
   },
   {
