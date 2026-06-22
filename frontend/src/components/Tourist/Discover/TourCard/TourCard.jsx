@@ -29,11 +29,11 @@ const TourCard = ({ tour }) => {
                         ${tour.price}
                     </span>
                 </div>
-            </div>
-
             <button className={styles.detailsButton}>
                 Detail<LuChevronRight />
             </button>
+            </div>
+
         </div>
     );
 };
