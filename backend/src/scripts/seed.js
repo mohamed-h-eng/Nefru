@@ -155,6 +155,7 @@ const seedDatabase = async () => {
     await Booking.create({
       trip: cairoTrip._id,
       tourist: tourist._id,
+      guide: guide._id,
       date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       status: "confirmed",
       totalPrice: cairoTrip.price,
