@@ -1,86 +1,183 @@
-// import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
-import Icons from "../../../../assets/icons";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Logo_Light from "../../../../assets/images/Logo_Light.png";
-import styles from "./ResetPassword.module.css";
-// import logo from "../../../assets/img/nefru-logo.png";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { Input } from "../../../../shared/components/inputs/inputs";
 import { Button } from "../../../../shared/components/Button/Button";
+import Footer from "../../../../shared/Footer/Footer";
+import Icons from "../../../../assets/icons";
+import LogoLight from "../../../../assets/images/Logo_Light.png";
+import styles from "./ResetPassword.module.css";
+
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { apiRequest } from "../../../../services/api";
+
+const RESET_PASSWORD_SCHEMA = Yup.object({
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters.")
+    .required("Password is required."),
+
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords do not match.")
+    .required("Confirm password is required."),
+});
 
 export default function ResetPassword() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const token = searchParams.get("token");
 
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [apiError, setApiError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleResetPassword = () => {
-    if (!newPassword || !confirmPassword) {
-      alert("Please fill in both password fields.");
-      return;
-    }
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+    },
 
-    if (newPassword !== confirmPassword) {
-      alert("Passwords don't match. Please try again.");
-      return;
-    }
+    validationSchema: RESET_PASSWORD_SCHEMA,
 
-    navigate("/auth/login");
-  };
+    onSubmit: async (values, { setSubmitting }) => {
+      setApiError("");
+      setSuccessMessage("");
+
+      if (!token) {
+        setApiError("Reset token is missing. Please request a new reset link.");
+        setSubmitting(false);
+        return;
+      }
+
+      try {
+        const response = await apiRequest("/auth/reset-password", {
+          method: "POST",
+          body: JSON.stringify({
+            token,
+            password: values.password,
+            confirmPassword: values.confirmPassword,
+          }),
+        });
+
+        setSuccessMessage(response.message || "Password reset successfully.");
+
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 1200);
+      } catch (error) {
+        setApiError(error.message || "Failed to reset password.");
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
 
   return (
-    <div className={styles.StepTwoContainer}>
-      <div className={styles.content}>
-        <img src={Logo_Light} alt="Logo-light" className={styles.logo} />
-
-        <h1 className={styles.RecoveryTitle}>Password Recovery</h1>
-
-        <p className={styles.RecoveryText}>
-          Don't worry! We'll help you get back in.
-        </p>
-        <div className={styles.successBox}>
-          <Icons.CheckCircle className={styles.successIcon} />
-          <div>
-            <h2 className={styles.successTitle}>Reset link sent!</h2>
-            <p className={styles.successText}>Check your email</p>
+    <main className={styles.container}>
+      <div className={styles.authLayout}>
+        <section className={styles.hero} aria-label="Create new password">
+          <div className={styles.heroOverlay} />
+          <div className={styles.heroContent}>
+            <h1 className={styles.heroTitle}>
+              Set a fresh key for your account
+            </h1>
+            <div className={styles.heroLine} />
+            <p className={styles.heroText}>
+              Choose a strong password so your Nefru account stays safe while
+              you plan and manage your travel experiences.
+            </p>
           </div>
-        </div>
+        </section>
 
-        <div className={styles.formBox}>
-          <Input
-            id="newPassword"
-            title="New password"
-            type="password"
-            placeholder="Enter new password"
-            value={newPassword}
-            setValue={setNewPassword}
-          />
-          <Input
-            id="confirmPassword"
-            title="Confirm password"
-            type="password"
-            placeholder="Confirm new password"
-            value={confirmPassword}
-            setValue={setConfirmPassword}
-          />
+        <section className={styles.formSide}>
+          <div className={styles.authCard}>
+            <div className={styles.headerBlock}>
+              <img src={LogoLight} alt="Nefru logo" className={styles.logo} />
+              <h1 className={styles.title}>Reset Password</h1>
+              <p className={styles.subtitle}>
+                Create a new password to get back into your account.
+              </p>
+            </div>
 
-          <Button type="primary" onClick={handleResetPassword}>
-            Reset Password
-          </Button>
-        </div>
-        <p className={styles.RememberText}>
-          Already have an account?{" "}
-          <span
-            className={styles.loginLink}
-            onClick={() => navigate("/auth/login")}
-          >
-            Log In
-          </span>
-        </p>
+            <form className={styles.form} onSubmit={formik.handleSubmit}>
+              <div className={styles.successBox}>
+                <Icons.CheckCircle className={styles.successIcon} />
+                <div>
+                  <h2 className={styles.successTitle}>Reset link verified</h2>
+                  <p className={styles.successText}>
+                    You can now create a new password.
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.field}>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  title="New Password"
+                  placeholder="Enter new password"
+                  icon={<Icons.Lock />}
+                  value={formik.values.password}
+                  setValue={(value) => formik.setFieldValue("password", value)}
+                  onBlur={() => formik.setFieldTouched("password", true)}
+                />
+
+                {formik.touched.password && formik.errors.password && (
+                  <span className={styles.errorMsg}>
+                    {formik.errors.password}
+                  </span>
+                )}
+              </div>
+
+              <div className={styles.field}>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  title="Confirm Password"
+                  placeholder="Confirm new password"
+                  icon={<Icons.Lock />}
+                  value={formik.values.confirmPassword}
+                  setValue={(value) =>
+                    formik.setFieldValue("confirmPassword", value)
+                  }
+                  onBlur={() => formik.setFieldTouched("confirmPassword", true)}
+                />
+
+                {formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword && (
+                    <span className={styles.errorMsg}>
+                      {formik.errors.confirmPassword}
+                    </span>
+                  )}
+              </div>
+
+              {apiError && <p className={styles.errorMsg}>{apiError}</p>}
+
+              {successMessage && (
+                <p className={styles.successMsg}>{successMessage}</p>
+              )}
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={formik.isSubmitting}
+              >
+                {formik.isSubmitting ? "Resetting..." : "Reset Password"}
+              </Button>
+            </form>
+
+            <p className={styles.loginRow}>
+              Already have an account?{" "}
+              <button type="button" onClick={() => navigate("/auth/login")}>
+                Log In
+              </button>
+            </p>
+          </div>
+        </section>
       </div>
-    </div>
+
+      <Footer />
+    </main>
   );
 }

@@ -20,7 +20,7 @@
 //     // Create New Admin
 
 //     const superAdminData = {
-//       username: "Super Admin",
+//       userfullName: "Super Admin",
 //       email: process.env.EMAIL_ADMIN,
 //       password: process.env.PASSWORD_ADMIN,
 //     };
@@ -80,7 +80,7 @@ const seedDatabase = async () => {
 
     // 2. Create demo users
     const admin = await User.create({
-      name: "Nefru Admin",
+      fullName: "Nefru Admin",
       email: env.emailAdmin,
       password: env.passwordAdmin,
       role: "admin",
@@ -89,7 +89,7 @@ const seedDatabase = async () => {
     });
 
     const tourist = await User.create({
-      name: "Demo Tourist",
+      fullName: "Demo Tourist",
       email: env.emailTourist,
       password: env.passwordTourist,
       role: "tourist",
@@ -99,7 +99,7 @@ const seedDatabase = async () => {
     });
 
     const guide = await User.create({
-      name: "Demo Guide",
+      fullName: "Demo Guide",
       email: env.emailGuide,
       password: env.passwordGuide,
       role: "guide",
@@ -155,6 +155,7 @@ const seedDatabase = async () => {
     await Booking.create({
       trip: cairoTrip._id,
       tourist: tourist._id,
+      guide: guide._id,
       date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       status: "confirmed",
       totalPrice: cairoTrip.price,

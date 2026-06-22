@@ -8,6 +8,11 @@ const bookingSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    guide: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     date: {
       type: Date,
       required: true,

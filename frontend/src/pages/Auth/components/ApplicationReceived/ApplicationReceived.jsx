@@ -1,40 +1,133 @@
 import { useNavigate } from "react-router-dom";
-// import { FaHourglassHalf } from "react-icons/fa";
-import Icons from "../../../../assets/icons";
+import {
+  FiArrowLeft,
+  FiCalendar,
+  FiCheck,
+  FiCheckCircle,
+  FiClock,
+  FiHelpCircle,
+  FiLogIn,
+  FiMail,
+  FiShield,
+} from "react-icons/fi";
+
+import Footer from "../../../../shared/Footer/Footer";
 import styles from "./ApplicationReceived.module.css";
-import Logo_Light from "../../../../assets/images/Logo_Light.png";
-import {Button }from '../../../../shared/components/Button/Button'
+import LogoLight from "../../../../assets/images/Logo_Light.png";
+
+const reviewSteps = [
+  "Our team reviews your documents and guide details.",
+  "You will receive an email once the review is complete.",
+  "If approved, you can log in and start creating tours.",
+];
 
 export default function ApplicationReceived() {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.card}>
-        <img src={Logo_Light} alt="Nefru Logo" className={styles.logo} />
+    <main className={styles.container}>
+      <div className={styles.authLayout}>
+        <section className={styles.hero} aria-label="Nefru guide review status">
+          <div className={styles.heroOverlay} />
+          <div className={styles.heroContent}>
+            <h1 className={styles.heroTitle}>Thank you for joining Nefru</h1>
+            <div className={styles.heroLine} />
+            <p className={styles.heroText}>
+              We verify guide profiles carefully to keep every Nefru experience
+              trusted, safe, and professional.
+            </p>
+          </div>
 
-        <div className={styles.iconWrapper}>
-          <Icons.HourglassHalf className={styles.hourglassIcon} />
-        </div>
+          <div className={styles.trustStrip}>
+            <div className={styles.trustItem}>
+              <FiShield />
+              <span>Verified community</span>
+            </div>
+            <div className={styles.trustItem}>
+              <FiClock />
+              <span>Up to 5 business days</span>
+            </div>
+          </div>
+        </section>
 
-        <h1 className={styles.title}>Application Received!</h1>
-        <p className={styles.subtitle}>Registration as a Tour Guide</p>
+        <section className={styles.formSide}>
 
-        <div className={styles.infoBox}>
-          <p className={styles.infoText}>
-            We have received your documents and license information.
-          </p>
-          <p className={styles.infoText}>
-            Our team is currently verifying your details to ensure the safety
-            and quality of our community. We will contact you shortly to
-            complete any missing information.
-          </p>
-        </div>
+          <div className={styles.card} aria-labelledby="application-title">
+            <img src={LogoLight} alt="Nefru" className={styles.heroLogo} />
+            <div className={styles.successMark} aria-hidden="true">
+              <span className={styles.successRing} />
+              <FiCheck className={styles.successIcon} />
+            </div>
 
-        <Button type="primary" onClick={() => navigate("/auth/login")}>
-          Got it, thank you
-        </Button>
+            <span className={styles.statusBadge}>
+              <FiClock /> Pending review
+            </span>
+
+            <h2 id="application-title" className={styles.title}>
+              Application Received
+            </h2>
+
+            <p className={styles.subtitle}>
+              Your guide application and supporting documents have been submitted
+              successfully and are now under review.
+            </p>
+
+            <div className={styles.reviewCard}>
+              <div className={styles.reviewIcon} aria-hidden="true">
+                <FiCalendar />
+              </div>
+
+              <div className={styles.reviewContent}>
+                <h3>What happens next?</h3>
+                <ul className={styles.stepList}>
+                  {reviewSteps.map((step) => (
+                    <li key={step}>
+                      <FiCheckCircle />
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className={styles.noteBox}>
+              <FiMail />
+              <p>
+                Keep an eye on your email. We may contact you if we need extra
+                information.
+              </p>
+            </div>
+
+            <div className={styles.actions}>
+              <button
+                type="button"
+                className={styles.secondaryButton}
+                onClick={() => navigate("/")}
+              >
+                <FiArrowLeft />
+                Back Home
+              </button>
+
+              <button
+                type="button"
+                className={styles.primaryButton}
+                onClick={() => navigate("/auth/login")}
+              >
+                <FiLogIn />
+                Log in
+              </button>
+            </div>
+
+            <p className={styles.helpText}>
+              <FiHelpCircle />
+              Questions? Visit our <button type="button">Help Center</button> or
+              contact <a href="mailto:support@nefru.com">support@nefru.com</a>
+            </p>
+          </div>
+        </section>
       </div>
-    </div>
+
+      <Footer />
+    </main>
   );
 }
