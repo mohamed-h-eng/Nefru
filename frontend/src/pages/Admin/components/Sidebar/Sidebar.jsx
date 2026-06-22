@@ -11,7 +11,8 @@ import { LuUsers } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 
 import {Button} from '../../../../shared/components/Button/Button'
-
+import {useNavigate} from 'react-router-dom'
+import {useState} from 'react'
 export default function SideBar() {
   const Pages = [
     {label:"Overview",icon:""},
@@ -20,10 +21,19 @@ export default function SideBar() {
     {label:"Analytics",icon:""},
     {label:"Booking",icon:""},
   ]
+  const [active, setActive] = useState("Overview")
+  const navigate = useNavigate()
+  function handleSelect(page=""){
+    navigate(page.toLowerCase())
+    setActive(page)
+  }
   return (
     <div className={styles.sidebar}>
       {Pages.map((page,index)=>(
-        <Button type="normal" key={index}>
+        <Button 
+          type={active === page.label? "primary":"normal"} 
+          key={index} 
+          onClick={()=>handleSelect(page.label)}>
           <LuLayoutDashboard />
           {page.label}
         </Button>
