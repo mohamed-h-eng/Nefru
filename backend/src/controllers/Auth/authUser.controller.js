@@ -1,10 +1,10 @@
-import { User, USER_ROLES, REGISTER_ROLES} from "../../models/user.model.js";
+import { User, USER_ROLES, REGISTER_ROLES } from "../../models/user.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 import crypto from "crypto";
-
+import {env} from "../../config/env.js";
 export const registerUser = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { fullName, email, password, role } = req.body;
 
     if (!REGISTER_ROLES.includes(role)) {
       res.status(400);
@@ -19,7 +19,7 @@ export const registerUser = async (req, res, next) => {
     }
 
     const user = await User.create({
-      name,
+      fullName,
       email,
       password,
       role,
@@ -38,7 +38,7 @@ export const registerUser = async (req, res, next) => {
       data: {
         user: {
           id: user._id,
-          name: user.name,
+          fullName: user.fullName,
           email: user.email,
           role: user.role,
           avatar: user.avatar,
@@ -88,7 +88,7 @@ export const loginUser = async (req, res, next) => {
       data: {
         user: {
           id: user._id,
-          name: user.name,
+          fullName: user.fullName,
           email: user.email,
           role: user.role,
           avatar: user.avatar,
@@ -129,13 +129,20 @@ export const forgotPassword = async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
+    if (env.nodeEnv === "development") {
+      return res.status(200).json({
+        success: true,
+        message: "If this email exists, a reset token has been generated",
+        resetToken,
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "If this email exists, a reset token has been generated",
-
-      // Temporary only until we add email service
-      resetToken,
     });
+
+    console.log("NODE_ENV:", env.nodeEnv);
   } catch (error) {
     next(error);
   }

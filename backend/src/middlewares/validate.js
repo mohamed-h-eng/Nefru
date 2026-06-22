@@ -1,3 +1,4 @@
+import {env} from "../config/env.js";
 export const validate = (schema) => {
   return (req, res, next) => {
     const { error, value } = schema.validate(req.body, {
@@ -6,7 +7,7 @@ export const validate = (schema) => {
     });
 
     if (error) {
-      if (process.env.NODE_ENV === "development") {
+      if (env.nodeEnv === "development") {
         console.log(error.details);
       }
 

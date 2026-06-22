@@ -5,7 +5,7 @@ import { FaRegHeart } from "react-icons/fa";
 
 import styles from './Cards.module.css'
 
-import image from '../../../assets/images/traveler.jpg'
+import image from '../../../assets/images/auth/traveler.jpg'
 
 function Card({placeholder, options, setValue}) {
     return (

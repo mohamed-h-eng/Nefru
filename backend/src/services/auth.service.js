@@ -13,7 +13,7 @@ export async function loginAdminService({ email, password }) {
   return {
     admin: {
       id: admin._id,
-      name: admin.name,
+      fullName: admin.fullName,
       email: admin.email,
       role: "admin",
     },
