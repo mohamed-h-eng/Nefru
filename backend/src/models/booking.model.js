@@ -13,7 +13,7 @@ const bookingSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    date: {
+    Time_Slot: {
       type: Date,
       required: true,
       enum: ["Morning", "Afternoon", "Event"],
@@ -22,6 +22,11 @@ const bookingSchema = new mongoose.Schema(
       type: String,
       enum: ["pending", "confirmed", "cancelled"],
       default: "pending",
+    },
+    countPerson: {
+      type: Number,
+      required: true,
+      default: 1,
     },
     totalPrice: { type: Number, required: true },
   },
