@@ -37,7 +37,13 @@ import CMS from "../pages/Admin/components/CMS/CMS";
 import Analytics from "../pages/Admin/components/Analytics/Analytics";
 import Booking from "../pages/Admin/components/Booking/Booking";
 
-
+// Guide Pages
+import ToursManagement from "../pages/Guide/ToursManagement/ToursManagement";
+import CreateTour from "../pages/Guide/CreateTour/CreateTour";
+import Schedule from "../pages/Guide/Schedule/Schedule";
+import TourMedia from "../pages/Guide/TourMedia/TourMedia";
+import TourApprove from "../pages/Guide/TourApprove/TourApprove";
+import GuideProfile from "../pages/Guide/GuideProfile/GuideProfile";
 
 
 export const router = createBrowserRouter([
