@@ -7,6 +7,7 @@
 
   background-size: cover;
   background-position: center;
+  min-height: 90vh;
 
   display: flex;
   justify-content: center;
@@ -47,6 +48,9 @@
 
   margin-top: 120px;
   color: #020202;
+}
+.content h1 {
+  font-size: 6rem;
 }
 
 .badge {
@@ -134,4 +138,105 @@
   font-weight: 600;
 
   cursor: pointer;
+}
+
+
+.searchWrapper {
+  display: flex;
+
+  max-width: 700px;
+
+  margin: 40px auto 20px;
+
+  background: white;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,.12);
+}
+
+.searchWrapper input {
+  flex: 1;
+
+  border: none;
+  outline: none;
+
+  padding: 20px;
+}
+
+.searchWrapper button {
+  width: 160px;
+
+  border: none;
+
+  background: #111;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.quickLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+.quickLinks span {
+  color: white;
+  opacity: .8;
+}
+
+.quickLinks button {
+  border: none;
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.15);
+
+  color: white;
+
+  cursor: pointer;
+}
+
+
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  margin-top: 24px;
+}
+
+.categories button {
+  border: none;
+
+  padding: 12px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.15);
+
+  backdrop-filter: blur(10px);
+
+  color: rgb(3, 3, 3);
+
+  font-weight: 900;
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.categories button:hover {
+  background: rgba(255,255,255,.25);
 }

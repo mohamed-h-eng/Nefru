@@ -2,7 +2,7 @@ import styles from "./HeroSection.module.css";
 
 function HeroSection() {
   return (
-    <section className={styles.hero}>
+    <section id="Home" className={styles.hero}>
       <div className={styles.overlay} />
 
       <div className={styles.content}>
@@ -20,8 +20,8 @@ function HeroSection() {
           Curated journeys through the cradle of civilization,
           where ancient wonders meet modern elegance.
         </p>
-{/* 
-        <div className={styles.searchCard}>
+
+        {/* <div className={styles.searchCard}>
           <div className={styles.field}>
             <label>Destination</label>
             <input
@@ -41,6 +41,28 @@ function HeroSection() {
             Search Experiences
           </button>
         </div> */}
+
+
+          <div className={styles.searchWrapper}>
+            <input
+              type="text"
+              placeholder="Search experiences, destinations or guides..."
+            />
+
+            <button>
+              Search
+            </button>
+          </div>
+
+          <div className={styles.categories}>
+            <button>🏛 Historical</button>
+            <button>🍽 Food</button>
+            <button>🏜 Desert</button>
+            <button>🚢 Nile Cruises</button>
+            <button>🎭 Cultural</button>
+            <button>🏕 Adventure</button>
+          </div>
+
       </div>
     </section>
   );
