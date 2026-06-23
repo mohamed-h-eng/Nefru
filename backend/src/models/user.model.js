@@ -30,6 +30,28 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    phoneNumber: {
+      type: String,
+      default: "",
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      default: "other",
+    },
+    Nationality: {
+      type: String,
+      default: "",
+    },
+    DoB: {
+      type: Date,
+      default: null,
+    },
+    paymentMethods: {
+      type: [String],
+      default: [],
+    },
+    
 
     // Future document verification
     // We are not uploading files now.
