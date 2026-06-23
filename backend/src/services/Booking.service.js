@@ -1,6 +1,7 @@
-import { Booking } from "../models/booking.model";
-import { AppError } from "../utils/AppError";
-import { asyncHandler } from "../utils/asyncHandler";
+import { Booking } from "../models/booking.model.js";
+import { Guide } from "../models/guide.model.js";
+import { AppError } from "../utils/AppError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const CreateBooking = asyncHandler(async (req, res, next) => {
   const user = req.user.id;
@@ -9,6 +10,10 @@ export const CreateBooking = asyncHandler(async (req, res, next) => {
     return next(new AppError("Tour Id Not Found", 404));
   }
 
-  const trip = await tri
+  const trip = await Guide.find(tourId);
+  console.log(trip);
+});
 
+export const getAllBooking = asyncHandler(async (req, res, next) => {
+  
 });
