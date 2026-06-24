@@ -94,7 +94,7 @@ export default function ResetPassword() {
             <div className={styles.headerBlock}>
               <img src={LogoLight} alt="Nefru logo" className={styles.logo} />
               <h1 className={styles.title}>Reset Password</h1>
-              <p className={styles.subtitle}>
+              <p className={`${styles.subtitle} fs-5`}>
                 Create a new password to get back into your account.
               </p>
             </div>

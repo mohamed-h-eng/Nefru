@@ -67,7 +67,7 @@ export default function ApplicationReceived() {
               Application Received
             </h2>
 
-            <p className={styles.subtitle}>
+            <p className={`${styles.subtitle} fs-5`}>
               Your guide application and supporting documents have been submitted
               successfully and are now under review.
             </p>

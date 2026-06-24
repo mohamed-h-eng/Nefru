@@ -1,14 +1,8 @@
-import Style from "./Profile.module.css";
-import {Link} from 'react-router-dom'
+import useIsMobile from "../../../hooks/useIsMobile";
+import DesktopProfile from "./Desktop/DesktopProfile";
+import MobileProfile from "./Mobile/MobileProfile";
 
-function Profile(){
-    return(<>
-    <p>Profile</p>
-    <Link to="/user/home">home</Link>
-    <Link to="/user/trips">trips</Link>
-    <Link to="/user/saved">saved</Link>
-    <Link to="/user/profile">profile</Link>
-    </>)
+export default function Profile() {
+  const isMobile = useIsMobile(992);
+  return isMobile ? <MobileProfile /> : <DesktopProfile />;
 }
-
-export default Profile;

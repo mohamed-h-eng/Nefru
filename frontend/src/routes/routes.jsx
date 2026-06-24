@@ -6,7 +6,7 @@ import { createBrowserRouter } from "react-router-dom";
 // عشان يسهل  الشغل علينا
 // import ProtectedRoute from "./ProtectedRoute";
 
-import AuthLayout from "../pages/Auth/AuthLayout/AuthLayout";
+import AuthLayout from "../shared/AuthLayout/AuthLayout";
 import MasterLayout from "../shared/MasterLayout/MasterLayout";
 import NotFound from "../shared/NotFound/NotFound";
 // Auth Pages

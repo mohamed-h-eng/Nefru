@@ -86,7 +86,7 @@ export default function Forgetpassword() {
             <div className={styles.headerBlock}>
               <img src={LogoLight} alt="Nefru logo" className={styles.logo} />
               <h1 className={styles.title}>Password Recovery</h1>
-              <p className={styles.subtitle}>
+              <p className={`${styles.subtitle} fs-5`}>
                 Don’t worry! We’ll send reset instructions to your email.
               </p>
             </div>
