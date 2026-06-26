@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   FiCalendar,
@@ -34,7 +35,6 @@ function getInitials(fullName = "Traveler") {
 
 export default function ProfileOverview() {
   const { user } = useSelector((state) => state.auth);
-  const [isEditing, setIsEditing] = useState(false);
 
   const profile = useMemo(
     () => ({
@@ -60,21 +60,10 @@ export default function ProfileOverview() {
           <p>View & update your personal and contact information</p>
         </div>
 
-        {isEditing ? (
-          <div className={styles.actions}>
-            <button type="button" className={styles.cancelButton} onClick={() => setIsEditing(false)}>
-              Cancel
-            </button>
-            <button type="button" className={styles.primaryButton} onClick={() => setIsEditing(false)}>
-              Save Changes
-            </button>
-          </div>
-        ) : (
-          <button type="button" className={styles.editButton} onClick={() => setIsEditing(true)}>
-            <FiEdit2 />
-            Edit Profile
-          </button>
-        )}
+        <Link to="/user/profile/edit" className={styles.editButton}>
+          <FiEdit2 />
+          Edit Profile
+        </Link>
       </header>
 
       <section className={styles.profileHero}>
@@ -98,15 +87,15 @@ export default function ProfileOverview() {
         </div>
 
         <div className={styles.fieldsGrid}>
-          <label className={styles.fieldBox}>
+          <div className={styles.fieldBox}>
             <span>Email</span>
-            {isEditing ? <input value={profile.email} readOnly /> : <strong>{profile.email}</strong>}
-          </label>
+            <strong>{profile.email}</strong>
+          </div>
 
-          <label className={styles.fieldBox}>
+          <div className={styles.fieldBox}>
             <span>Phone Number</span>
-            {isEditing ? <input defaultValue={profile.phoneNumber} /> : <strong>{profile.phoneNumber}</strong>}
-          </label>
+            <strong>{profile.phoneNumber}</strong>
+          </div>
         </div>
       </section>
 
@@ -117,33 +106,25 @@ export default function ProfileOverview() {
         </div>
 
         <div className={styles.fieldsGrid}>
-          <label className={styles.fieldBox}>
+          <div className={styles.fieldBox}>
             <span>Full Name</span>
-            {isEditing ? <input defaultValue={profile.fullName} /> : <strong>{profile.fullName}</strong>}
-          </label>
+            <strong>{profile.fullName}</strong>
+          </div>
 
-          <label className={styles.fieldBox}>
+          <div className={styles.fieldBox}>
             <span>Birth Date</span>
-            {isEditing ? <input type="date" /> : <strong>{formatDate(profile.birthDate, "15 March 1990")}</strong>}
-          </label>
+            <strong>{formatDate(profile.birthDate, "15 March 1990")}</strong>
+          </div>
 
-          <label className={styles.fieldBox}>
+          <div className={styles.fieldBox}>
             <span>Gender</span>
-            {isEditing ? (
-              <select defaultValue={String(profile.gender).toLowerCase()}>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Prefer not to say</option>
-              </select>
-            ) : (
-              <strong>{String(profile.gender).charAt(0).toUpperCase() + String(profile.gender).slice(1)}</strong>
-            )}
-          </label>
+            <strong>{String(profile.gender).charAt(0).toUpperCase() + String(profile.gender).slice(1)}</strong>
+          </div>
 
-          <label className={styles.fieldBox}>
+          <div className={styles.fieldBox}>
             <span>Nationality</span>
-            {isEditing ? <input defaultValue={profile.nationality} /> : <strong>{profile.nationality}</strong>}
-          </label>
+            <strong>{profile.nationality}</strong>
+          </div>
         </div>
       </section>
 

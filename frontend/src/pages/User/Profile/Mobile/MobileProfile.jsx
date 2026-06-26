@@ -1,108 +1,65 @@
-import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-  FiCalendar,
-  FiCreditCard,
-  FiEdit2,
-  FiHeadphones,
-  FiLogOut,
-  FiStar,
-} from "react-icons/fi";
+import { useLocation } from "react-router-dom";
+import { FiEdit2 } from "react-icons/fi";
 
-import { logout } from "../../../../store/slices/authSlice";
+import ProfileMobileHeader from "./components/ProfileMobileHeader";
 import styles from "./MobileProfile.module.css";
 
-function getInitials(fullName = "Traveler") {
-  return fullName
-    .split(" ")
-    .filter(Boolean)
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+const headerConfig = {
+  "/user/profile": {
+    title: "Tourist Profile",
+    backTo: "/user/home",
+    action: {
+      to: "/user/profile/edit",
+      label: "Edit profile",
+      icon: FiEdit2,
+    },
+  },
+  "/user/profile/edit": {
+    title: "Edit Profile",
+    backTo: "/user/profile",
+  },
+  "/user/profile/change-password": {
+    title: "Change Password",
+    backTo: "/user/profile",
+  },
+  "/user/profile/bookings": {
+    title: "My Bookings",
+    backTo: "/user/profile",
+  },
+  "/user/profile/payments": {
+    title: "Payment Methods",
+    backTo: "/user/profile",
+  },
+  "/user/profile/reviews": {
+    title: "Reviews Written",
+    backTo: "/user/profile",
+  },
+  "/user/profile/support": {
+    title: "Help & Support",
+    backTo: "/user/profile",
+  },
+};
+
+function normalizePath(pathname) {
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+
+  return pathname;
 }
 
-export default function MobileProfile() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
-
-  const fullName = user?.fullName || "Nefru Traveler";
-  const email = user?.email || "traveler@nefru.com";
-  const initials = useMemo(() => getInitials(fullName), [fullName]);
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/auth/login", { replace: true });
+export default function MobileProfile({ children }) {
+  const { pathname } = useLocation();
+  const currentPath = normalizePath(pathname);
+  const header = headerConfig[currentPath] || {
+    title: "Tourist Profile",
+    backTo: "/user/profile",
   };
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <button type="button" onClick={() => navigate("/user/home")} aria-label="Back">
-          ‹
-        </button>
-        <h1>Tourist Profile</h1>
-        <button type="button" aria-label="Edit profile">
-          <FiEdit2 />
-        </button>
-      </header>
-
-      <section className={styles.profileCard}>
-        {user?.avatar ? <img src={user.avatar} alt={fullName} /> : <div className={styles.avatar}>{initials}</div>}
-        <h2>{fullName}</h2>
-        <p>{email}</p>
-        <span>Traveler</span>
-      </section>
-
-      <section className={styles.menuSection}>
-        <h3>Account Activities</h3>
-
-        <button type="button" className={styles.menuItem}>
-          <FiCalendar />
-          <span>
-            <strong>My Bookings</strong>
-            <small>Upcoming trips</small>
-          </span>
-          <b>›</b>
-        </button>
-
-        <button type="button" className={styles.menuItem}>
-          <FiCreditCard />
-          <span>
-            <strong>Payment Methods</strong>
-            <small>Cards and payment options</small>
-          </span>
-          <b>›</b>
-        </button>
-
-        <button type="button" className={styles.menuItem}>
-          <FiStar />
-          <span>
-            <strong>Reviews Written</strong>
-            <small>Your tour feedback</small>
-          </span>
-          <b>›</b>
-        </button>
-      </section>
-
-      <section className={styles.menuSection}>
-        <h3>Support</h3>
-        <button type="button" className={styles.menuItem}>
-          <FiHeadphones />
-          <span>
-            <strong>Help & Support</strong>
-            <small>FAQs and support</small>
-          </span>
-          <b>›</b>
-        </button>
-      </section>
-
-      <button type="button" className={styles.logoutButton} onClick={handleLogout}>
-        <FiLogOut />
-        Log Out
-      </button>
+      <ProfileMobileHeader title={header.title} backTo={header.backTo} action={header.action} />
+      <div className={styles.content}>{children}</div>
     </main>
   );
 }

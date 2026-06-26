@@ -1,8 +1,10 @@
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   FiCalendar,
   FiCreditCard,
   FiHeadphones,
+  FiLock,
   FiLogOut,
   FiStar,
   FiUser,
@@ -11,11 +13,12 @@ import {
 import styles from "./ProfileSidebar.module.css";
 
 const menuItems = [
-  { id: "overview", label: "Profile Overview", icon: FiUser },
-  { id: "bookings", label: "My Bookings", icon: FiCalendar },
-  { id: "payments", label: "Payment Methods", icon: FiCreditCard },
-  { id: "reviews", label: "Reviews Written", icon: FiStar },
-  { id: "support", label: "Help & Support", icon: FiHeadphones },
+  { to: "/user/profile", label: "Profile Overview", icon: FiUser, end: true },
+  { to: "/user/profile/bookings", label: "My Bookings", icon: FiCalendar },
+  { to: "/user/profile/payments", label: "Payment Methods", icon: FiCreditCard },
+  { to: "/user/profile/reviews", label: "Reviews Written", icon: FiStar },
+  { to: "/user/profile/change-password", label: "Change Password", icon: FiLock },
+  { to: "/user/profile/support", label: "Help & Support", icon: FiHeadphones },
 ];
 
 function getInitials(fullName = "User") {
@@ -28,7 +31,7 @@ function getInitials(fullName = "User") {
     .toUpperCase();
 }
 
-export default function ProfileSidebar({ activeSection, onChangeSection, onLogout }) {
+export default function ProfileSidebar({ onLogout }) {
   const { user } = useSelector((state) => state.auth);
   const fullName = user?.fullName || "Nefru Traveler";
   const email = user?.email || "traveler@nefru.com";
@@ -56,18 +59,19 @@ export default function ProfileSidebar({ activeSection, onChangeSection, onLogou
       <nav className={styles.navCard} aria-label="Profile navigation">
         {menuItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeSection === item.id;
 
           return (
-            <button
-              key={item.id}
-              type="button"
-              className={`${styles.navItem} ${isActive ? styles.navItemActive : ""}`}
-              onClick={() => onChangeSection(item.id)}
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) =>
+                `${styles.navItem} ${isActive ? styles.navItemActive : ""}`
+              }
             >
               <Icon />
               <span>{item.label}</span>
-            </button>
+            </NavLink>
           );
         })}
 
