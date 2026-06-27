@@ -73,6 +73,24 @@ const tripSchema = new mongoose.Schema(
       enum: ["History", "Adventure", "Culture", "Food"],
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["draft", "reviewing", "active"],
+      default: "draft",
+    },
+    groupSize: {
+      type: Number,
+      min: 1,
+      default: 12,
+    },
+    schedule: {
+      type: Object,
+      default: { dates: [], slots: [] },
+    },
+    gallery: {
+      type: [String],
+      default: [],
+    },
     rating: {
       type: Number,
       min: 0,
