@@ -62,6 +62,7 @@ import GuideCalendar from "../pages/Guide/GuideCalendar/GuideCalendar";
 import GuideAccountProfile from "../pages/Guide/GuideAccountProfile/GuideAccountProfile";
 import GuideNotifications from "../pages/Guide/GuideNotifications/GuideNotifications";
 import GuideVerification from "../pages/Guide/GuideVerification/GuideVerification";
+import GuideBookings from "../pages/Guide/GuideBookings/GuideBookings";
 
 import { Navigate } from "react-router-dom";
 
@@ -180,14 +181,14 @@ export const router = createBrowserRouter([
 
   {
     path: "guide",
+    element: <ProtectedRoute allowedRoles={["guide"]} />,
     children: [
-      // Shared guide shell. ToursManagement stays untouched inside the Outlet,
-      // so its own header/navigation can still be compared with the new shell.
       {
         element: <GuidePortalLayout />,
         children: [
           { index: true, element: <ToursManagement /> },
           { path: "dashboard", element: <GuideDashboard /> },
+          { path: "bookings", element: <GuideBookings /> },
           { path: "calendar", element: <GuideCalendar /> },
           { path: "profile", element: <GuideAccountProfile /> },
           { path: "notifications", element: <GuideNotifications /> },
