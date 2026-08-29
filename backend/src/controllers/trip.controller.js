@@ -4,6 +4,11 @@ import { Booking } from "../models/booking.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import mongoose from "mongoose";
 import { normalizeTripSchedule } from "../utils/tripSchedule.js";
+import {
+  destroyCloudinaryAssets,
+  isCloudinaryAsset,
+  uploadPublicImage,
+} from "../services/media.service.js";
 
 const ALLOWED_STATUSES = ["draft", "reviewing", "active"];
 
@@ -42,6 +47,86 @@ function canManageTrip(user, trip) {
   if (!user || !trip) return false;
   if (user.role === "admin") return true;
   return trip.guide?.toString() === user._id?.toString();
+}
+
+function toPlainAsset(asset) {
+  if (!asset) return null;
+  return typeof asset.toObject === "function"
+    ? asset.toObject({ depopulate: true })
+    : { ...asset };
+}
+
+function normalizeUploadedAsset(asset, slot) {
+  const normalized = {
+    provider: "cloudinary",
+    url: asset?.url || asset?.secureUrl || asset?.secure_url || "",
+    publicId: asset?.publicId || asset?.public_id || "",
+    assetId: asset?.assetId || asset?.asset_id || "",
+    resourceType: asset?.resourceType || asset?.resource_type || "image",
+    deliveryType: asset?.deliveryType || asset?.type || "upload",
+    format: asset?.format || "",
+  };
+
+  if (!normalized.url || !normalized.publicId) {
+    throw new Error("Cloudinary returned incomplete image metadata");
+  }
+
+  if (Number.isInteger(slot)) normalized.slot = slot;
+  return normalized;
+}
+
+function parseGalleryIndexes(value, fileCount) {
+  if (fileCount === 0) return [];
+
+  let parsed = value;
+  if (typeof parsed === "string") {
+    try {
+      parsed = JSON.parse(parsed);
+    } catch {
+      parsed = parsed.split(",").map((item) => item.trim());
+    }
+  }
+
+  if (!Array.isArray(parsed) || parsed.length === 0) return null;
+  if (parsed.length !== fileCount) {
+    throw new Error("Each gallery image must have a matching gallery index");
+  }
+
+  const indexes = parsed.map((value) => Number(value));
+  const valid = indexes.every(
+    (index) => Number.isInteger(index) && index >= 0 && index < 6,
+  );
+
+  if (!valid || new Set(indexes).size !== indexes.length) {
+    throw new Error("Gallery indexes must be unique integers from 0 to 5");
+  }
+
+  return indexes;
+}
+
+function getFallbackGalleryIndexes(gallery, fileCount) {
+  const indexes = [];
+
+  for (let index = 0; index < 6 && indexes.length < fileCount; index += 1) {
+    if (!gallery[index]) indexes.push(index);
+  }
+
+  for (let index = 0; index < 6 && indexes.length < fileCount; index += 1) {
+    if (!indexes.includes(index)) indexes.push(index);
+  }
+
+  return indexes;
+}
+
+async function rollbackUploadedAssets(assets) {
+  const cloudinaryAssets = assets.filter((asset) => isCloudinaryAsset(asset));
+  if (cloudinaryAssets.length === 0) return;
+
+  try {
+    await destroyCloudinaryAssets(cloudinaryAssets, { invalidate: true });
+  } catch (error) {
+    console.error("Trip media rollback failed:", error.message);
+  }
 }
 
 /**
@@ -205,11 +290,9 @@ export const createTrip = asyncHandler(async (req, res) => {
     coordinates,
     price,
     duration,
-    image,
     category,
     groupSize,
     schedule,
-    gallery,
   } = req.body;
 
   const invalid =
@@ -241,11 +324,9 @@ export const createTrip = asyncHandler(async (req, res) => {
     price,
     currency: "USD",
     duration,
-    image: image || "",
     category,
     groupSize: groupSize || 12,
     schedule: schedule || { dates: [], slots: [] },
-    gallery: Array.isArray(gallery) ? gallery : [],
     guide: req.user._id,
     status: "draft",
   });
@@ -322,11 +403,9 @@ export const updateMyTrip = asyncHandler(async (req, res) => {
     "location",
     "price",
     "duration",
-    "image",
     "category",
     "groupSize",
     "schedule",
-    "gallery",
     "highlights",
   ];
 
@@ -428,17 +507,19 @@ export const changeTripStatus = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc Update tour media fields
- * @route PATCH /api/trips/:id/media
+ * @desc Validate a tour before accepting multipart media
+ * @route POST /api/trips/:id/upload-media
  * @access Private (GuideProfile/Admin)
  */
-export const updateTripMedia = asyncHandler(async (req, res) => {
+export const authorizeTripMediaUpload = asyncHandler(async (req, res, next) => {
   if (!mongoose.isValidObjectId(req.params.id)) {
     res.status(400);
     throw new Error("Invalid trip ID");
   }
 
-  const trip = await Trip.findById(req.params.id);
+  const trip = await Trip.findById(req.params.id).select(
+    "+imageAsset +galleryAssets",
+  );
 
   if (!trip) {
     res.status(404);
@@ -450,19 +531,160 @@ export const updateTripMedia = asyncHandler(async (req, res) => {
     throw new Error("You can only edit your own tours");
   }
 
-  if (req.body.image !== undefined) {
-    trip.image = req.body.image;
+  req.trip = trip;
+  next();
+});
+
+/**
+ * @desc Upload and persist tour media in one operation
+ * @route POST /api/trips/:id/upload-media
+ * @access Private (GuideProfile/Admin)
+ */
+export const updateTripMedia = asyncHandler(async (req, res) => {
+  const trip = req.trip;
+  if (!trip) {
+    res.status(500);
+    throw new Error("Trip media upload was not initialized");
   }
 
-  if (req.body.gallery !== undefined) {
-    trip.gallery = Array.isArray(req.body.gallery) ? req.body.gallery : [];
+  const files = req.files || {};
+  const coverImage = files.coverImage?.[0] || null;
+  const galleryImages = files.galleryImages || [];
+
+  if (!coverImage && galleryImages.length === 0) {
+    res.status(400);
+    throw new Error("Choose at least one tour image to upload");
   }
 
-  await trip.save();
+  let galleryIndexes;
+  try {
+    galleryIndexes = parseGalleryIndexes(
+      req.body.galleryIndexes ?? req.body.gallerySlots,
+      galleryImages.length,
+    );
+  } catch (error) {
+    res.status(400);
+    throw error;
+  }
+
+  const currentGallery = Array.isArray(trip.gallery)
+    ? trip.gallery.slice(0, 6)
+    : [];
+  const targetGalleryIndexes =
+    galleryIndexes ||
+    getFallbackGalleryIndexes(currentGallery, galleryImages.length);
+  const folder = `nefru/trips/${trip._id}`;
+  const uploadJobs = [];
+
+  if (coverImage) {
+    uploadJobs.push({
+      kind: "cover",
+      upload: () =>
+        uploadPublicImage(coverImage, { folder: `${folder}/cover` }),
+    });
+  }
+
+  galleryImages.forEach((file, index) => {
+    uploadJobs.push({
+      kind: "gallery",
+      slot: targetGalleryIndexes[index],
+      upload: () =>
+        uploadPublicImage(file, { folder: `${folder}/gallery` }),
+    });
+  });
+
+  const settledUploads = await Promise.allSettled(
+    uploadJobs.map((job) => Promise.resolve().then(job.upload)),
+  );
+  const rawUploadedAssets = settledUploads
+    .filter((result) => result.status === "fulfilled")
+    .map((result) => result.value);
+  const failedUpload = settledUploads.find(
+    (result) => result.status === "rejected",
+  );
+
+  if (failedUpload) {
+    await rollbackUploadedAssets(rawUploadedAssets);
+    throw failedUpload.reason;
+  }
+
+  let uploadedJobs;
+  try {
+    uploadedJobs = uploadJobs.map((job, index) => ({
+      ...job,
+      asset: normalizeUploadedAsset(
+        settledUploads[index].value,
+        job.kind === "gallery" ? job.slot : undefined,
+      ),
+    }));
+  } catch (error) {
+    await rollbackUploadedAssets(rawUploadedAssets);
+    throw error;
+  }
+
+  const replacedAssets = [];
+  let uploadedCoverAsset = null;
+  const uploadedGalleryAssets = [];
+
+  try {
+    const previousCoverAsset = toPlainAsset(trip.imageAsset);
+    const previousGalleryAssets = (trip.galleryAssets || []).map(toPlainAsset);
+    const previousGalleryAssetsBySlot = new Map(
+      previousGalleryAssets.map((asset, index) => [
+        Number.isInteger(asset?.slot) ? asset.slot : index,
+        asset,
+      ]),
+    );
+    const nextGallerySlots = currentGallery.map((url, slot) => ({
+      url,
+      asset: previousGalleryAssetsBySlot.get(slot) || null,
+    }));
+
+    for (const job of uploadedJobs) {
+      if (job.kind === "cover") {
+        uploadedCoverAsset = job.asset;
+        if (isCloudinaryAsset(previousCoverAsset)) {
+          replacedAssets.push(previousCoverAsset);
+        }
+        trip.image = job.asset.url;
+        trip.imageAsset = job.asset;
+        continue;
+      }
+
+      const previousAtSlot = nextGallerySlots[job.slot]?.asset;
+      if (isCloudinaryAsset(previousAtSlot)) replacedAssets.push(previousAtSlot);
+      nextGallerySlots[job.slot] = { url: job.asset.url, asset: job.asset };
+      uploadedGalleryAssets.push(job.asset);
+    }
+
+    const denseGallerySlots = nextGallerySlots.filter((item) => item?.url);
+    trip.gallery = denseGallerySlots.map((item) => item.url);
+    trip.galleryAssets = denseGallerySlots.flatMap((item, slot) =>
+      item.asset && isCloudinaryAsset(item.asset)
+        ? [{ ...item.asset, slot }]
+        : [],
+    );
+
+    await trip.save();
+  } catch (error) {
+    await rollbackUploadedAssets(uploadedJobs.map((job) => job.asset));
+    throw error;
+  }
+
+  if (replacedAssets.length > 0) {
+    try {
+      await destroyCloudinaryAssets(replacedAssets, { invalidate: true });
+    } catch (error) {
+      console.error("Replaced trip media could not be deleted:", error.message);
+    }
+  }
 
   res.status(200).json({
     success: true,
-    message: "Trip media updated",
-    data: getTripSummary(trip),
+    message: "Images uploaded successfully",
+    data: {
+      coverImage: uploadedCoverAsset?.url || "",
+      galleryImages: uploadedGalleryAssets.map((asset) => asset.url),
+    },
   });
 });

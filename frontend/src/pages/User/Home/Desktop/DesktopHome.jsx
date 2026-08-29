@@ -11,7 +11,7 @@ import TrustedGuides from "../Desktop/components/TrustedGuides/TrustedGuides";
 
 import { useEffect, useState } from "react";
 import { apiRequest } from "../../../../services/api";
-import backgroundVideo from "../../../../assets/videos/Golden_Egyptian.mp4";
+// import backgroundVideo from "../../../../assets/videos/Golden_Egyptian.mp4";
 
 const DesktopHome = () => {
   const [homeData, setHomeData] = useState({

@@ -1,5 +1,3 @@
-import fs from "fs";
-
 import Joi from "joi";
 
 import { DOCUMENT_TYPES } from "../../models/guideVerification.model.js";
@@ -17,10 +15,6 @@ export const validateVerificationDocumentUpload = async (req, res, next) => {
   });
 
   if (error) {
-    if (req.file?.path) {
-      await fs.promises.unlink(req.file.path).catch(() => {});
-    }
-
     res.status(400);
     next(new Error("A valid documentType is required"));
     return;

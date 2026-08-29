@@ -6,6 +6,7 @@ import { updateTouristProfileSchema } from "../controllers/validation/userValida
 import { getMe } from "../controllers/user.controller.js";
 import {
   getMyProfile,
+  removeMyAvatar,
   uploadMyAvatar,
   updateMyProfile,
 } from "../controllers/profile.controller.js";
@@ -14,8 +15,14 @@ import {
   saveTrip,
   unsaveTrip,
 } from "../controllers/savedTrip.controller.js";
+import { createRateLimiter } from "../utils/rateLimiter.js";
 
 const userRouter = Router();
+const profileUploadLimiter = createRateLimiter({
+  name: "profile-avatar-upload",
+  windowMs: 60 * 60 * 1000,
+  max: 20,
+});
 
 userRouter.get("/profile/me", protect, getMyProfile);
 userRouter.patch(
@@ -27,8 +34,16 @@ userRouter.patch(
 userRouter.post(
   "/profile/avatar",
   protect,
+  authorizeRoles("tourist", "guide"),
+  profileUploadLimiter,
   upload.single("avatar"),
   uploadMyAvatar,
+);
+userRouter.delete(
+  "/profile/avatar",
+  protect,
+  authorizeRoles("tourist", "guide"),
+  removeMyAvatar,
 );
 
 userRouter.get("/me", protect, getMe);

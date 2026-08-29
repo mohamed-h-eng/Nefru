@@ -13,14 +13,6 @@ const specialtiesSchema = Joi.array()
 
 export const updateGuideProfileSchema = Joi.object({
   fullName: Joi.string().trim().min(2).max(50),
-  avatar: Joi.string()
-    .trim()
-    .custom((value, helpers) => {
-      if (/^https?:\/\//i.test(value) || value.startsWith("/uploads/")) {
-        return value;
-      }
-      return helpers.error("string.uri");
-    }, "profile image URL validation"),
   headline: Joi.string().trim().max(120).allow(""),
   location: Joi.string().trim().max(100).allow(""),
   phoneNumber: Joi.string().trim().max(30).allow(""),

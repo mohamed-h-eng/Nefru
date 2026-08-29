@@ -1,10 +1,14 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FiEdit2, FiSave, FiUser } from "react-icons/fi";
 
 import { apiRequest, resolveMediaUrl } from "../../../../../services/api";
 import { updateProfile } from "../../../../../store/slices/authSlice";
+import {
+  getImageUploadError,
+  IMAGE_UPLOAD_ACCEPT,
+} from "../../../../../utils/mediaUpload";
 import styles from "../ProfilePageShared.module.css";
 
 function getInitials(fullName = "Traveler") {
@@ -29,6 +33,7 @@ export default function EditProfile() {
   const { user, profile } = useSelector((state) => state.auth);
 
   const fileInputRef = useRef(null);
+  const submitLockRef = useRef(false);
 
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar || "");
   const [avatarFile, setAvatarFile] = useState(null);
@@ -50,17 +55,33 @@ export default function EditProfile() {
 
   const [formData, setFormData] = useState(initialFormData);
 
+  useEffect(
+    () => () => {
+      if (avatarPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+    },
+    [avatarPreview],
+  );
+
   const handleChoosePhoto = () => {
     fileInputRef.current?.click();
   };
 
   const handlePhotoChange = (event) => {
     const file = event.target.files?.[0];
+    if (!file) return;
 
-    if (!file || !file.type.startsWith("image/")) return;
+    const validationError = getImageUploadError(file, "Profile photo");
+    if (validationError) {
+      event.target.value = "";
+      setApiError(validationError);
+      return;
+    }
 
     setAvatarFile(file);
     setAvatarPreview(URL.createObjectURL(file));
+    setApiError("");
   };
 
   const handleChange = (event) => {
@@ -74,7 +95,9 @@ export default function EditProfile() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (submitLockRef.current) return;
 
+    submitLockRef.current = true;
     setIsSubmitting(true);
     setApiError("");
 
@@ -113,6 +136,7 @@ export default function EditProfile() {
     } catch (error) {
       setApiError(error.message || "Unable to update profile");
     } finally {
+      submitLockRef.current = false;
       setIsSubmitting(false);
     }
   };
@@ -156,7 +180,7 @@ export default function EditProfile() {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept={IMAGE_UPLOAD_ACCEPT}
             className={styles.hiddenFileInput}
             onChange={handlePhotoChange}
           />

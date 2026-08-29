@@ -58,18 +58,8 @@ export const connectGoogleAccountSchema = Joi.object({
   credential: Joi.string().required(),
 });
 
-const profileAvatarSchema = Joi.string()
-  .trim()
-  .custom((value, helpers) => {
-    if (/^https?:\/\//i.test(value) || value.startsWith("/uploads/")) {
-      return value;
-    }
-    return helpers.error("string.uri");
-  }, "profile image URL validation");
-
 export const updateTouristProfileSchema = Joi.object({
   fullName: Joi.string().trim().min(2).max(50),
-  avatar: profileAvatarSchema,
   phoneNumber: Joi.string().trim().max(30).allow(""),
   gender: Joi.string().valid("male", "female", "other"),
   nationality: Joi.string().trim().max(80).allow(""),

@@ -9,6 +9,12 @@ import {
 import { GuideProfile } from "../models/guide.model.js";
 import { GuideVerification } from "../models/guideVerification.model.js";
 import { Notification } from "../models/notification.model.js";
+import {
+  destroyCloudinaryAsset,
+  getPrivateDownloadUrl,
+  isCloudinaryAsset,
+  uploadAuthenticatedDocument,
+} from "../services/media.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendEmail } from "../utils/sendEmail.js";
 
@@ -17,6 +23,75 @@ const IDENTITY_DOCUMENT_TYPES = new Set(["national_id", "passport"]);
 async function removeStoredFile(storageKey) {
   if (!storageKey) return;
   await fs.promises.unlink(resolveVerificationFile(storageKey)).catch(() => {});
+}
+
+function getVerificationFolder(guideProfileId) {
+  const environment = String(process.env.NODE_ENV || "development")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]/g, "-");
+  return `nefru/${environment}/guide-verification/${guideProfileId}`;
+}
+
+function normalizeCloudinaryAsset(asset = {}) {
+  return {
+    provider: "cloudinary",
+    assetId: asset.assetId || asset.asset_id || "",
+    publicId: asset.publicId || asset.public_id || "",
+    resourceType: asset.resourceType || asset.resource_type || "",
+    deliveryType: asset.deliveryType || asset.type || "authenticated",
+    format: asset.format || "",
+    bytes: Number(asset.bytes) || 0,
+  };
+}
+
+function getStoredAsset(document) {
+  return {
+    provider:
+      document?.provider ||
+      (document?.assetId || document?.publicId ? "cloudinary" : "local"),
+    storageKey: document?.storageKey || "",
+    assetId: document?.assetId || "",
+    publicId: document?.publicId || "",
+    resourceType: document?.resourceType || "",
+    deliveryType: document?.deliveryType || "",
+    format: document?.format || "",
+    bytes: Number(document?.bytes) || 0,
+  };
+}
+
+async function destroyStoredAsset(asset, options = {}) {
+  if (!asset) return;
+
+  if (isCloudinaryAsset(asset)) {
+    await destroyCloudinaryAsset(asset, options);
+    return;
+  }
+
+  await removeStoredFile(asset.storageKey);
+}
+
+async function destroyStoredAssetSafely(asset, options = {}) {
+  try {
+    await destroyStoredAsset(asset, options);
+  } catch (error) {
+    console.error("Verification asset could not be deleted:", error.message);
+  }
+}
+
+async function uploadVerificationAsset(file, guideProfileId) {
+  const uploadedAsset = await uploadAuthenticatedDocument(file, {
+    folder: getVerificationFolder(guideProfileId),
+  });
+  const asset = normalizeCloudinaryAsset(uploadedAsset);
+
+  if (!isCloudinaryAsset(asset)) {
+    const error = new Error("Cloudinary returned invalid verification asset data");
+    error.statusCode = 502;
+    throw error;
+  }
+
+  return asset;
 }
 
 function hasRequiredDocuments(documents = []) {
@@ -33,8 +108,11 @@ function serializeVerification(guideProfile, verification) {
     documents: (verification?.documents || []).map((document) => ({
       id: document._id,
       documentType: document.documentType,
+      provider: document.provider || "local",
       originalName: document.originalName,
       mimeType: document.mimeType,
+      format: document.format || "",
+      bytes: Number(document.bytes) || 0,
       uploadedAt: document.uploadedAt,
       replacedAt: document.replacedAt,
     })),
@@ -55,7 +133,8 @@ async function getGuideProfile(userId) {
 
 async function getPrivateVerification(guideProfileId) {
   return GuideVerification.findOne({ guideProfile: guideProfileId }).select(
-    "+documents +documents.storageKey +requestedChanges +reviewHistory",
+    "+documents +documents.storageKey +documents.assetId +documents.publicId " +
+      "+documents.resourceType +documents.deliveryType +requestedChanges +reviewHistory",
   );
 }
 
@@ -109,7 +188,6 @@ export const uploadVerificationDocument = asyncHandler(async (req, res) => {
   }
 
   if (!(await isValidVerificationFile(req.file))) {
-    await removeStoredFile(req.file.filename);
     res.status(400);
     throw new Error("The uploaded file content is invalid");
   }
@@ -117,13 +195,11 @@ export const uploadVerificationDocument = asyncHandler(async (req, res) => {
   const guideProfile = await getGuideProfile(req.user._id);
 
   if (!guideProfile) {
-    await removeStoredFile(req.file.filename);
     res.status(404);
     throw new Error("Guide profile not found");
   }
 
   if (!["draft", "rejected"].includes(guideProfile.verificationStatus)) {
-    await removeStoredFile(req.file.filename);
     res.status(409);
     throw new Error("Documents cannot be uploaded in the current state");
   }
@@ -135,19 +211,22 @@ export const uploadVerificationDocument = asyncHandler(async (req, res) => {
       (document) => document.documentType === req.body.documentType,
     )
   ) {
-    await removeStoredFile(req.file.filename);
     res.status(409);
     throw new Error("This document type already exists; replace it instead");
   }
 
-  const documentData = {
-    documentType: req.body.documentType,
-    storageKey: req.file.filename,
-    originalName: req.file.originalname,
-    mimeType: req.file.mimetype,
-  };
+  let uploadedAsset;
 
   try {
+    uploadedAsset = await uploadVerificationAsset(req.file, guideProfile._id);
+    const documentData = {
+      documentType: req.body.documentType,
+      storageKey: "",
+      ...uploadedAsset,
+      originalName: req.file.originalname,
+      mimeType: req.file.mimetype,
+    };
+
     if (!verification) {
       verification = await GuideVerification.create({
         guideProfile: guideProfile._id,
@@ -158,7 +237,9 @@ export const uploadVerificationDocument = asyncHandler(async (req, res) => {
       await verification.save();
     }
   } catch (error) {
-    await removeStoredFile(req.file.filename);
+    if (uploadedAsset) {
+      await destroyStoredAssetSafely(uploadedAsset, { invalidate: true });
+    }
     throw error;
   }
 
@@ -178,13 +259,11 @@ export const replaceVerificationDocument = asyncHandler(async (req, res) => {
   }
 
   if (!(await isValidVerificationFile(req.file))) {
-    await removeStoredFile(req.file.filename);
     res.status(400);
     throw new Error("The uploaded file content is invalid");
   }
 
   if (!isValidObjectId(req.params.documentId)) {
-    await removeStoredFile(req.file.filename);
     res.status(400);
     throw new Error("Invalid verification document id");
   }
@@ -192,13 +271,11 @@ export const replaceVerificationDocument = asyncHandler(async (req, res) => {
   const guideProfile = await getGuideProfile(req.user._id);
 
   if (!guideProfile) {
-    await removeStoredFile(req.file.filename);
     res.status(404);
     throw new Error("Guide profile not found");
   }
 
   if (!["draft", "rejected"].includes(guideProfile.verificationStatus)) {
-    await removeStoredFile(req.file.filename);
     res.status(409);
     throw new Error("Documents cannot be changed in the current state");
   }
@@ -207,38 +284,49 @@ export const replaceVerificationDocument = asyncHandler(async (req, res) => {
   const document = verification?.documents.id(req.params.documentId);
 
   if (!document) {
-    await removeStoredFile(req.file.filename);
     res.status(404);
     throw new Error("Verification document not found");
   }
 
   if (document.documentType !== req.body.documentType) {
-    await removeStoredFile(req.file.filename);
     res.status(400);
     throw new Error("Replacement document type must match the original");
   }
 
-  const previousStorageKey = document.storageKey;
-  document.storageKey = req.file.filename;
-  document.originalName = req.file.originalname;
-  document.mimeType = req.file.mimetype;
-  document.uploadedAt = new Date();
-  document.replacedAt = new Date();
-
-  for (const change of verification.requestedChanges) {
-    if (change.documentType === document.documentType && !change.resolvedAt) {
-      change.resolvedAt = new Date();
-    }
-  }
+  const previousAsset = getStoredAsset(document);
+  let uploadedAsset;
 
   try {
+    uploadedAsset = await uploadVerificationAsset(req.file, guideProfile._id);
+
+    document.provider = uploadedAsset.provider;
+    document.storageKey = "";
+    document.assetId = uploadedAsset.assetId;
+    document.publicId = uploadedAsset.publicId;
+    document.resourceType = uploadedAsset.resourceType;
+    document.deliveryType = uploadedAsset.deliveryType;
+    document.format = uploadedAsset.format;
+    document.bytes = uploadedAsset.bytes;
+    document.originalName = req.file.originalname;
+    document.mimeType = req.file.mimetype;
+    document.uploadedAt = new Date();
+    document.replacedAt = new Date();
+
+    for (const change of verification.requestedChanges) {
+      if (change.documentType === document.documentType && !change.resolvedAt) {
+        change.resolvedAt = new Date();
+      }
+    }
+
     await verification.save();
   } catch (error) {
-    await removeStoredFile(req.file.filename);
+    if (uploadedAsset) {
+      await destroyStoredAssetSafely(uploadedAsset, { invalidate: true });
+    }
     throw error;
   }
 
-  await removeStoredFile(previousStorageKey);
+  await destroyStoredAssetSafely(previousAsset, { invalidate: true });
 
   res.status(200).json({
     success: true,
@@ -413,7 +501,8 @@ export const downloadVerificationDocument = asyncHandler(async (req, res) => {
   }
 
   const verification = await verificationQuery.select(
-    "+documents +documents.storageKey",
+    "+documents +documents.storageKey +documents.assetId +documents.publicId " +
+      "+documents.resourceType +documents.deliveryType",
   );
   const document = verification?.documents.id(req.params.documentId);
 
@@ -422,7 +511,35 @@ export const downloadVerificationDocument = asyncHandler(async (req, res) => {
     throw new Error("Verification document not found");
   }
 
-  const filePath = resolveVerificationFile(document.storageKey);
+  const storedAsset = getStoredAsset(document);
+
+  if (isCloudinaryAsset(storedAsset)) {
+    const signedDownload = await getPrivateDownloadUrl(storedAsset, {
+      expiresInSeconds: 60,
+      attachment: document.originalName,
+    });
+    const downloadUrl =
+      typeof signedDownload === "string"
+        ? signedDownload
+        : signedDownload?.url || signedDownload?.secureUrl;
+
+    if (!downloadUrl) {
+      const error = new Error("Unable to create a verification download link");
+      error.statusCode = 502;
+      throw error;
+    }
+
+    res.set("Cache-Control", "no-store");
+    res.set("Referrer-Policy", "no-referrer");
+    return res.redirect(302, downloadUrl);
+  }
+
+  if (!storedAsset.storageKey) {
+    res.status(404);
+    throw new Error("Stored verification file not found");
+  }
+
+  const filePath = resolveVerificationFile(storedAsset.storageKey);
 
   if (!fs.existsSync(filePath)) {
     res.status(404);

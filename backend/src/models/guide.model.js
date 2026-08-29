@@ -14,6 +14,7 @@
 
 */
 import mongoose from "mongoose";
+import { mediaAssetSchema } from "./schemas/mediaAsset.schema.js";
 
 const GUIDE_SPECIALTIES = [
   "History & Culture",
@@ -43,6 +44,17 @@ const galleryItemSchema = new mongoose.Schema(
       default: "",
       select: false,
     },
+    assetId: { type: String, trim: true, default: "", select: false },
+    provider: {
+      type: String,
+      enum: ["cloudinary", "external", "local"],
+      default: "external",
+      select: false,
+    },
+    resourceType: { type: String, trim: true, default: "image", select: false },
+    deliveryType: { type: String, trim: true, default: "upload", select: false },
+    version: { type: Number, default: null, select: false },
+    format: { type: String, trim: true, default: "", select: false },
   },
   { timestamps: true },
 );
@@ -153,6 +165,11 @@ const guideProfileSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default: "",
+    },
+    avatarAsset: {
+      type: mediaAssetSchema,
+      default: null,
+      select: false,
     },
     gallery: {
       type: [galleryItemSchema],

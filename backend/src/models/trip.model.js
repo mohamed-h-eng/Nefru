@@ -50,6 +50,53 @@ const reviewSchema = new mongoose.Schema(
   { _id: false, timestamps: true },
 );
 
+const cloudinaryAssetSchema = new mongoose.Schema(
+  {
+    provider: {
+      type: String,
+      enum: ["cloudinary"],
+      default: "cloudinary",
+    },
+    url: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    publicId: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    assetId: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    resourceType: {
+      type: String,
+      default: "image",
+      trim: true,
+    },
+    deliveryType: {
+      type: String,
+      default: "upload",
+      trim: true,
+    },
+    format: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    slot: {
+      type: Number,
+      min: 0,
+      max: 5,
+      default: undefined,
+    },
+  },
+  { _id: false },
+);
+
 const tripSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
@@ -77,6 +124,11 @@ const tripSchema = new mongoose.Schema(
     currency: { type: String, enum: ["USD"], default: "USD" },
     duration: { type: String, required: true }, // e.g., "3 hours", "Full Day"
     image: { type: String, default: "" },
+    imageAsset: {
+      type: cloudinaryAssetSchema,
+      default: undefined,
+      select: false,
+    },
     guide: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -111,6 +163,11 @@ const tripSchema = new mongoose.Schema(
     gallery: {
       type: [String],
       default: [],
+    },
+    galleryAssets: {
+      type: [cloudinaryAssetSchema],
+      default: [],
+      select: false,
     },
     rating: {
       type: Number,

@@ -14,13 +14,17 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { apiRequest, resolveMediaUrl } from "../../../services/api";
 import AccountSecurityPanel from "../../../shared/components/AccountSecurityPanel/AccountSecurityPanel";
 import { logoutUser, updateProfile } from "../../../store/slices/authSlice";
+import {
+  getImageUploadError,
+  IMAGE_UPLOAD_ACCEPT,
+} from "../../../utils/mediaUpload";
 import styles from "./GuideAccountProfile.module.css";
 
 const SPECIALTIES = [
@@ -92,6 +96,7 @@ export default function GuideAccountProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const submitLockRef = useRef(false);
   const { user, profile } = useSelector((state) => state.auth);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState(() => profileForm(profile));
@@ -102,6 +107,15 @@ export default function GuideAccountProfile() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  useEffect(
+    () => () => {
+      if (avatarPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+    },
+    [avatarPreview],
+  );
 
   const guideData = useMemo(
     () => ({
@@ -157,10 +171,19 @@ export default function GuideAccountProfile() {
 
   const handlePhotoChange = (event) => {
     const file = event.target.files?.[0];
-    if (!file || !file.type.startsWith("image/")) return;
+    if (!file) return;
+
+    const validationError = getImageUploadError(file, "Profile photo");
+    if (validationError) {
+      event.target.value = "";
+      setError(validationError);
+      return;
+    }
+
     setAvatarFile(file);
     setAvatarPreview(URL.createObjectURL(file));
     setFailedPreview("");
+    setError("");
   };
 
   const cancelEditing = () => {
@@ -184,15 +207,20 @@ export default function GuideAccountProfile() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (submitLockRef.current) return;
+
+    submitLockRef.current = true;
     setSaving(true);
     setError("");
     setSuccess("");
 
     try {
+      let avatarResponse = null;
+
       if (avatarFile) {
         const avatarData = new FormData();
         avatarData.append("avatar", avatarFile);
-        await apiRequest("/users/profile/avatar", {
+        avatarResponse = await apiRequest("/users/profile/avatar", {
           method: "POST",
           body: avatarData,
         });
@@ -219,12 +247,32 @@ export default function GuideAccountProfile() {
         }),
       });
 
-      dispatch(updateProfile({ user, profile: response.data.guide }));
+      const avatarProfile = avatarResponse?.data?.profile;
+      const updatedGuide = response?.data?.guide || {};
+      const nextProfile = {
+        ...avatarProfile,
+        ...updatedGuide,
+        avatar:
+          avatarProfile?.avatar ??
+          updatedGuide.avatar ??
+          profile?.avatar ??
+          "",
+      };
+
+      dispatch(
+        updateProfile({
+          user: avatarResponse?.data?.user || user,
+          profile: nextProfile,
+        }),
+      );
+      setAvatarPreview(nextProfile.avatar);
+      setAvatarFile(null);
       setEditing(false);
       setSuccess(response.message || "Guide profile updated successfully.");
     } catch (requestError) {
       setError(requestError.message || "Unable to update guide profile.");
     } finally {
+      submitLockRef.current = false;
       setSaving(false);
     }
   };
@@ -312,7 +360,7 @@ export default function GuideAccountProfile() {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept={IMAGE_UPLOAD_ACCEPT}
               onChange={handlePhotoChange}
               hidden
             />

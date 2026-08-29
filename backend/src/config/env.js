@@ -38,11 +38,18 @@ export const env = {
   stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
   stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET || "",
 
+  // Cloudinary media storage. CLOUDINARY_URL may be used instead of the
+  // three individual values. Secrets must only be configured on the backend.
+  cloudinaryUrl: process.env.CLOUDINARY_URL || "",
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || "",
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || "",
+
   // Email Configurations
   mailerHost: process.env.MAILER_HOST || "smtp.gmail.com",
   mailerPort: Number(process.env.MAILER_PORT) || 465,
   mailerEmail: process.env.MAILER_EMAIL || "nefru.team@gmail.com",
-  mailerPassword: process.env.MAILER_PASSWORD || "hlph mbwj nwdo fojd",
+  mailerPassword: process.env.MAILER_PASSWORD || "",
 
   // Example Users
   emailAdmin: process.env.EMAIL_ADMIN || "superadmin@nefru.com",

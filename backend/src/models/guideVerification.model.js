@@ -32,8 +32,64 @@ const verificationDocumentSchema = new mongoose.Schema(
     },
     storageKey: {
       type: String,
-      required: true,
+      trim: true,
+      default: "",
+      required() {
+        return this.provider === "local";
+      },
       select: false,
+    },
+    provider: {
+      type: String,
+      enum: ["local", "cloudinary"],
+      default: "local",
+      required: true,
+    },
+    assetId: {
+      type: String,
+      trim: true,
+      default: "",
+      required() {
+        return this.provider === "cloudinary";
+      },
+      select: false,
+    },
+    publicId: {
+      type: String,
+      trim: true,
+      default: "",
+      required() {
+        return this.provider === "cloudinary";
+      },
+      select: false,
+    },
+    resourceType: {
+      type: String,
+      enum: ["", "image", "raw", "video"],
+      default: "",
+      required() {
+        return this.provider === "cloudinary";
+      },
+      select: false,
+    },
+    deliveryType: {
+      type: String,
+      enum: ["", "authenticated"],
+      default: "",
+      required() {
+        return this.provider === "cloudinary";
+      },
+      select: false,
+    },
+    format: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    bytes: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
     originalName: {
       type: String,

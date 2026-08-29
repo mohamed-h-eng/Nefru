@@ -1,6 +1,11 @@
 import { GuideProfile } from "../models/guide.model.js";
 import { TouristProfile } from "../models/tourist.model.js";
 import { User } from "../models/user.model.js";
+import { env } from "../config/env.js";
+import {
+  destroyCloudinaryAsset,
+  uploadPublicImage,
+} from "../services/media.service.js";
 
 function serializeUser(user) {
   const providers = user.authProviders?.length ? user.authProviders : ["local"];
@@ -71,6 +76,9 @@ export const getMyProfile = async (req, res, next) => {
 };
 
 export const uploadMyAvatar = async (req, res, next) => {
+  let uploadedAsset = null;
+  let assetCommitted = false;
+
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -90,19 +98,83 @@ export const uploadMyAvatar = async (req, res, next) => {
     const ProfileModel =
       user.role === "guide" ? GuideProfile : TouristProfile;
     await findProfile(user);
-    const profile = await ProfileModel.findOneAndUpdate(
-      { user: user._id },
-      { $set: { avatar: `/uploads/${req.file.filename}` } },
-      { new: true, runValidators: true },
-    ).select(user.role === "guide" ? "+rejectionReason" : "");
+    const profile = await ProfileModel.findOne({ user: user._id }).select(
+      `${user.role === "guide" ? "+rejectionReason " : ""}+avatarAsset`,
+    );
+    const previousAsset = profile.avatarAsset?.toObject?.() || profile.avatarAsset;
+
+    uploadedAsset = await uploadPublicImage(req.file, {
+      folder: `nefru/${env.nodeEnv}/avatars/${user._id}`,
+      tags: ["nefru", "avatar", env.nodeEnv],
+    });
+
+    profile.avatar = uploadedAsset.url;
+    profile.avatarAsset = uploadedAsset;
+    await profile.save();
+    assetCommitted = true;
+
+    if (previousAsset) {
+      destroyCloudinaryAsset(previousAsset).catch((error) => {
+        console.error("Previous profile photo could not be removed:", error.message);
+      });
+    }
+
+    const responseProfile = await ProfileModel.findOne({ user: user._id }).select(
+      user.role === "guide" ? "+rejectionReason" : "",
+    );
 
     return res.status(200).json({
       success: true,
       message: "Profile photo updated successfully",
       data: {
         user: serializeUser(user),
-        profile,
+        profile: responseProfile,
       },
+    });
+  } catch (error) {
+    if (uploadedAsset && !assetCommitted) {
+      await destroyCloudinaryAsset(uploadedAsset).catch(() => {});
+    }
+    next(error);
+  }
+};
+
+export const removeMyAvatar = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user || user.status !== "active" || user.role === "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "This account does not have an editable profile",
+      });
+    }
+
+    const ProfileModel =
+      user.role === "guide" ? GuideProfile : TouristProfile;
+    await findProfile(user);
+    const profile = await ProfileModel.findOne({ user: user._id }).select(
+      `${user.role === "guide" ? "+rejectionReason " : ""}+avatarAsset`,
+    );
+    const previousAsset = profile.avatarAsset?.toObject?.() || profile.avatarAsset;
+
+    profile.avatar = "";
+    profile.avatarAsset = null;
+    await profile.save();
+
+    if (previousAsset) {
+      destroyCloudinaryAsset(previousAsset).catch((error) => {
+        console.error("Profile photo could not be removed:", error.message);
+      });
+    }
+
+    const responseProfile = await ProfileModel.findOne({ user: user._id }).select(
+      user.role === "guide" ? "+rejectionReason" : "",
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile photo removed successfully",
+      data: { user: serializeUser(user), profile: responseProfile },
     });
   } catch (error) {
     next(error);
@@ -134,7 +206,6 @@ export const updateMyProfile = async (req, res, next) => {
 
     const allowedProfileFields = [
       "fullName",
-      "avatar",
       "phoneNumber",
       "gender",
       "nationality",

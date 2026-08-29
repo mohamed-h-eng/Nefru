@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { mediaAssetSchema } from "./schemas/mediaAsset.schema.js";
 
 const touristProfileSchema = new mongoose.Schema(
   {
@@ -28,6 +29,11 @@ const touristProfileSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default: "",
+    },
+    avatarAsset: {
+      type: mediaAssetSchema,
+      default: null,
+      select: false,
     },
     phoneNumber: {
       type: String,

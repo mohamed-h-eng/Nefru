@@ -6,6 +6,7 @@ import {
   getMyGuideTrips,
   updateMyTrip,
   changeTripStatus,
+  authorizeTripMediaUpload,
   updateTripMedia,
 } from "../controllers/trip.controller.js";
 import {
@@ -24,34 +25,16 @@ tripRouter
   .post(protect, requireApprovedGuide, createTrip);
 tripRouter.route("/:id").get(getTripById).patch(protect, requireApprovedGuide, updateMyTrip);
 tripRouter.patch("/:id/status", protect,requireApprovedGuide, changeTripStatus);
-tripRouter.patch("/:id/media", protect, requireApprovedGuide, updateTripMedia);
 tripRouter.post(
   "/:id/upload-media",
-  protect,requireApprovedGuide,
+  protect,
+  requireApprovedGuide,
+  authorizeTripMediaUpload,
   upload.fields([
     { name: "coverImage", maxCount: 1 },
     { name: "galleryImages", maxCount: 6 },
   ]),
-  async (req, res) => {
-    try {
-      const files = req.files || {};
-      const coverImage = files.coverImage?.[0];
-      const galleryImages = files.galleryImages || [];
-
-      const uploadedFiles = {
-        coverImage: coverImage ? `/uploads/${coverImage.filename}` : "",
-        galleryImages: galleryImages.map((file) => `/uploads/${file.filename}`),
-      };
-
-      res.status(200).json({
-        success: true,
-        message: "Images uploaded successfully",
-        data: uploadedFiles,
-      });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  },
+  updateTripMedia,
 );
 
 export default tripRouter;
