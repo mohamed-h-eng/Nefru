@@ -57,7 +57,6 @@ import GuideCalendar from "../pages/Guide/GuideCalendar/GuideCalendar";
 import GuideAccountProfile from "../pages/Guide/GuideAccountProfile/GuideAccountProfile";
 import GuideNotifications from "../pages/Guide/GuideNotifications/GuideNotifications";
 import GuideVerification from "../pages/Guide/GuideVerification/GuideVerification";
-import GuideBookings from "../pages/Guide/GuideBookings/GuideBookings";
 
 import { Navigate } from "react-router-dom";
 
